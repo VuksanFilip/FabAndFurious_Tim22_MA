@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="0dp"
         android:contentDescription="Splash Screen"
-        android:src="@drawable/splash"
+        android:src="@drawable/img_splash_main"
         android:background="#FCEE21"
         tools:ignore="ImageContrastCheck" />
 
