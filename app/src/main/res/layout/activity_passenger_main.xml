@@ -144,7 +144,8 @@
         android:layout_height="wrap_content"
         android:text="Find available driver"
         tools:layout_editor_absoluteX="115dp"
-        tools:layout_editor_absoluteY="648dp" />
+        tools:layout_editor_absoluteY="648dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView11"
@@ -153,7 +154,8 @@
         android:text="Sorry, there is no available driver. Try again later."
         android:textColor="#BF4646"
         tools:layout_editor_absoluteX="57dp"
-        tools:layout_editor_absoluteY="696dp" />
+        tools:layout_editor_absoluteY="696dp"
+        tools:ignore="MissingConstraints" />
 
     <RadioGroup
         android:layout_width="130dp"
