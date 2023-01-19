@@ -138,4 +138,41 @@
         tools:layout_editor_absoluteX="299dp"
         tools:layout_editor_absoluteY="347dp" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find available driver"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="648dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sorry, there is no available driver. Try again later."
+        android:textColor="#BF4646"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="696dp" />
+
+    <RadioGroup
+        android:layout_width="130dp"
+        android:layout_height="81dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="561dp"
+        tools:ignore="MissingConstraints">
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="RadioButton" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="RadioButton" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
