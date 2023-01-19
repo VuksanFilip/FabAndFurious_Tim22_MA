@@ -189,4 +189,13 @@
 
     </RadioGroup>
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="126dp"
+        android:layout_height="36dp"
+        android:text="Favorite locations"
+        android:textSize="10dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="55dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
