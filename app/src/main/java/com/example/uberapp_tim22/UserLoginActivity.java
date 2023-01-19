@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.jetbrains.annotations.NotNull;
+
 public class UserLoginActivity extends AppCompatActivity {
 
     EditText email;
@@ -35,12 +37,14 @@ public class UserLoginActivity extends AppCompatActivity {
                 String em= email.getText().toString();
                 FirebaseAuth.getInstance().sendPasswordResetEmail(em).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(UserLoginActivity.this, "send mail", Toast.LENGTH_SHORT).show();
+                            System.out.println("t");
                         }
                         else{
                             Toast.makeText(UserLoginActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+                            System.out.println("n");
                         }
                     }
                 });
