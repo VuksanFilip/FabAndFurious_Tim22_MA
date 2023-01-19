@@ -59,21 +59,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PassengerInbox"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".PassengerAccountActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".PassangerAccountActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
