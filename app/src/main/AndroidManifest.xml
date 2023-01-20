@@ -16,13 +16,6 @@
             android:name=".AcceptanceRide"
             android:exported="false" />
         <activity
-            android:name=".DetailActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".PassangerRideHistory"
             android:exported="false">
             <meta-data
