@@ -12,12 +12,12 @@
         layout="@layout/toolbar" />
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="137dp"
+        android:layout_width="378dp"
+        android:layout_height="126dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="57dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteY="76dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#0BBA12"
                 android:text="Accept" />
 
             <Button
@@ -120,6 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#ED0808"
                 android:text="Decline" />
         </LinearLayout>
     </LinearLayout>
