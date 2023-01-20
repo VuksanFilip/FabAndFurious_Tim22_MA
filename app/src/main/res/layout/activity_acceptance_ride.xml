@@ -16,7 +16,8 @@
         android:layout_height="137dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="57dp">
+        tools:layout_editor_absoluteY="57dp"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
