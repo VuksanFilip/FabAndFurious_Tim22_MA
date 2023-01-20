@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Route details"
+            android:textColor="#805D84"
             android:textSize="19dp" />
 
 
@@ -89,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Driver's info"
+            android:textColor="#805D84"
             android:textSize="19sp" />
 
         <LinearLayout
@@ -242,7 +244,9 @@
             android:id="@+id/button5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#805D84"
             android:text="Message driver"
+            android:textColor="#FFFFFF"
             android:textSize="12dp" />
 
     </LinearLayout>
@@ -268,6 +272,8 @@
         android:text="Panic"
         tools:layout_editor_absoluteX="233dp"
         tools:layout_editor_absoluteY="677dp"
+        android:background="#ED0808"
+        android:textColor="#FFFFFF"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
