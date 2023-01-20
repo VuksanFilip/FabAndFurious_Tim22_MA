@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 public class PassengerMainActivity extends AppCompatActivity {
 
+    Button findDriverBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,16 @@ public class PassengerMainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
+
+        findDriverBtn.findViewById(R.id.button);
+
+        findDriverBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PassengerMainActivity.this, PassengerAccountActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
