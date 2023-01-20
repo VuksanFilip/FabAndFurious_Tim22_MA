@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:text="@string/signup"
+            android:textColor="#805D84"
             android:textSize="25sp"
             tools:layout_editor_absoluteX="95dp"
             tools:layout_editor_absoluteY="203dp" />
@@ -125,6 +126,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register_button"
+            android:background="#805D84"
+            android:textColor="#FFFFFF"
             tools:layout_editor_absoluteX="158dp"
             tools:layout_editor_absoluteY="341dp" />
 
