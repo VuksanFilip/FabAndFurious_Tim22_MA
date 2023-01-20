@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".AcceptanceRide">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".CurrentRide"
+            android:name=".CurrentRidePassenger"
             android:exported="false" />
         <activity
             android:name=".AcceptanceRide"
