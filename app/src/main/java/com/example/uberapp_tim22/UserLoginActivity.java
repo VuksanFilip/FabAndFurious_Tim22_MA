@@ -31,6 +31,7 @@ public class UserLoginActivity extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.login_button);
         email = findViewById(R.id.emailLogIn);
         forgotPassword = findViewById(R.id.forgot_password);
+
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,10 +51,6 @@ public class UserLoginActivity extends AppCompatActivity {
                 });
             }
         });
-
-
-
-
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
