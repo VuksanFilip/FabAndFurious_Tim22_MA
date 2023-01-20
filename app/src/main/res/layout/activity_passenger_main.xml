@@ -75,9 +75,9 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:buttonTint="#805D84"
         android:checked="true"
         android:text="type1"
-        android:buttonTint="#805D84"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="30dp"
         tools:layout_editor_absoluteY="470dp" />
@@ -86,9 +86,9 @@
         android:id="@+id/checkBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:buttonTint="#805D84"
         android:checked="true"
         android:text="type2"
-        android:buttonTint="#805D84"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="30dp"
         tools:layout_editor_absoluteY="494dp" />
@@ -97,9 +97,9 @@
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:buttonTint="#805D84"
         android:checked="true"
         android:text="type3"
-        android:buttonTint="#805D84"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="30dp"
         tools:layout_editor_absoluteY="519dp" />
@@ -117,8 +117,8 @@
         android:id="@+id/radioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Allow babies"
         android:buttonTint="#805D84"
+        android:text="Allow babies"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="244dp"
         tools:layout_editor_absoluteY="487dp" />
@@ -127,8 +127,8 @@
         android:id="@+id/radioButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Allow pets"
         android:buttonTint="#805D84"
+        android:text="Allow pets"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="244dp"
         tools:layout_editor_absoluteY="519dp" />
@@ -138,8 +138,8 @@
         android:layout_width="96dp"
         android:layout_height="39dp"
         android:text="Show route"
-        android:textSize="11sp"
         android:textColor="#805D84"
+        android:textSize="11sp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="299dp"
         tools:layout_editor_absoluteY="347dp" />
@@ -159,11 +159,11 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sorry, there is no available driver. Try again later."
+        android:text="Sorry, there is no available driver."
         android:textColor="#BF4646"
-        tools:layout_editor_absoluteX="57dp"
-        tools:layout_editor_absoluteY="696dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="103dp"
+        tools:layout_editor_absoluteY="696dp" />
 
     <RadioGroup
         android:layout_width="130dp"
@@ -182,9 +182,9 @@
             android:id="@+id/radioButton4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="#805D84"
             android:checked="true"
             android:clickable="true"
-            android:buttonTint="#805D84"
             android:text="Now" />
 
         <RadioButton
@@ -209,6 +209,7 @@
         android:text="Favorite locations"
         android:textColor="#FFFFFF"
         android:textSize="10dp"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="65dp" />
 
