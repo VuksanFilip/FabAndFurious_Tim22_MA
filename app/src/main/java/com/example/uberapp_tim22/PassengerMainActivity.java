@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -28,6 +29,29 @@ public class PassengerMainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.example_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            Intent intent = new Intent(PassengerMainActivity.this, PassengerAccountActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item2){
+            Intent intent = new Intent(PassengerMainActivity.this, PassengerInboxActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item3){
+            Intent intent = new Intent(PassengerMainActivity.this, PassangerRideHistory.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item4){
+            Intent intent = new Intent(PassengerMainActivity.this, PassengerMainActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
