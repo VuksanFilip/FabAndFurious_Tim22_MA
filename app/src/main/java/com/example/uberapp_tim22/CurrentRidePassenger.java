@@ -8,42 +8,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-public class DriverMainActivity extends AppCompatActivity {
-
-    Button acceptanceRide;
-    Button currentRide;
+public class CurrentRidePassenger extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_main);
+        setContentView(R.layout.activity_current_ride_passenger);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
-
-        acceptanceRide = findViewById(R.id.button);
-        currentRide = findViewById(R.id.button2);
-
-        acceptanceRide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DriverMainActivity.this, AcceptanceRide.class);
-                startActivity(intent);
-            }
-        });
-
-//        currentRide.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DriverMainActivity.this, CurrentRideDriver.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     @Override
@@ -58,19 +34,19 @@ public class DriverMainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.item1){
-            Intent intent = new Intent(DriverMainActivity.this, DriverAccountActivity.class);
+            Intent intent = new Intent(CurrentRidePassenger.this, PassengerAccountActivity.class);
             startActivity(intent);
         }
         if(id == R.id.item2){
-            Intent intent = new Intent(DriverMainActivity.this, DriverInboxActivity.class);
+            Intent intent = new Intent(CurrentRidePassenger.this, PassengerInboxActivity.class);
             startActivity(intent);
         }
         if(id == R.id.item3){
-            Intent intent = new Intent(DriverMainActivity.this, DriverRideHistory.class);
+            Intent intent = new Intent(CurrentRidePassenger.this, PassangerRideHistory.class);
             startActivity(intent);
         }
         if(id == R.id.item4){
-            Intent intent = new Intent(DriverMainActivity.this, DriverMainActivity.class);
+            Intent intent = new Intent(CurrentRidePassenger.this, PassengerMainActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
