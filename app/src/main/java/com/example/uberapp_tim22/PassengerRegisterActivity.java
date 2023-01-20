@@ -12,6 +12,7 @@ import android.widget.Toast;
 public class PassengerRegisterActivity extends AppCompatActivity {
 
     Button loginBtn;
+    Button registerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +20,7 @@ public class PassengerRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_passenger_register);
 
 
-        Button registerBtn = findViewById(R.id.registerButton);
+        registerBtn = findViewById(R.id.registerButton);
         loginBtn = findViewById(R.id.button8);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
