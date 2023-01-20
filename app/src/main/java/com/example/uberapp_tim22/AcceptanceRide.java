@@ -3,9 +3,11 @@ package com.example.uberapp_tim22;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class AcceptanceRide extends AppCompatActivity {
@@ -24,6 +26,29 @@ public class AcceptanceRide extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.example_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            Intent intent = new Intent(AcceptanceRide.this, DriverAccountActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item2){
+            Intent intent = new Intent(AcceptanceRide.this, DriverInboxActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item3){
+            Intent intent = new Intent(AcceptanceRide.this, DriverRideHistory.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item4){
+            Intent intent = new Intent(AcceptanceRide.this, DriverMainActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
