@@ -39,5 +39,8 @@
     <string name="driver_inbox_activity">Inbox</string>
     <string name="driver_ride_history_activity">Ride history</string>
 
+    <string name="open_nav_drawer">Open navigation drawer</string>
+    <string name="close_nav_drawer">Close navigation drawer</string>
+
 
 </resources>
