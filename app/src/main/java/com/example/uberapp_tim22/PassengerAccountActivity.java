@@ -49,6 +49,10 @@ public class PassengerAccountActivity extends AppCompatActivity {
             Intent intent = new Intent(PassengerAccountActivity.this, PassengerMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(PassengerAccountActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

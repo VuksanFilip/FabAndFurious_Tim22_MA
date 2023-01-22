@@ -48,6 +48,10 @@ public class DriverRideHistory extends AppCompatActivity {
             Intent intent = new Intent(DriverRideHistory.this, DriverMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(DriverRideHistory.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

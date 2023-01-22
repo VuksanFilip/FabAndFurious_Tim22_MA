@@ -63,6 +63,10 @@ public class PassengerMainActivity extends AppCompatActivity {
             Intent intent = new Intent(PassengerMainActivity.this, PassengerMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(PassengerMainActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

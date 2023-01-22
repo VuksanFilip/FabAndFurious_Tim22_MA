@@ -49,6 +49,10 @@ public class PassangerRideHistory extends AppCompatActivity {
             Intent intent = new Intent(PassangerRideHistory.this, PassengerMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(PassangerRideHistory.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

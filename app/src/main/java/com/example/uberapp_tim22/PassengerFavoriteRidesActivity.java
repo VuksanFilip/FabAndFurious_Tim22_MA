@@ -48,6 +48,10 @@ public class PassengerFavoriteRidesActivity extends AppCompatActivity {
             Intent intent = new Intent(PassengerFavoriteRidesActivity.this, PassengerMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(PassengerFavoriteRidesActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
