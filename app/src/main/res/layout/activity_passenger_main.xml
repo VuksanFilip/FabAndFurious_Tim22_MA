@@ -26,7 +26,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="From:"
+        android:text="@string/from"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="21dp"
         tools:layout_editor_absoluteY="346dp" />
@@ -46,7 +46,7 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To:"
+        android:text="@string/to"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="21dp"
         tools:layout_editor_absoluteY="391dp" />
@@ -66,7 +66,7 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please, fill the form to find your route!"
+        android:text="@string/fill_form"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="88dp"
         tools:layout_editor_absoluteY="303dp" />
@@ -108,7 +108,7 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select vehicle type:"
+        android:text="@string/select_vehicle_type"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="30dp"
         tools:layout_editor_absoluteY="451dp" />
@@ -118,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:buttonTint="#805D84"
-        android:text="Allow babies"
+        android:text="@string/babies"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="244dp"
         tools:layout_editor_absoluteY="487dp" />
@@ -128,7 +128,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:buttonTint="#805D84"
-        android:text="Allow pets"
+        android:text="@string/pets"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="244dp"
         tools:layout_editor_absoluteY="519dp" />
@@ -137,7 +137,7 @@
         android:id="@+id/button2"
         android:layout_width="96dp"
         android:layout_height="39dp"
-        android:text="Show route"
+        android:text="@string/show_route"
         android:textColor="#805D84"
         android:textSize="11sp"
         tools:ignore="MissingConstraints"
@@ -149,7 +149,7 @@
         android:layout_width="178dp"
         android:layout_height="34dp"
         android:background="#805D84"
-        android:text="Find available driver"
+        android:text="@string/find_available_driver"
         android:textColor="#FFFFFF"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="116dp"
@@ -159,7 +159,7 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sorry, there is no available driver."
+        android:text="@string/no_available_driver"
         android:textColor="#BF4646"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="103dp"
@@ -176,7 +176,7 @@
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select time:" />
+            android:text="@string/select_time" />
 
         <RadioButton
             android:id="@+id/radioButton4"
@@ -185,7 +185,7 @@
             android:buttonTint="#805D84"
             android:checked="true"
             android:clickable="true"
-            android:text="Now" />
+            android:text="@string/now" />
 
         <RadioButton
             android:id="@+id/radioButton3"
@@ -194,7 +194,7 @@
             android:buttonTint="#805D84"
             android:checked="true"
             android:clickable="true"
-            android:text="Choose date"
+            android:text="@string/choose_date"
             android:textColorHighlight="#805D84"
             android:textColorLink="#805D84" />
 
@@ -206,7 +206,7 @@
         android:layout_width="126dp"
         android:layout_height="28dp"
         android:background="#805D84"
-        android:text="Favorite locations"
+        android:text="@string/favorite_locations"
         android:textColor="#FFFFFF"
         android:textSize="10dp"
         tools:ignore="MissingConstraints"

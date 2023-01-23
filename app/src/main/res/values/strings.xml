@@ -8,10 +8,22 @@
     <string name="login_button">LOGIN</string>
     <string name="registration_button">Registration</string>
     <string name="register_button">Sign Up</string>
+    <string name="favorite_locations">Favorite locations</string>
+    <string name="finished_ride">Ride is finished</string>
+    <string name="panic">Panic</string>
+    <string name="message_d">Message driver</string>
+    <string name="acceptance_ride">Acceptance ride</string>
+    <string name="current_ride">Current ride</string>
+    <string name="save">Save</string>
+    <string name="change_password">Change password</string>
 
     <!-- toggle button -->
     <string name="online">Online</string>
     <string name="offline">Offline</string>
+
+    <!-- radio button -->
+    <string name="now">Now</string>
+    <string name="choose_date">Choose date</string>
 
     <!-- edit text -->
     <string name="password_hint">Password</string>
@@ -42,15 +54,27 @@
     <string name="lastname">Lastname</string>
     <string name="address">Address</string>
     <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="phone">Phone</string>
-    <string name="finished_ride">Ride is finished</string>
-    <string name="panic">Panic</string>
     <string name="car_type">Car type</string>
     <string name="pets">Pets allowed</string>
     <string name="babies">Babies allowed</string>
-    <string name="message_d">Message driver</string>
-    <string name="acceptance_ride">Acceptance ride</string>
-    <string name="current_ride">Current ride</string>
+    <string name="my_profile">My profile</string>
+    <string name="select_time">Select time:</string>
+    <string name="no_available_driver">Sorry, there is no available driver.</string>
+    <string name="show_route">Show route</string>
+    <string name="find_available_driver">Find available driver</string>
+    <string name="select_vehicle_type">Select vehicle type:</string>
+    <string name="fill_form">Please, fill the form to find your route!</string>
+
+
+    <string name="passenger">Passenger</string>
+    <string name="driver">Driver</string>
+    <string name="choose_acc_type">Choose Account Type</string>
+    <string name="hello">Hello!</string>
+    <string name="fill_form2">Please fill out the form bellow to get started</string>
+    <string name="no_acc">No account?</string>
+    <string name="forgot_password">Forgot password?</string>
 
     <!-- toolbar -->
     <string name="action_settings">Settings</string>
