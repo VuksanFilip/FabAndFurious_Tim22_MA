@@ -18,49 +18,48 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class PassengerAccountActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class PassengerAccountActivity extends AppCompatActivity {
+// implements NavigationView.OnNavigationItemSelectedListener
+//    DrawerLayout drawerLayout;
+//    NavigationView navigationView;
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-
-    Button saveBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_account);
 
-        navigationView.findViewById(R.id.nav_view);
-        drawerLayout.findViewById(R.id.drawer_layout);
-        saveBtn.findViewById(R.id.button9);
+//        navigationView.findViewById(R.id.nav_view);
+////        drawerLayout.findViewById(R.id.drawer_layout);
+//        Button saveBtn = findViewById(R.id.button9);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("FAB Car");
+        getSupportActionBar().setTitle("FAB Car");
 
-        navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.bringToFront();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PassengerAccountActivity.this, PassengerMainActivity.class);
-                startActivity(intent);
-            }
-        });
+//        saveBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(PassengerAccountActivity.this, PassengerMainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
-    @Override
-    public void onBackPressed(){
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed(){
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        }else{
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,26 +95,26 @@ public class PassengerAccountActivity extends AppCompatActivity implements Navig
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem){
-
-        switch (menuItem.getItemId()){
-            case R.id.profle:
-                Intent intent = new Intent(PassengerAccountActivity.this, PassengerAccountActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.reports:
-                Intent intent1 = new Intent(PassengerAccountActivity.this, PassengerReportsActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.favorites:
-                Intent intent2 = new Intent(PassengerAccountActivity.this, PassengerFavoriteRidesActivity.class);
-                startActivity(intent2);
-
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem){
+//
+//        switch (menuItem.getItemId()){
+//            case R.id.profle:
+//                Intent intent = new Intent(PassengerAccountActivity.this, PassengerAccountActivity.class);
+//                startActivity(intent);
+//                break;
+//            case R.id.reports:
+//                Intent intent1 = new Intent(PassengerAccountActivity.this, PassengerReportsActivity.class);
+//                startActivity(intent1);
+//                break;
+//            case R.id.favorites:
+//                Intent intent2 = new Intent(PassengerAccountActivity.this, PassengerFavoriteRidesActivity.class);
+//                startActivity(intent2);
+//
+//        }
+//        drawerLayout.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
 
     @Override
     protected void onStart() {
