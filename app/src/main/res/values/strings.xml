@@ -16,6 +16,7 @@
     <string name="current_ride">Current ride</string>
     <string name="save">Save</string>
     <string name="change_password">Change password</string>
+    <string name="find_available_driver">Find available driver</string>
 
     <!-- toggle button -->
     <string name="online">Online</string>
@@ -63,7 +64,6 @@
     <string name="select_time">Select time:</string>
     <string name="no_available_driver">Sorry, there is no available driver.</string>
     <string name="show_route">Show route</string>
-    <string name="find_available_driver">Find available driver</string>
     <string name="select_vehicle_type">Select vehicle type:</string>
     <string name="fill_form">Please, fill the form to find your route!</string>
 
@@ -87,8 +87,18 @@
     <string name="driver_inbox_activity">Inbox</string>
     <string name="driver_ride_history_activity">Ride history</string>
 
+    <string name="main">Main</string>
+    <string name="account">Account</string>
+    <string name="inbox">Inbox</string>
+    <string name="ride_history">Ride history</string>
+    <string name="signout">Sign Out</string>
+
     <string name="open_nav_drawer">Open navigation drawer</string>
     <string name="close_nav_drawer">Close navigation drawer</string>
+
+    <string name="profile">Profile</string>
+    <string name="reports">Reports</string>
+    <string name="favorite_rides">Favorite rides</string>
 
 
 </resources>

@@ -4,23 +4,23 @@
 
     <item
         android:id="@+id/item1"
-        android:title="Account"
+        android:title="@string/account"
         app:showAsAction="never" />
     <item
         android:id="@+id/item2"
-        android:title="Inbox"
+        android:title="@string/inbox"
         app:showAsAction="never" />
     <item
         android:id="@+id/item3"
-        android:title="Ride history"
+        android:title="@string/ride_history"
         app:showAsAction="never" />
     <item
         android:id="@+id/item4"
-        android:title="Main"
+        android:title="@string/main"
         app:showAsAction="never" />
     <item
         android:id="@+id/item5"
-        android:title="SignOut"
+        android:title="@string/signout"
         app:showAsAction="never" />
 
 

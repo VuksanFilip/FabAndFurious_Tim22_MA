@@ -4,13 +4,13 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/profle"
-            android:title="Profile"/>
+            android:title="@string/profile"/>
         <item
             android:id="@+id/reports"
-            android:title="Reports" />
+            android:title="@string/reports" />
         <item
             android:id="@+id/favorites"
-            android:title="Favorite rides" />
+            android:title="@string/favorite_rides" />
     </group>
 
 </menu>
