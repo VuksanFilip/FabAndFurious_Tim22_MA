@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:checked="true"
         android:text="ToggleButton"
-        android:textOff="Ofline"
+        android:textOff="Offline"
         android:textOn="Online"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="18dp"
