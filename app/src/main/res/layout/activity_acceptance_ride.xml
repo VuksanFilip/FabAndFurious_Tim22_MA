@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="From:" />
+                android:text="@string/from" />
 
             <TextView
                 android:id="@+id/textView35"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="To:" />
+                android:text="@string/to" />
 
             <TextView
                 android:id="@+id/textView36"
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Duration" />
+                android:text="@string/duration" />
 
             <TextView
                 android:id="@+id/textView39"
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Price" />
+                android:text="@string/price" />
 
             <TextView
                 android:id="@+id/textView40"
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#0BBA12"
-                android:text="Accept" />
+                android:text="@string/accept" />
 
             <Button
                 android:id="@+id/button7"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ED0808"
-                android:text="Decline" />
+                android:text="@string/decline" />
         </LinearLayout>
     </LinearLayout>
 
