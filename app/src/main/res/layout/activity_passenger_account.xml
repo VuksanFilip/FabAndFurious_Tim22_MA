@@ -20,17 +20,26 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="419dp"
-            android:layout_height="556dp"
+            android:layout_width="413dp"
+            android:layout_height="587dp"
             android:orientation="vertical"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="57dp">
+            tools:layout_editor_absoluteX="77dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/textView41"
                 android:layout_width="match_parent"
-                android:layout_height="116dp"
-                android:text="TextView" />
+                android:layout_height="wrap_content"
+                android:textColor="#805D84"
+                android:text="My profile"
+                android:textAlignment="center"
+                android:textSize="19sp" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -48,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="Name:" />
 
                 <EditText
                     android:id="@+id/editTextTextPersonName4"
@@ -57,7 +66,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:text="Pera" />
 
             </LinearLayout>
 
@@ -68,10 +77,10 @@
 
                 <TextView
                     android:id="@+id/textView46"
-                    android:layout_width="wrap_content"
+                    android:layout_width="41dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="Lastname:" />
 
                 <EditText
                     android:id="@+id/editTextTextPersonName3"
@@ -80,7 +89,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:text="Peric" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="Phone:" />
 
                 <EditText
                     android:id="@+id/editTextTextPersonName5"
@@ -102,7 +111,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:text="0659785746" />
             </LinearLayout>
 
             <LinearLayout
@@ -112,10 +121,10 @@
 
                 <TextView
                     android:id="@+id/textView48"
-                    android:layout_width="wrap_content"
+                    android:layout_width="44dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="Address:" />
 
                 <EditText
                     android:id="@+id/editTextTextPersonName6"
@@ -124,7 +133,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:text="Kosovska 15" />
             </LinearLayout>
 
             <LinearLayout
@@ -137,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="Email:" />
 
                 <EditText
                     android:id="@+id/editTextTextPersonName7"
@@ -146,30 +155,23 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:text="pera@gmail.com" />
             </LinearLayout>
 
-            <LinearLayout
+            <Button
+                android:id="@+id/button10"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:orientation="horizontal">
+                android:layout_height="63dp"
+                android:textColor="#805D84"
+                android:text="Button" />
 
-                <TextView
-                    android:id="@+id/textView50"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-
-                <EditText
-                    android:id="@+id/editTextTextPersonName8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:background="#805D84"
+                android:layout_weight="1"
+                android:text="Button" />
 
         </LinearLayout>
 
