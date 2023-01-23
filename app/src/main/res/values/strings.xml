@@ -17,7 +17,7 @@
     <string name="password_hint">Password</string>
     <string name="username_hint">Username</string>
     <string name="name_hint">Name</string>
-    <string name="last_name_hint">Last Name</string>
+    <string name="last_name_hint">Lastname</string>
     <string name="address_hint">Address</string>
     <string name="email_hint">Email</string>
     <string name="phone_hint">Phone</string>
@@ -27,6 +27,30 @@
     <string name="login_input">Enter your username and password</string>
     <string name="signup_input">Enter your personal information</string>
     <string name="signup">Sign Up</string>
+
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="duration">Duration</string>
+    <string name="price">Price</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+
+    <string name="details">Details</string>
+    <string name="info_p">Passenger\'s info</string>
+    <string name="info_d">Driver\'s info</string>
+    <string name="name">Name</string>
+    <string name="lastname">Lastname</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="finished_ride">Ride is finished</string>
+    <string name="panic">Panic</string>
+    <string name="car_type">Car type</string>
+    <string name="pets">Pets allowed</string>
+    <string name="babies">Babies allowed</string>
+    <string name="message_d">Message driver</string>
+    <string name="acceptance_ride">Acceptance ride</string>
+    <string name="current_ride">Current ride</string>
 
     <!-- toolbar -->
     <string name="action_settings">Settings</string>
