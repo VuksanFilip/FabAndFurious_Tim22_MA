@@ -19,19 +19,20 @@ public class CurrentRideDriver extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_ride_driver);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        finishedRide.findViewById(R.id.button5);
-        finishedRide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CurrentRideDriver.this, DriverMainActivity.class);
-                startActivity(intent);
-
-            }
-        });
+//        finishedRide.findViewById(R.id.button5);
+//        finishedRide.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(CurrentRideDriver.this, DriverMainActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
     }
 
     @Override
