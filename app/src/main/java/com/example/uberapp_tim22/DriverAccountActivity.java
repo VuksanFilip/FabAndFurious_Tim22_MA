@@ -20,8 +20,7 @@ public class DriverAccountActivity extends AppCompatActivity {
 
 //    DrawerLayout drawerLayout;
 //    NavigationView navigationView;
-    Toolbar toolbar;
-    Button current_ride;
+//    Button current_ride;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +29,9 @@ public class DriverAccountActivity extends AppCompatActivity {
 
 //        navigationView.findViewById(R.id.nav_view);
 //        drawerLayout.findViewById(R.id.drawer_layout);
-        current_ride.findViewById(R.id.button11);
+//        current_ride.findViewById(R.id.button11);
 
-        toolbar.findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
@@ -41,44 +40,44 @@ public class DriverAccountActivity extends AppCompatActivity {
 //        drawerLayout.addDrawerListener(toggle);
 //        toggle.syncState();
 
-        current_ride.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DriverAccountActivity.this, CurrentRideDriver.class);
-                startActivity(intent);
-            }
-        });
+//        current_ride.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(DriverAccountActivity.this, CurrentRideDriver.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.example_menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        int id = item.getItemId();
-//
-//        if(id == R.id.item1){
-//            Intent intent = new Intent(DriverAccountActivity.this, DriverAccountActivity.class);
-//            startActivity(intent);
-//        }
-//        if(id == R.id.item2){
-//            Intent intent = new Intent(DriverAccountActivity.this, DriverInboxActivity.class);
-//            startActivity(intent);
-//        }
-//        if(id == R.id.item3){
-//            Intent intent = new Intent(DriverAccountActivity.this, DriverRideHistory.class);
-//            startActivity(intent);
-//        }
-//        if(id == R.id.item4){
-//            Intent intent = new Intent(DriverAccountActivity.this, DriverMainActivity.class);
-//            startActivity(intent);
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            Intent intent = new Intent(DriverAccountActivity.this, DriverAccountActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item2){
+            Intent intent = new Intent(DriverAccountActivity.this, DriverInboxActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item3){
+            Intent intent = new Intent(DriverAccountActivity.this, DriverRideHistory.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item4){
+            Intent intent = new Intent(DriverAccountActivity.this, DriverMainActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onStart() {
