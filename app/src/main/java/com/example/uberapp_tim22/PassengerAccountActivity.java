@@ -84,10 +84,12 @@ public class PassengerAccountActivity extends AppCompatActivity implements Navig
 
         switch (menuItem.getItemId()){
             case R.id.profle:
+                Intent intent = new Intent(PassengerAccountActivity.this, PassengerAccountActivity.class);
+                startActivity(intent);
                 break;
             case R.id.reports:
-                Intent intent = new Intent(PassengerAccountActivity.this, PassengerReportsActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(PassengerAccountActivity.this, PassengerReportsActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.favorites:
                 Intent intent2 = new Intent(PassengerAccountActivity.this, PassengerFavoriteRidesActivity.class);

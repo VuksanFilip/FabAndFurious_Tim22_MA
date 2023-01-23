@@ -1,7 +1,10 @@
 package com.example.uberapp_tim22;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
@@ -13,7 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class PassengerReportsActivity extends AppCompatActivity {
+public class PassengerReportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -21,9 +24,28 @@ public class PassengerReportsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_reports);
+
+        navigationView.findViewById(R.id.nav_view);
+        drawerLayout.findViewById(R.id.drawer_layout);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -57,6 +79,27 @@ public class PassengerReportsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem){
+
+        switch (menuItem.getItemId()){
+            case R.id.profle:
+                Intent intent = new Intent(PassengerReportsActivity.this, PassengerAccountActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.reports:
+                Intent intent1 = new Intent(PassengerReportsActivity.this, PassengerReportsActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.favorites:
+                Intent intent2 = new Intent(PassengerReportsActivity.this, PassengerFavoriteRidesActivity.class);
+                startActivity(intent2);
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         Toast.makeText(this, "onStart()", Toast.LENGTH_SHORT).show();
@@ -85,4 +128,5 @@ public class PassengerReportsActivity extends AppCompatActivity {
         super.onDestroy();
         Toast.makeText(this, "onDestroy()",Toast.LENGTH_SHORT).show();
     }
+
 }
