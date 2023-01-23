@@ -15,6 +15,7 @@ import android.widget.Toast;
 public class PassengerMainActivity extends AppCompatActivity {
 
     Button findDriverBtn;
+    Button favorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +27,20 @@ public class PassengerMainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("FAB Car");
 
         findDriverBtn.findViewById(R.id.button);
+        favorites.findViewById(R.id.button3);
 
         findDriverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PassengerMainActivity.this, PassengerAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PassengerMainActivity.this, PassengerFavoriteRidesActivity.class);
                 startActivity(intent);
             }
         });
