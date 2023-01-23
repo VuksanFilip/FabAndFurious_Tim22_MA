@@ -11,20 +11,22 @@ import android.widget.Toast;
 public class PassengerRegisterActivity extends AppCompatActivity {
 
     Button loginBtn;
+    Button registerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_register);
 
-
-        Button registerBtn = findViewById(R.id.registerButton);
+        registerBtn = findViewById(R.id.registerButton);
         loginBtn = findViewById(R.id.button8);
         
-        registerBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(PassengerRegisterActivity.this, PassengerMainActivity.class);
-            startActivity(intent);
-
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PassengerRegisterActivity.this, PassengerMainActivity.class);
+                startActivity(intent);
+            }
         });
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
