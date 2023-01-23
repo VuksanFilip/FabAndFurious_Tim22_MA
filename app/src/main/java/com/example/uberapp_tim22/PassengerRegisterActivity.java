@@ -22,7 +22,7 @@ public class PassengerRegisterActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.button8);
         
         registerBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(PassengerRegisterActivity.this, UserLoginActivity.class);
+            Intent intent = new Intent(PassengerRegisterActivity.this, PassengerMainActivity.class);
             startActivity(intent);
 
         });
@@ -30,7 +30,7 @@ public class PassengerRegisterActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PassengerRegisterActivity.this, PassengerAccountActivity.class);
+                Intent intent = new Intent(PassengerRegisterActivity.this, UserLoginActivity.class);
                 startActivity(intent);
             }
         });

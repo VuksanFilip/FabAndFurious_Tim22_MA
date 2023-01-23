@@ -76,6 +76,10 @@ public class DriverAccountActivity extends AppCompatActivity {
             Intent intent = new Intent(DriverAccountActivity.this, DriverMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(DriverAccountActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

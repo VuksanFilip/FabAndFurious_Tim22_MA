@@ -75,6 +75,10 @@ public class PassengerReportsActivity extends AppCompatActivity implements Navig
             Intent intent = new Intent(PassengerReportsActivity.this, PassengerMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(PassengerReportsActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

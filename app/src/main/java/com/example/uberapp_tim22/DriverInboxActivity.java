@@ -49,6 +49,10 @@ public class DriverInboxActivity extends AppCompatActivity {
             Intent intent = new Intent(DriverInboxActivity.this, DriverMainActivity.class);
             startActivity(intent);
         }
+        if(id == R.id.item5){
+            Intent intent = new Intent(DriverInboxActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
