@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -21,6 +23,8 @@ public class PassengerAccountActivity extends AppCompatActivity implements Navig
     DrawerLayout drawerLayout;
     NavigationView navigationView;
 
+    Button saveBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,7 @@ public class PassengerAccountActivity extends AppCompatActivity implements Navig
 
         navigationView.findViewById(R.id.nav_view);
         drawerLayout.findViewById(R.id.drawer_layout);
+        saveBtn.findViewById(R.id.button9);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -38,6 +43,14 @@ public class PassengerAccountActivity extends AppCompatActivity implements Navig
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PassengerAccountActivity.this, PassengerMainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
