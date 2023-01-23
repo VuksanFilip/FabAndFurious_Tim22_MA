@@ -40,7 +40,7 @@ public class DriverMainActivity extends AppCompatActivity {
         currentRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DriverMainActivity.this, CurrentRidePassenger.class);
+                Intent intent = new Intent(DriverMainActivity.this, CurrentRideDriver.class);
                 startActivity(intent);
             }
         });
