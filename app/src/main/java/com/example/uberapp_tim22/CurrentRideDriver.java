@@ -77,7 +77,7 @@ public class CurrentRideDriver extends AppCompatActivity {
             startActivity(intent);
         }
         if(id == R.id.item5){
-            Intent intent = new Intent(CurrentRideDriver.this, CurrentRidePassenger.class);
+            Intent intent = new Intent(CurrentRideDriver.this, UserLoginActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
