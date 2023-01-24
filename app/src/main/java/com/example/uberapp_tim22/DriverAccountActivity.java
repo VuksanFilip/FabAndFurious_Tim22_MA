@@ -21,7 +21,6 @@ public class DriverAccountActivity extends AppCompatActivity {
 //    DrawerLayout drawerLayout;
 //    NavigationView navigationView;
 //    Button current_ride;
-
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
