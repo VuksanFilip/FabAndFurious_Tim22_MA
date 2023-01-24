@@ -44,7 +44,9 @@ public class PassengerMainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
+
         FragmentTransition.to(MapFragment.newInstance(), this, false);
+
         Button findDriverBtn = findViewById(R.id.button);
         Button favorites = findViewById(R.id.button3);
 
@@ -145,11 +147,6 @@ public class PassengerMainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
