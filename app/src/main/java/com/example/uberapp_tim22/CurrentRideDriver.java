@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class CurrentRideDriver extends AppCompatActivity {
 
-    Button finishedRide;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,15 +24,15 @@ public class CurrentRideDriver extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-//        finishedRide.findViewById(R.id.button5);
-//        finishedRide.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(CurrentRideDriver.this, DriverMainActivity.class);
-//                startActivity(intent);
-//
-//            }
-//        });
+        Button finishedRide = findViewById(R.id.button5);
+        finishedRide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CurrentRideDriver.this, DriverMainActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
     @Override
