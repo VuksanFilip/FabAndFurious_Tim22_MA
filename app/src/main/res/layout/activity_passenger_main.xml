@@ -1,251 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".PassengerMainActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="260dp">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="@string/from"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="21dp"
-                tools:layout_editor_absoluteY="346dp" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Address 1"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="77dp"
-                tools:layout_editor_absoluteY="330dp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="300dp">
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="@string/to"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="21dp"
-                tools:layout_editor_absoluteY="391dp" />
-
-            <EditText
-                android:id="@+id/editTextTextPersonName2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Address 2"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="77dp"
-                tools:layout_editor_absoluteY="375dp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView9"
+        <!-- Add this, so AppBarLayout has a bug, which causes ViewPager not to show listview entirely on the screen
+        Adding this view fixes (workaround) the problem -->
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="240dp"
-            android:text="@string/fill_form"
-            android:textAlignment="center"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="88dp"
-            tools:layout_editor_absoluteY="303dp" />
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="390dp">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <CheckBox
-                android:id="@+id/checkBox"
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <!-- The main content view -->
+        <RelativeLayout
+            android:id="@+id/mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#805D84"
-                android:checked="true"
-                android:text="type1"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="30dp"
-                tools:layout_editor_absoluteY="470dp" />
+                android:layout_marginTop="260dp">
 
-            <CheckBox
-                android:id="@+id/checkBox2"
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/from"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="346dp" />
+
+                <EditText
+                    android:id="@+id/editTextTextPersonName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Address 1"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="77dp"
+                    tools:layout_editor_absoluteY="330dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#805D84"
-                android:checked="true"
-                android:text="type2"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="30dp"
-                tools:layout_editor_absoluteY="494dp" />
+                android:layout_marginTop="300dp">
 
-            <CheckBox
-                android:id="@+id/checkBox3"
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/to"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="391dp" />
+
+                <EditText
+                    android:id="@+id/editTextTextPersonName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Address 2"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="77dp"
+                    tools:layout_editor_absoluteY="375dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="240dp"
+                android:text="@string/fill_form"
+                android:textAlignment="center"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="88dp"
+                tools:layout_editor_absoluteY="303dp" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#805D84"
-                android:checked="true"
-                android:text="type3"
+                android:layout_marginTop="390dp">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#805D84"
+                    android:checked="true"
+                    android:text="type1"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="30dp"
+                    tools:layout_editor_absoluteY="470dp" />
+
+                <CheckBox
+                    android:id="@+id/checkBox2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#805D84"
+                    android:checked="true"
+                    android:text="type2"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="30dp"
+                    tools:layout_editor_absoluteY="494dp" />
+
+                <CheckBox
+                    android:id="@+id/checkBox3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#805D84"
+                    android:checked="true"
+                    android:text="type3"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="30dp"
+                    tools:layout_editor_absoluteY="519dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="365dp"
+                android:text="@string/select_vehicle_type"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="451dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="450dp"
+                android:buttonTint="#805D84"
+                android:text="@string/babies"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="244dp"
+                tools:layout_editor_absoluteY="487dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="480dp"
+                android:buttonTint="#805D84"
+                android:text="@string/pets"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="244dp"
                 tools:layout_editor_absoluteY="519dp" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="365dp"
-            android:text="@string/select_vehicle_type"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="451dp" />
 
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="#805D84"
-            android:layout_marginTop="450dp"
-            android:text="@string/babies"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="244dp"
-            tools:layout_editor_absoluteY="487dp" />
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="96dp"
+                android:layout_height="39dp"
+                android:layout_marginLeft="290dp"
+                android:layout_marginTop="300dp"
+                android:text="@string/show_route"
+                android:textColor="#805D84"
+                android:textSize="11sp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="299dp"
+                tools:layout_editor_absoluteY="347dp" />
 
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="#805D84"
-            android:layout_marginTop="480dp"
-            android:text="@string/pets"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="244dp"
-            tools:layout_editor_absoluteY="519dp" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="96dp"
-            android:layout_height="39dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginLeft="290dp"
-            android:text="@string/show_route"
-            android:textColor="#805D84"
-            android:textSize="11sp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="299dp"
-            tools:layout_editor_absoluteY="347dp" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="178dp"
-            android:layout_height="34dp"
-            android:layout_marginTop="550dp"
-            android:layout_marginLeft="120dp"
-            android:background="#805D84"
-            android:text="@string/find_available_driver"
-            android:textColor="#FFFFFF"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="116dp"
-            tools:layout_editor_absoluteY="655dp" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="590dp"
-            android:text="@string/no_available_driver"
-            android:textAlignment="center"
-            android:textColor="#BF4646"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="103dp"
-            tools:layout_editor_absoluteY="696dp" />
-
-        <RadioGroup
-            android:layout_width="130dp"
-            android:layout_height="81dp"
-            android:layout_marginTop="430dp"
-            android:layout_marginLeft="250dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="40dp"
-            tools:layout_editor_absoluteY="561dp">
+            <Button
+                android:id="@+id/button"
+                android:layout_width="178dp"
+                android:layout_height="34dp"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="550dp"
+                android:background="#805D84"
+                android:text="@string/find_available_driver"
+                android:textColor="#FFFFFF"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="116dp"
+                tools:layout_editor_absoluteY="655dp" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/select_time" />
+                android:layout_marginTop="590dp"
+                android:text="@string/no_available_driver"
+                android:textAlignment="center"
+                android:textColor="#BF4646"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="103dp"
+                tools:layout_editor_absoluteY="696dp" />
 
-            <RadioButton
-                android:id="@+id/radioButton4"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:layout_width="130dp"
+                android:layout_height="81dp"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="430dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="40dp"
+                tools:layout_editor_absoluteY="561dp">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_time" />
+
+                <RadioButton
+                    android:id="@+id/radioButton4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#805D84"
+                    android:checked="true"
+                    android:clickable="true"
+                    android:text="@string/now" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#805D84"
+                    android:checked="true"
+                    android:clickable="true"
+                    android:text="@string/choose_date"
+                    android:textColorHighlight="#805D84"
+                    android:textColorLink="#805D84" />
+
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#805D84"
-                android:checked="true"
-                android:clickable="true"
-                android:text="@string/now" />
-
-            <RadioButton
-                android:id="@+id/radioButton3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:buttonTint="#805D84"
-                android:checked="true"
-                android:clickable="true"
-                android:text="@string/choose_date"
-                android:textColorHighlight="#805D84"
-                android:textColorLink="#805D84" />
+                android:layout_marginTop="610dp"
+                android:text="@string/favorite_locations"
+                android:textColor="#805D84"
+                android:textSize="10dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="65dp" />
+        </RelativeLayout>
 
 
-        </RadioGroup>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="610dp"
-            android:text="@string/favorite_locations"
-            android:textColor="#805D84"
-            android:textSize="10dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="65dp" />
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/login_image"
-        android:layout_width="wrap_content"
-        android:layout_height="234dp"
-        android:layout_alignParentStart="true"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/login_image"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="56dp" />
-
-</RelativeLayout>
+</LinearLayout>
