@@ -41,11 +41,11 @@ public class PassengerMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        FragmentTransition.to(MapFragment.newInstance(), this, false);
+//        FragmentTransition.to(MapFragment.newInstance(), this, false);
 
         Button findDriverBtn = findViewById(R.id.button);
         Button favorites = findViewById(R.id.button3);
