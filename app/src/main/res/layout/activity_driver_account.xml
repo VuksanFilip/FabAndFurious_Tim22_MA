@@ -5,34 +5,215 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DriverAccountActivity">
+    tools:context=".PassengerAccountActivity">
+    <!--    android:fitsSystemWindows="true"-->
+    <!--    tools:openDrawer="start"-->
 
-<!--    android:fitsSystemWindows="true"-->
-<!--    tools:openDrawer="start"-->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="686dp"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="77dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+        <TextView
+            android:id="@+id/textView42"
+            android:layout_width="match_parent"
+            android:layout_height="93dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/textView41"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_profile"
+            android:textAlignment="center"
+            android:textColor="#805D84"
+            android:textSize="19sp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="103dp"
+            app:srcCompat="@drawable/login_passenger_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/name" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Pera" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="41dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/lastname" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Peric" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView47"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/phone" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName5"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="0659785746" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="44dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/address" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Kosovska 15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView49"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/email" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="pera@gmail.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView49"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Car type" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="..." />
+        </LinearLayout>
+
+        <RadioButton
+            android:id="@+id/radioButton5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Babies allowed" />
+
+        <RadioButton
+            android:id="@+id/radioButton6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pets allowed" />
 
         <Button
-            android:id="@+id/button11"
-            android:layout_width="414dp"
-            android:layout_height="184dp"
-            android:text="Current ride"
-            tools:ignore="MissingConstraints" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/button10"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:text="@string/change_password"
+            android:textColor="#805D84" />
 
-<!--        <com.google.android.material.navigation.NavigationView-->
-<!--            android:id="@+id/nav_view"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_gravity="start"-->
-<!--            app:headerLayout="@layout/header"-->
-<!--            app:menu="@menu/passenger_account_menu" />-->
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#805D84"
+            android:text="@string/save"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+
+    <!--    <com.google.android.material.navigation.NavigationView-->
+    <!--        android:id="@+id/nav_view"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="start"-->
+    <!--        app:headerLayout="@layout/header"-->
+    <!--        app:menu="@menu/passenger_account_menu" />-->
 
 
 </RelativeLayout>
