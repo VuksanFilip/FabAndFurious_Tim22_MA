@@ -14,8 +14,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,12 +27,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uberapp_tim22.DTO.PassengerDTO;
 import com.example.uberapp_tim22.dialogs.LocationDialog;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
 import com.example.uberapp_tim22.fragments.MapFragment;
+import com.example.uberapp_tim22.service.ServiceUtils;
 import com.example.uberapp_tim22.tools.FragmentTransition;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class PassengerMainActivity extends AppCompatActivity {
@@ -103,8 +113,8 @@ public class PassengerMainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
+        getPassenger("2");
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -164,5 +174,26 @@ public class PassengerMainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+    }
+
+    public void getPassenger(String id){
+
+        Call<PassengerDTO> call = ServiceUtils.passengerService.getPassenger(id);
+        call.enqueue(new Callback<PassengerDTO>() {
+            @Override
+            public void onResponse(Call<PassengerDTO> call, Response<PassengerDTO> response) {
+                if(!response.isSuccessful()) return;
+
+                PassengerDTO passenger = response.body();
+                Log.d("Atribut", passenger.getName().toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<PassengerDTO> call, Throwable t) {
+                Log.d("FAIIIL", t.getMessage());
+                Log.d("FAIIIL", "BLATRUC");
+            }
+        });
     }
 }
