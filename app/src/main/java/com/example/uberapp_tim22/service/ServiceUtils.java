@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceUtils {
 
-    public static final String SERVICE_API_PATH = "http://192.168.1.16:8084/api/";
+    public static final String SERVICE_API_PATH = "http://192.168.0.22:8084/api/";
     public static final String driver = "driver";
     public static final String passenger = "passenger";
     public static final String vehicle = "vehicle";
@@ -40,6 +40,12 @@ public class ServiceUtils {
 
     public static IUserService userService = retrofit.create(IUserService.class);
     public static IPassengerService passengerService = retrofit.create(IPassengerService.class);
+    public static IDriverService driverService = retrofit.create(IDriverService.class);
+    public static IVehicleService vehicleService = retrofit.create(IVehicleService.class);
+    public static IReviewService reviewService = retrofit.create(IReviewService.class);
+    public static IPanicService panicService = retrofit.create(IPanicService.class);
+    public static IRideService rideService = retrofit.create(IRideService.class);
+    public static IUnregisteredUserService unregisteredUserService = retrofit.create(IUnregisteredUserService.class);
 
 
 }

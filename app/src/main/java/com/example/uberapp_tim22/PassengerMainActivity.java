@@ -30,7 +30,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uberapp_tim22.DTO.DriverDTO;
 import com.example.uberapp_tim22.DTO.PassengerDTO;
+import com.example.uberapp_tim22.DTO.VehicleDTO;
 import com.example.uberapp_tim22.dialogs.LocationDialog;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
 import com.example.uberapp_tim22.fragments.MapFragment;
@@ -112,18 +114,6 @@ public class PassengerMainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        getPassenger("2");
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean wifi = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        Log.i("wwww", String.valueOf(gps));
-        Log.i("wqqqq", String.valueOf(wifi));
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -176,6 +166,23 @@ public class PassengerMainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getPassenger("2");
+        getDriver("1");
+       //changeLocation("1");
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean wifi = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        Log.i("wwww", String.valueOf(gps));
+        Log.i("wqqqq", String.valueOf(wifi));
+    }
+
+    /////////////////////////PASSENGER///////////////////////////////
     public void getPassenger(String id){
 
         Call<PassengerDTO> call = ServiceUtils.passengerService.getPassenger(id);
@@ -196,4 +203,45 @@ public class PassengerMainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /////////////////////////DRIVER///////////////////////////////
+    public void getDriver(String id){
+
+        Call<DriverDTO> call = ServiceUtils.driverService.getDriver(id);
+        call.enqueue(new Callback<DriverDTO>() {
+            @Override
+            public void onResponse(Call<DriverDTO> call, Response<DriverDTO> response) {
+                if(!response.isSuccessful()) return;
+
+                DriverDTO driverDTO = response.body();
+
+            }
+
+            @Override
+            public void onFailure(Call<DriverDTO> call, Throwable t) {
+                Log.d("FAIIIL", t.getMessage());
+                Log.d("FAIIIL", "BLATRUC");
+            }
+        });
+    }
+
+    /////////////////////////VEHICLE///////////////////////////////
+//    public void changeLocation(String id){
+//
+//        Call<VehicleDTO> call = ServiceUtils.vehicleService.changeLocation(id);
+//        call.enqueue(new Callback<VehicleDTO>() {
+//            @Override
+//            public void onResponse(Call<VehicleDTO> call, Response<VehicleDTO> response) {
+//                if(!response.isSuccessful()) return;
+//
+//                VehicleDTO vehicleDTO = response.body();
+//
+//            }
+//            @Override
+//            public void onFailure(Call<PassengerDTO> call, Throwable t) {
+//                Log.d("FAIIIL", t.getMessage());
+//                Log.d("FAIIIL", "BLATRUC");
+//            }
+//        });
+//    }
 }
