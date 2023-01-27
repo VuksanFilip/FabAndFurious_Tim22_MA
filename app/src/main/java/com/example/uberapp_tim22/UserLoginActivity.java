@@ -37,13 +37,14 @@ public class UserLoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button forgotPassword;
+    Button loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
 
-        Button loginBtn = findViewById(R.id.login_button);
+        loginBtn = findViewById(R.id.login_button);
         email = findViewById(R.id.emailLogIn);
         password = findViewById(R.id.passwordLogIn);
         forgotPassword = findViewById(R.id.forgot_password);
