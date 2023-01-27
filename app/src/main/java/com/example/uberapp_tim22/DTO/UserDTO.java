@@ -13,7 +13,7 @@ public class UserDTO {
 
     private String picture;
 
-    private String phoneNumber;
+    private String telephoneNumber;
 
     private String email;
 
@@ -21,7 +21,14 @@ public class UserDTO {
 
     private String password;
 
-    public UserDTO(){}
+    public UserDTO(String name, String surname, String profilePicture, String telephoneNumber, String email, String address) {
+        this.firstName = name;
+        this.lastName = surname;
+        this.picture = profilePicture;
+        this.telephoneNumber = telephoneNumber;
+        this.email = email;
+        this.address = address;
+    }
 
     public Long getId() {
         return id;
@@ -56,11 +63,11 @@ public class UserDTO {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return telephoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.telephoneNumber = phoneNumber;
     }
 
     public String getEmail() {

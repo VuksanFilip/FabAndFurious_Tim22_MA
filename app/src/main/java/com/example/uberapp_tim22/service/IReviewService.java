@@ -25,9 +25,9 @@ public interface IReviewService {
     @GET(ServiceUtils.review + "/vehicle/{id}") //Getting the reviews for the vehicle
     Call<ReviewDTO> getVehicleReviews(@Path("rideId") String id);
 
-    @POST(ServiceUtils.review + "/{rideId}/vehicle") //Leave review for the vehicle
-    Call<CreateVehicleReviewDTO> createVehicleReview(@Path("rideId") String id, @Body CreateVehicleReviewDTO createVehicleReviewDTO);
-
-    @POST(ServiceUtils.review + "{rideId}/driver") //Leave review for the vehicle
-    Call<CreateDriverReviewDTO> createDriverReview(@Path("rideId") String id, @Body CreateDriverReviewDTO createDriverReviewDTO);
+//    @POST(ServiceUtils.review + "/{rideId}/vehicle") //Leave review for the vehicle
+//    Call<CreateVehicleReviewDTO> createVehicleReview(@Path("rideId") String id, @Body CreateVehicleReviewDTO createVehicleReviewDTO);
+//
+//    @POST(ServiceUtils.review + "{rideId}/driver") //Leave review for the vehicle
+//    Call<CreateDriverReviewDTO> createDriverReview(@Path("rideId") String id, @Body CreateDriverReviewDTO createDriverReviewDTO);
 }

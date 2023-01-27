@@ -1,6 +1,6 @@
 package com.example.uberapp_tim22.DTO;
 
-public class DestinationDTO {
+public class DepartureDTO {
 
     private String address;
     private Double latitude;

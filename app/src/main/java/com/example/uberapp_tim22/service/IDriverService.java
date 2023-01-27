@@ -19,8 +19,8 @@ public interface IDriverService {
     @GET(ServiceUtils.driver + "/{id}")
     Call<DriverDTO> getDriver(@Path("id") String id);
 
-    @GET(ServiceUtils.driver + "/{id}/rides")
-    Call<Paginated<DriverRideDTO>> getRides(@Path("id") String id, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
+//    @GET(ServiceUtils.driver + "/{id}/rides")
+//    Call<Paginated<DriverRideDTO>> getRides(@Path("id") String id, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
 
 //    @POST(ServiceUtils.driver + "/{id}/activity")
 //    Call<String> changeActivity(@Path("id") String id, @Body DriverActivityDTO driverActivityDTO); cemu ovo

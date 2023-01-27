@@ -1,8 +1,10 @@
 package com.example.uberapp_tim22.DTO;
 
+import com.example.uberapp_tim22.model.Driver;
+
 public class DriverDTO {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String surname;
     private String profilePicture;
@@ -10,11 +12,21 @@ public class DriverDTO {
     private String email;
     private String address;
 
-    public Integer getId() {
+    public DriverDTO(Long id, String name, String surname, String profilePicture, String telephoneNumber, String email, String address) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.profilePicture = profilePicture;
+        this.telephoneNumber = telephoneNumber;
+        this.email = email;
+        this.address = address;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
