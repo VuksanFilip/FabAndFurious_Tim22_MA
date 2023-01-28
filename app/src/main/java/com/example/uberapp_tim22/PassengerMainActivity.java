@@ -71,26 +71,10 @@ public class PassengerMainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-//        FragmentTransition.to(MapFragment.newInstance(), this, false);
-
+        FragmentTransition.to(MapFragment.newInstance(), this, false);
         Button findDriverBtn = findViewById(R.id.button);
         Button favorites = findViewById(R.id.button3);
 
-        findDriverBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PassengerMainActivity.this, PassengerAccountActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        favorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PassengerMainActivity.this, PassengerFavoriteRidesActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

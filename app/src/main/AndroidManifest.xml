@@ -40,7 +40,6 @@
 
         <meta-data
             android:name="com.google.android.gms.version"
-<<<<<<< HEAD
             android:value="@integer/google_play_services_version" /> <!-- <meta-data -->
 
         <meta-data
@@ -50,12 +49,6 @@
 <!--        <meta-data-->
 <!--            android:name="com.google.android.geo.API_KEY"-->
 <!--            android:value="${MAPS_API_KEY}" />-->
-=======
-            android:resource="@integer/google_play_services_version"></meta-data>
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
->>>>>>> parent of 9ab962a (commented)
 <!--        <meta-data-->
 <!--            android:name="com.google.android.maps.v2.API_KEY"-->
 <!--            android:value=""-->
