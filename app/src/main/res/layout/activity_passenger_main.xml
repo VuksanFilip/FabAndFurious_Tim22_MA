@@ -18,19 +18,11 @@
             layout="@layout/toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="-400dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/car" />
+<!--    <fragment-->
+<!--        android:name="com.example.uberapp_tim22.fragments.MapFragment"-->
+<!--        android:id="@+id/fooFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 
         <!-- The main content view -->
         <RelativeLayout
@@ -384,8 +376,4 @@
                     android:text="Confirm" />
             </RelativeLayout>
         </RelativeLayout>
-
-
-    </androidx.drawerlayout.widget.DrawerLayout>
-
 </LinearLayout>
