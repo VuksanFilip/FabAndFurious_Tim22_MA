@@ -7,24 +7,13 @@
     tools:context=".SplashActivity">
 
     <ImageView
-        android:id="@+id/splashImage"
-        android:layout_width="477dp"
-        android:layout_height="634dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="-69dp"
-        android:layout_marginLeft="-69dp"
-        android:layout_marginTop="-178dp"
-        android:layout_marginEnd="-44dp"
-        android:layout_marginRight="-44dp"
-        android:layout_marginBottom="184dp"
-        android:contentDescription="Splash Screen"
-        android:src="@drawable/car"
-        tools:ignore="ImageContrastCheck" />
+        android:layout_marginStart="-400dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/car" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -33,6 +22,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="157dp" />
+        android:layout_marginBottom="40dp" />
+
+    <TextView
+        android:id="@+id/textView43"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="FAB CAR"
+        android:textSize="60dp" />
+
 
 </RelativeLayout>

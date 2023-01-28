@@ -36,20 +36,21 @@ public class UserLoginActivity extends AppCompatActivity {
 
     EditText email;
     EditText password;
-    Button forgotPassword;
     Button loginBtn;
+    Button signupBtn;
+    Button forgotBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
-
-        loginBtn = findViewById(R.id.login_button);
         email = findViewById(R.id.emailLogIn);
         password = findViewById(R.id.passwordLogIn);
-        forgotPassword = findViewById(R.id.forgot_password);
+        loginBtn = findViewById(R.id.login_button);
+        signupBtn = findViewById(R.id.signup_btn);
+        forgotBtn = findViewById(R.id.forgot_button);
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
+        forgotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String em= email.getText().toString();
@@ -78,8 +79,7 @@ public class UserLoginActivity extends AppCompatActivity {
             }
         });
 
-        TextView textView = findViewById(R.id.register_textview);
-        textView.setOnClickListener(new View.OnClickListener() {
+        signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserLoginActivity.this, PassengerRegisterActivity.class);
