@@ -6,19 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".PassengerRegisterActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-400dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/car" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
-        android:id="@+id/textViewRegistration"
+        android:id="@+id/LogInTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="16dp"
-        android:text="Registration"
-        android:textColor="@color/white"
-        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:textSize="60dp"
+        android:text="SignUp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/HelloText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LogInTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:textSize="18dp"
+        android:text="Please fillout the form bellow"/>
+
+    <RelativeLayout
+        android:id="@+id/layoutr"
+        android:alpha="0.9"
+        android:layout_width="match_parent"
+        android:layout_height="490dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-50dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/login_background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent">
 
     <LinearLayout
         android:id="@+id/LinearLayout"
@@ -26,30 +70,10 @@
         android:layout_height="653dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
         android:orientation="vertical"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="27dp"
         tools:layout_editor_absoluteY="79dp">
-
-        <TextView
-            android:id="@+id/signUpText"
-            android:layout_width="wrap_content"
-            android:layout_height="47dp"
-            android:text="@string/signup"
-            android:textColor="#805D84"
-            android:textSize="29sp"
-            tools:layout_editor_absoluteX="95dp"
-            tools:layout_editor_absoluteY="203dp" />
-
-        <TextView
-            android:id="@+id/signUpText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/signup_input"
-            android:textSize="16sp"
-            tools:layout_editor_absoluteX="95dp"
-            tools:layout_editor_absoluteY="203dp" />
 
         <EditText
             android:id="@+id/registrationFirstName"
@@ -115,7 +139,7 @@
             android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/registerButton"
+            android:id="@+id/registerBtn"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:background="#805D84"
@@ -124,14 +148,7 @@
             tools:layout_editor_absoluteX="158dp"
             tools:layout_editor_absoluteY="341dp" />
 
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:text="Back to LogIn"
-            android:textColor="#805D84" />
-
-
     </LinearLayout>
 
+</RelativeLayout>
 </RelativeLayout>
