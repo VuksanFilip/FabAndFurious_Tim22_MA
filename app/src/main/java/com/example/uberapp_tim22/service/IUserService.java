@@ -45,7 +45,4 @@ public interface IUserService {
     @POST(ServiceUtils.user + "/login")
     Call<LoginResponseDTO> login(@Body LoginDTO loginDTO);
 
-    @POST(ServiceUtils.user + "/login")
-    Call<ResponseLoginDTO> login(@Body RequestLoginDTO loginDTO);
-
 }
