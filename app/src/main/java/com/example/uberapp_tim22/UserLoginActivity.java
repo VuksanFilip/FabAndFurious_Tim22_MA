@@ -3,36 +3,54 @@ package com.example.uberapp_tim22;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.auth0.android.jwt.JWT;
+import com.example.uberapp_tim22.DTO.RequestLoginDTO;
+import com.example.uberapp_tim22.DTO.ResponseLoginDTO;
+import com.example.uberapp_tim22.DTO.TokenDTO;
+import com.example.uberapp_tim22.service.ServiceUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class UserLoginActivity extends AppCompatActivity {
 
+    private SharedPreferences sharedPreferences;
+    private Intent intent;
+
     EditText email;
-    Button forgotPassword;
+    EditText password;
+    Button loginBtn;
+    Button signupBtn;
+    Button forgotBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
-
-        Button loginBtn = findViewById(R.id.login_button);
         email = findViewById(R.id.emailLogIn);
-        forgotPassword = findViewById(R.id.forgot_password);
+        password = findViewById(R.id.passwordLogIn);
+        loginBtn = findViewById(R.id.login_button);
+        signupBtn = findViewById(R.id.signup_btn);
+        forgotBtn = findViewById(R.id.forgot_button);
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
+        forgotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String em= email.getText().toString();
@@ -55,19 +73,96 @@ public class UserLoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserLoginActivity.this, DriverMainActivity.class);
-                startActivity(intent);
+                String getEmail= email.getText().toString();
+                String getPassword = password.getText().toString();
+                login(getEmail, getPassword);
             }
         });
 
-        TextView textView = findViewById(R.id.register_textview);
-        textView.setOnClickListener(new View.OnClickListener() {
+        signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserLoginActivity.this, PassengerRegisterActivity.class);
                 startActivity(intent);
             }
         });
+
+    }
+
+    public void login(String email, String password){
+        RequestLoginDTO loginDTO = new RequestLoginDTO(email, password);
+        Call<ResponseLoginDTO> call = ServiceUtils.userService.login(loginDTO);
+        call.enqueue(new Callback<ResponseLoginDTO>() {
+
+            @Override
+            public void onResponse(@NonNull Call<ResponseLoginDTO> call, @NonNull Response<ResponseLoginDTO> response) {
+                if(!response.isSuccessful()) return;
+                if(response.code() == 204){
+                    Toast.makeText(UserLoginActivity.this, "Email not confirmed!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ResponseLoginDTO loginResponse = response.body();
+                JWT jwt = new JWT(loginResponse.getAccessToken());
+
+                Long id = jwt.getClaim("id").asLong();
+                String email = jwt.getClaim("sub").asString();
+                String role = jwt.getClaim("role").asString();
+
+                setToken(loginResponse);
+
+                if(role.equalsIgnoreCase("PASSENGER")){
+                    setPreferences(id, email, role, loginResponse);
+                    startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));
+                }
+                else if(role.equalsIgnoreCase("DRIVER")) {
+                    setPreferences(id, email, role, loginResponse);
+                    setTokenPreference(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
+                    startActivity(new Intent(UserLoginActivity.this, DriverMainActivity.class));
+                }
+           }
+
+            @Override
+            public void onFailure(Call<ResponseLoginDTO> call, Throwable t) {
+                Log.d("Login Failed", t.getMessage());
+            }
+        });
+    }
+
+    private void setToken(ResponseLoginDTO loginResponse) {
+        TokenDTO tokenDTO = TokenDTO.getInstance();
+        tokenDTO.setAccessToken(loginResponse.getAccessToken());
+        tokenDTO.setRefreshToken(loginResponse.getRefreshToken());
+    }
+
+    private void deleteTokenPreferences() {
+        TokenDTO tokenDTO = TokenDTO.getInstance();
+        tokenDTO.setAccessToken(null);
+        tokenDTO.setRefreshToken(null);
+        this.sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = this.sharedPreferences.edit();
+        spEditor.clear().commit();
+    }
+
+    private void setTokenPreference(String token, String refreshToken) {
+        this.sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = this.sharedPreferences.edit();
+        spEditor.putString("pref_accessToken", token);
+        spEditor.putString("pref_refreshToken", refreshToken);
+    }
+
+    private void setSharedPreferences(Long id, String email, String role){
+        this.sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = this.sharedPreferences.edit();
+        spEditor.putLong("pref_id", id);
+        spEditor.putString("pref_email", email);
+        spEditor.putString("pref_role", role);
+        spEditor.apply();
+    }
+
+    private void setPreferences(Long id, String email, String role, ResponseLoginDTO loginResponse){
+        setSharedPreferences(id, email, role);
+        setTokenPreference(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
     }
 
     @Override

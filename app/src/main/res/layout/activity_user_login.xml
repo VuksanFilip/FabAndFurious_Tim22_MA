@@ -6,21 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".UserLoginActivity">
 
-
     <ImageView
-        android:id="@+id/login_image"
         android:layout_width="wrap_content"
-        android:layout_height="234dp"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-400dp"
+        android:scaleType="centerCrop"
         app:srcCompat="@drawable/car" />
+
+    <include layout="@layout/header"/>
 
     <RelativeLayout
         android:id="@+id/layoutr"
+        android:alpha="0.9"
         android:layout_width="match_parent"
-        android:layout_height="497dp"
-        android:layout_below="@+id/login_image"
+        android:layout_height="350dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -34,114 +35,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <RelativeLayout
-            android:id="@+id/select_button_images"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="80dp"
-            android:layout_centerHorizontal="true">
-
-            <RelativeLayout
-                android:layout_width="120dp"
-                android:layout_height="197dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/login_icon_border">
-
-                <RadioButton
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="0dp"
-                    android:background="@drawable/login_passenger_icon"
-                    android:button="@null" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    android:text="@string/passenger"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/login_icon_border">
-
-                <RadioButton
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginTop="0dp"
-                    android:background="@drawable/login_driver_icon"
-                    android:button="@null" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    android:text="@string/driver"
-                    android:textSize="17dp"
-                    android:textStyle="bold"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
-            android:text="@string/choose_acc_type"
-            android:textColor="#805D84"
-            android:textSize="22dp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/select_button_images"
-            android:text="@string/hello"
-            android:layout_marginTop="15dp"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView5"
-            android:text="@string/fill_form2"
-            android:layout_centerHorizontal="true" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/textView6"
+            android:layout_height="230dp"
+            android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
             <LinearLayout
@@ -153,25 +50,9 @@
                     android:id="@+id/emailLogIn"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/email"
-                    android:layout_weight="1"
-                    android:inputType="textEmailAddress"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editTextTextPasswordAddress"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:hint="@string/password"
                     android:layout_weight="1"
+                    android:hint="name.example@gmail.com"
                     android:inputType="textEmailAddress" />
 
             </LinearLayout>
@@ -181,58 +62,104 @@
                 android:layout_height="50dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/passwordLogIn"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/no_acc"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:id="@+id/register_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:onClick="fogotPassword"
-                    android:text="@string/signup"
-                    android:textColor="#805D84"
-                    android:textStyle="bold" />
-
-
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@android:integer/config_longAnimTime" />
-
+                    android:layout_weight="1"
+                    android:hint="min. 8 characters"
+                    android:inputType="textEmailAddress" />
                 <Button
-                    android:id="@+id/login_button"
+                    android:id="@+id/forgot_button"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
-                    android:background="#805D84"
-                    android:text="@string/login_button"
-                    android:textColor="@color/white" />
+                    android:background="#FFFFFF"
+                    android:text="Forgot?"
+                    android:textAllCaps="false"
+                    android:textColor="#805D84" />
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/forgot_password"
-                android:layout_width="176dp"
-                android:layout_height="39dp"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:onClick="fogotPassword"
-                android:text="@string/forgot_password"
-                android:textColor="#805D84"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:background="#805D84"
+                    android:text="Login"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="@string/no_acc"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/signup_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:background="#FFFFFF"
+                    android:text="SignUp"
+                    android:textAllCaps="false"
+                    android:textColor="#805D84"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/LogInTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:textSize="60dp"
+        android:text="LogIn"
+        android:textColor="@color/black"/>
+    <TextView
+        android:id="@+id/HelloText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LogInTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="18dp"
+        android:text="Hello!"/>
+
+    <TextView
+        android:id="@+id/PleaseFill..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/HelloText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:textSize="18dp"
+        android:text="Please fill out the form bellow to get started"/>
 
 </RelativeLayout>

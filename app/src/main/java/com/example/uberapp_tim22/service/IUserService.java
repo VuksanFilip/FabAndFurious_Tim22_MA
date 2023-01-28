@@ -5,6 +5,8 @@ import com.example.uberapp_tim22.DTO.LoginDTO;
 import com.example.uberapp_tim22.DTO.LoginResponseDTO;
 import com.example.uberapp_tim22.DTO.MessageDTO;
 import com.example.uberapp_tim22.DTO.SendMessageDTO;
+import com.example.uberapp_tim22.DTO.RequestLoginDTO;
+import com.example.uberapp_tim22.DTO.ResponseLoginDTO;
 import com.example.uberapp_tim22.DTO.UserDTO;
 
 import retrofit2.Call;
@@ -42,5 +44,8 @@ public interface IUserService {
 
     @POST(ServiceUtils.user + "/login")
     Call<LoginResponseDTO> login(@Body LoginDTO loginDTO);
+
+    @POST(ServiceUtils.user + "/login")
+    Call<ResponseLoginDTO> login(@Body RequestLoginDTO loginDTO);
 
 }

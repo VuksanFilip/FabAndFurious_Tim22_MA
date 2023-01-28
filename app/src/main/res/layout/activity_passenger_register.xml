@@ -52,7 +52,7 @@
             tools:layout_editor_absoluteY="203dp" />
 
         <EditText
-            android:id="@+id/nameInput"
+            android:id="@+id/registrationFirstName"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:ems="10"
@@ -62,7 +62,7 @@
             tools:layout_editor_absoluteY="232dp" />
 
         <EditText
-            android:id="@+id/lastNameInput"
+            android:id="@+id/registrationLastName"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:ems="10"
@@ -72,7 +72,7 @@
             tools:layout_editor_absoluteY="232dp" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/registrationEmail"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:ems="10"
@@ -81,7 +81,7 @@
 
 
         <EditText
-            android:id="@+id/editTextPhone"
+            android:id="@+id/registrationPhone"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:ems="10"
@@ -89,7 +89,7 @@
             android:inputType="phone" />
 
         <EditText
-            android:id="@+id/addressInput"
+            android:id="@+id/registrationAddress"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:ems="10"
@@ -99,7 +99,7 @@
             tools:layout_editor_absoluteY="232dp" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/registrationPassword"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:ems="10"
@@ -107,7 +107,7 @@
             android:inputType="textPassword" />
 
         <EditText
-            android:id="@+id/editTextTextPassword2"
+            android:id="@+id/registrationConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:ems="10"

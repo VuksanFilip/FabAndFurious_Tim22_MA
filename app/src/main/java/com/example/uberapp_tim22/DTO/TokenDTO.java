@@ -3,8 +3,8 @@ package com.example.uberapp_tim22.DTO;
 public class TokenDTO {
 
     private static TokenDTO instance;
-
     private String token;
+    private String accessToken;
     private String refreshToken;
 
     private TokenDTO() {
@@ -25,6 +25,15 @@ public class TokenDTO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+    public String getAccessToken() {
+        if(accessToken == null) return "";
+
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getRefreshToken() {

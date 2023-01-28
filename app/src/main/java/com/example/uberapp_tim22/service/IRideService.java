@@ -1,5 +1,6 @@
 package com.example.uberapp_tim22.service;
 
+import com.example.uberapp_tim22.DTO.DriverRideDTO;
 import com.example.uberapp_tim22.DTO.PassengerDTO;
 
 import retrofit2.Call;
@@ -12,19 +13,19 @@ import retrofit2.http.Path;
 
 public interface IRideService {
 
-//    @Headers(
-//            {"User-Agent: Mobile-Android",
-//                    "Content-Type:application/json"}
-//    )
-//    @GET(ServiceUtils.ride + "/{id}") //Ride details
-//    Call<DriverRideDTO> getRide(@Path("id") String id);
+    @Headers(
+            {"User-Agent: Mobile-Android",
+                    "Content-Type:application/json"}
+    )
+    @GET(ServiceUtils.ride + "/{id}") //Ride details
+    Call<DriverRideDTO> getRide(@Path("id") String id);
+
+//    @GET(ServiceUtils.ride + "/driver/{driverId}/active") // Active ride for driver
+//    Call<RideDTO> getRide(@Path("driverId") String id);
 //
-////    @GET(ServiceUtils.ride + "/driver/{driverId}/active") // Active ride for driver
-////    Call<RideDTO> getRide(@Path("driverId") String id);
-////
-////    @GET(ServiceUtils.ride + "/passenger/{passengerId}/active") // Active ride for passenger
-////    Call<RideDTO> getRide(@Path("passengerId") String id);
-//
+//    @GET(ServiceUtils.ride + "/passenger/{passengerId}/active") // Active ride for passenger
+//    Call<RideDTO> getRide(@Path("passengerId") String id);
+
 //    @POST(ServiceUtils.ride) //Creating a ride
 //    Call<CreateRideDTO> createRide(@Body CreateRideDTO createdRideDTO);
 //
@@ -52,10 +53,7 @@ public interface IRideService {
 //
 //    @GET(ServiceUtils.ride) //Get favorite locations
 //    Call<DriverRideDTO> getFavoriteRoute(@Path("favorites") String id);
+//
+//    Delete existing favorite ride
 
-    //Delete existing favorite ride
-
-
-
-
-}
+    }

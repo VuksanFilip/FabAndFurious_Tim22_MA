@@ -1,6 +1,7 @@
 package com.example.uberapp_tim22.service;
 
 import com.example.uberapp_tim22.DTO.PassengerDTO;
+import com.example.uberapp_tim22.DTO.RequestPassengerDTO;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,11 +24,15 @@ public interface IPassengerService {
     @PUT(ServiceUtils.passenger + "/{id}") //Update existing passenger
     Call<PassengerDTO> updatePassenger(@Path("id") String id, @Body PassengerDTO passengerDTO);
 
+    @POST(ServiceUtils.passenger) //Create passenger
+    Call<PassengerDTO> createPassenger(@Body RequestPassengerDTO request);
+
+//    @PUT(ServiceUtils.passenger + "/{id}") //Update existing passenger
+//    Call<PassengerDTO> updatePassenger(@Path("id") String id, @Body PassengerDTO passengerDTO);
+
 //    @GET(ServiceUtils.passenger + "/{id}/rides") //Passenger rides
 //    Call<Paginated<PassengerRideDTO>> getPassengerRides(@Path("id") String id, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
 //
-//    @POST(ServiceUtils.passenger) //Create passenger
-//    Call<CreatePassengerDTO> createPassenger(@Body CreatePassengerDTO createPassengerDTO);
 
 //    @GET(ServiceUtils.passenger + "/activate/{activationId}") //Activate passenger account
 //    Call<> activatePassenger(@Path("id") String id);
