@@ -22,6 +22,9 @@ public class DriverDTO {
         this.address = address;
     }
 
+    public DriverDTO() {
+    }
+
     public Long getId() {
         return id;
     }

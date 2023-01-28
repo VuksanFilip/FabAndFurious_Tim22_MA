@@ -20,9 +20,9 @@ public interface IPassengerService {
     @GET(ServiceUtils.passenger + "/{id}") //Passenger details
     Call<PassengerDTO> getPassenger(@Path("id") String id);
 
-//    @PUT(ServiceUtils.passenger + "/{id}") //Update existing passenger
-//    Call<PassengerDTO> updatePassenger(@Path("id") String id, @Body PassengerDTO passengerDTO);
-//
+    @PUT(ServiceUtils.passenger + "/{id}") //Update existing passenger
+    Call<PassengerDTO> updatePassenger(@Path("id") String id, @Body PassengerDTO passengerDTO);
+
 //    @GET(ServiceUtils.passenger + "/{id}/rides") //Passenger rides
 //    Call<Paginated<PassengerRideDTO>> getPassengerRides(@Path("id") String id, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
 //
