@@ -23,6 +23,16 @@ public class FragmentTransition
 		if(addToBackstack) transaction.addToBackStack(null);
 		transaction.commit();
 	}
+
+	public static void to(Fragment newFragment, FragmentActivity activity, boolean addToBackstack, int layoutViewID)
+	{
+		FragmentTransaction transaction = activity.getSupportFragmentManager()
+				.beginTransaction()
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.replace(layoutViewID, newFragment);
+		if(addToBackstack) transaction.addToBackStack(null);
+		transaction.commit();
+	}
 	
 	public static void remove(Fragment fragment, FragmentActivity activity) // TODO izbaciti fragment parametar
 	{
