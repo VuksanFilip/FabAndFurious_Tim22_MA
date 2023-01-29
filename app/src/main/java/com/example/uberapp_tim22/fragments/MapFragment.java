@@ -53,39 +53,23 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         return mpf;
     }
 
-    /**
-     * Prilikom kreidanja fragmenta preuzimamo sistemski servis za rad sa lokacijama
-     * */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
     }
 
-    /**
-     * Kada zelmo da dobijamo informacije o lokaciji potrebno je da specificiramo
-     * po kom kriterijumu zelimo da dobijamo informacije GSP, MOBILNO(WIFI, MObilni internet), GPS+MOBILNO
-     * **/
     private void createMapFragmentAndInflate() {
-        //specificiramo krijterijum da dobijamo informacije sa svih izvora
-        //ako korisnik to dopusti
+
         Criteria criteria = new Criteria();
 
-        //sistemskom servisu prosledjujemo taj kriterijum da bi
-        //mogli da dobijamo informacje sa tog izvora
         provider = locationManager.getBestProvider(criteria, true);
 
-        //kreiramo novu instancu fragmenta
         mMapFragment = SupportMapFragment.newInstance();
 
-        //i vrsimo zamenu trenutnog prikaza sa prikazom mape
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.map_container, mMapFragment).commit();
 
-        //pozivamo ucitavnje mape.
-        //VODITI RACUNA OVO JE ASINHRONA OPERACIJA
-        //LOKACIJE MOGU DA SE DOBIJU PRE MAPE I OBRATNO
         mMapFragment.getMapAsync(this);
     }
 
@@ -119,13 +103,11 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 if (ContextCompat.checkSelfPermission(requireContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
 
-                    //Request location updates:
                     locationManager.requestLocationUpdates(provider, 2000, 0, this);
                     Toast.makeText(getContext(), "ACCESS_FINE_LOCATION", Toast.LENGTH_SHORT).show();
                 }else if(ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
 
-                    //Request location updates:
                     locationManager.requestLocationUpdates(provider, 2000, 0, this);
                     Toast.makeText(getContext(), "ACCESS_COARSE_LOCATION", Toast.LENGTH_SHORT).show();
                 }
@@ -141,13 +123,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         return view;
     }
 
-    /**
-     * Svaki put kada uredjaj dobijee novu informaciju o lokaciji ova metoda se poziva
-     * i prosledjuje joj se nova informacija o kordinatamad
-     * */
     @Override
     public void onLocationChanged(Location location) {
-//        Toast.makeText(getActivity(), "NEW LOCATION", Toast.LENGTH_SHORT).show();
         if (map != null) {
             addMarker(location);
         }
@@ -173,20 +150,15 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Allow user location")
                         .setMessage("To continue working we need your locations....Allow now?")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
                                 ActivityCompat.requestPermissions(getActivity(),
                                         new String[]{
                                                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -199,7 +171,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
 
             } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -220,26 +191,19 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
                     if (ContextCompat.checkSelfPermission(requireActivity(),
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
 
-                        //Request location updates:
                         locationManager.requestLocationUpdates(provider, 0, 0, this);
                     }
 
                 } else if (grantResults.length > 0
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED){
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     if (ContextCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.ACCESS_COARSE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
-                        //Request location updates:
                         locationManager.requestLocationUpdates(provider, 0, 0, this);
                     }
 
@@ -250,11 +214,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         }
     }
 
-
-    /**
-     * KAda je mapa spremna mozemo da radimo sa njom.
-     * Mozemo reagovati na razne dogadjaje dodavanje markera, pomeranje markera,klik na mapu,...
-     * */
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {

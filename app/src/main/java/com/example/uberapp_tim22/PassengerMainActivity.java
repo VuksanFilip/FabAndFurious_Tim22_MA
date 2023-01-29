@@ -166,7 +166,7 @@ public class PassengerMainActivity extends AppCompatActivity {
         //findById("10");
         //sendMessage("10");
         //getMessages("10");
-        login("pera.peric@email.com","12345678");
+//        login("pera.peric@email.com","12345678");
 
         //changeLocation("1");
 
@@ -287,61 +287,61 @@ public class PassengerMainActivity extends AppCompatActivity {
         });
     }
 
-    public void login(String email, String password) {
-
-        LoginDTO loginDTO = new LoginDTO(email, password);
-        Call<LoginResponseDTO> call = ServiceUtils.userService.login(loginDTO);
-        call.enqueue(new Callback<LoginResponseDTO>() {
-
-            @Override
-            public void onResponse(@NonNull Call<LoginResponseDTO> call, @NonNull Response<LoginResponseDTO> response) {
-                if(!response.isSuccessful()) return;
-                if(response.code() == 204){
-                    return;
-                }
-
-
-                LoginResponseDTO loginResponse = response.body();
-//                String userRole = "";
-//                JWT jwt = new JWT(loginResponse.getToken());
-//                List<HashMap> role =
-//                        jwt.getClaim("role").asList(HashMap.class);
-//                for (Object values: role.get(0).values()){
-//                    userRole = values.toString();
-//                    break;
-//                }
-
-
-//                String email = jwt.getClaim("sub").asString();
-//                Long id = jwt.getClaim("id").asLong();
-//                TokenDTO tokenDTO = TokenDTO.getInstance();
-//                tokenDTO.setToken(loginResponse.getToken());
-//                tokenDTO.setRefreshToken(loginResponse.getRefreshToken());
-//                Intent intent;
+//    public void login(String email, String password) {
 //
-//                if(userRole.equalsIgnoreCase("passenger")){
-//                    setSharedPreferences("PASSENGER", email, id);
-//                    setTokenPreference(loginResponse.getToken(), loginResponse.getRefreshToken());
-//                    intent = new Intent(PassengerMainActivity.this, PassengerMainActivity.class);
-//                    startActivity(intent);
+//        LoginDTO loginDTO = new LoginDTO(email, password);
+//        Call<LoginResponseDTO> call = ServiceUtils.userService.login(loginDTO);
+//        call.enqueue(new Callback<LoginResponseDTO>() {
 //
+//            @Override
+//            public void onResponse(@NonNull Call<LoginResponseDTO> call, @NonNull Response<LoginResponseDTO> response) {
+//                if(!response.isSuccessful()) return;
+//                if(response.code() == 204){
+//                    return;
 //                }
-//                else if(userRole.equalsIgnoreCase("driver")) {
-//                    setSharedPreferences("DRIVER", email, id);
-//                    setTokenPreference(loginResponse.getToken(), loginResponse.getRefreshToken());
-//                    intent = new Intent(PassengerMainActivity.this, DriverMainActivity.class);
-//                    startActivity(intent);
 //
-//                }
-
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponseDTO> call, Throwable t) {
-                Log.d("Login Failed", t.getMessage());
-            }
-        });
-    }
+//
+//                LoginResponseDTO loginResponse = response.body();
+////                String userRole = "";
+////                JWT jwt = new JWT(loginResponse.getToken());
+////                List<HashMap> role =
+////                        jwt.getClaim("role").asList(HashMap.class);
+////                for (Object values: role.get(0).values()){
+////                    userRole = values.toString();
+////                    break;
+////                }
+//
+//
+////                String email = jwt.getClaim("sub").asString();
+////                Long id = jwt.getClaim("id").asLong();
+////                TokenDTO tokenDTO = TokenDTO.getInstance();
+////                tokenDTO.setToken(loginResponse.getToken());
+////                tokenDTO.setRefreshToken(loginResponse.getRefreshToken());
+////                Intent intent;
+////
+////                if(userRole.equalsIgnoreCase("passenger")){
+////                    setSharedPreferences("PASSENGER", email, id);
+////                    setTokenPreference(loginResponse.getToken(), loginResponse.getRefreshToken());
+////                    intent = new Intent(PassengerMainActivity.this, PassengerMainActivity.class);
+////                    startActivity(intent);
+////
+////                }
+////                else if(userRole.equalsIgnoreCase("driver")) {
+////                    setSharedPreferences("DRIVER", email, id);
+////                    setTokenPreference(loginResponse.getToken(), loginResponse.getRefreshToken());
+////                    intent = new Intent(PassengerMainActivity.this, DriverMainActivity.class);
+////                    startActivity(intent);
+////
+////                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<LoginResponseDTO> call, Throwable t) {
+//                Log.d("Login Failed", t.getMessage());
+//            }
+//        });
+//    }
 
 
     /////////////////////////PASSENGER///////////////////////////////

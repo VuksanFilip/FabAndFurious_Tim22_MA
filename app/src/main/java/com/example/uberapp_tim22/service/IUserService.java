@@ -43,6 +43,6 @@ public interface IUserService {
     Call<Paginated<MessageDTO>> getMessages(@Path("id") String id);
 
     @POST(ServiceUtils.user + "/login")
-    Call<LoginResponseDTO> login(@Body LoginDTO loginDTO);
+    Call<ResponseLoginDTO> login(@Body RequestLoginDTO loginDTO);
 
 }
