@@ -93,10 +93,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean wifi = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        Log.i("wwww", String.valueOf(gps));
-        Log.i("wqqqq", String.valueOf(wifi));
+
         if (!gps && !wifi) {
-            Log.i("ASD", "ASDresumemap");
             showLocatonDialog();
         } else {
             if (checkLocationPermission()) {
@@ -113,7 +111,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 }
             }
         }
-
     }
 
     @Override
@@ -182,12 +179,12 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
@@ -233,19 +230,16 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 if (ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-                    //Request location updates:
                     location = locationManager.getLastKnownLocation(provider);
                 } else if (ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-                    //Request location updates:
                     location = locationManager.getLastKnownLocation(provider);
                 }
             }
         }
 
-        //ako zelimo da rucno postavljamo markere to radimo
-        //dodavajuci click listener
+
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -262,7 +256,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             }
         });
 
-        //ako zelmo da reagujemo na klik markera koristimo marker click listener
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -277,7 +270,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             }
         });
 
-        //ako je potrebno da reagujemo na pomeranje markera koristimo marker drag listener
         map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
@@ -320,10 +312,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    /**
-     *
-     * Rad sa lokacja izuzetno trosi bateriju.Obavezno osloboditi kada vise ne koristmo
-     * */
+    @SuppressLint("MissingPermission")
     @Override
     public void onPause() {
         super.onPause();

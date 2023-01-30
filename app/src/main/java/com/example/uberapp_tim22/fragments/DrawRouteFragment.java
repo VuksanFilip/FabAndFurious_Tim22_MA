@@ -66,9 +66,6 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.map_container, mMapFragment).commit();
 
-        //pozivamo ucitavnje mape.
-        //VODITI RACUNA OVO JE ASINHRONA OPERACIJA
-        //LOKACIJE MOGU DA SE DOBIJU PRE MAPE I OBRATNO
         mMapFragment.getMapAsync(this);
     }
 
@@ -91,11 +88,9 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
 
         LatLng zaragoza = new LatLng(41.648823,-0.889085);
 
-        //Define list to get all latlng for the route
         List<LatLng> path = new ArrayList();
 
 
-        //Execute Directions API request
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey(BuildConfig.MAPS_API_KEY)
                 .build();
@@ -104,7 +99,6 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
 
         try {
             DirectionsResult res = req.await();
-            //Loop through legs and steps to get encoded polylines of each step
             if (res.routes != null && res.routes.length > 0) {
                 DirectionsRoute route = res.routes[0];
 
@@ -119,7 +113,6 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
                                         DirectionsStep step1 = step.steps[k];
                                         EncodedPolyline points1 = step1.polyline;
                                         if (points1 != null) {
-                                            //Decode polyline and add points to list of route coordinates
                                             List<com.google.maps.model.LatLng> coords1 = points1.decodePath();
                                             for (com.google.maps.model.LatLng coord1 : coords1) {
                                                 path.add(new LatLng(coord1.lat, coord1.lng));
@@ -129,7 +122,6 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
                                 } else {
                                     EncodedPolyline points = step.polyline;
                                     if (points != null) {
-                                        //Decode polyline and add points to list of route coordinates
                                         List<com.google.maps.model.LatLng> coords = points.decodePath();
                                         for (com.google.maps.model.LatLng coord : coords) {
                                             path.add(new LatLng(coord.lat, coord.lng));
@@ -145,7 +137,6 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
             Log.e(TAG, ex.getLocalizedMessage());
         }
 
-        //Draw the polyline
         if (path.size() > 0) {
             PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.BLUE).width(5);
             mMap.addPolyline(opts);

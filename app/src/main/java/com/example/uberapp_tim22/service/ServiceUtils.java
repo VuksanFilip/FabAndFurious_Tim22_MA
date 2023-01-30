@@ -11,7 +11,7 @@ public class ServiceUtils {
 
     //Filip 192.168.1.16
     //Andrea 192.168.0.22
-    public static final String SERVICE_API_PATH = "http://192.168.1.16:8084/api/";
+    public static final String SERVICE_API_PATH = "http://192.168.1.11:8084/api/";
     public static final String driver = "driver";
     public static final String passenger = "passenger";
     public static final String vehicle = "vehicle";

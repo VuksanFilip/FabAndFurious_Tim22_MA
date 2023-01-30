@@ -25,9 +25,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +73,19 @@ public class PassengerMainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        FragmentTransition.to(MapFragment.newInstance(), this, false);
+        DrawRouteFragment drawRouteFragment = DrawRouteFragment.newInstance();
+        FragmentTransition.to(drawRouteFragment, this, false);
+
+
+        String[] arraySpinner = new String[] {
+                "1", "2", "3", "4", "5", "6", "7"
+        };
+        Spinner s = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter);
+
         Button findDriverBtn = findViewById(R.id.button);
         Button favorites = findViewById(R.id.button3);
 
