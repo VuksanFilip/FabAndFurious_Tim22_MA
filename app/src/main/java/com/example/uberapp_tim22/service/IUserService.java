@@ -28,11 +28,9 @@ public interface IUserService {
     @PUT(ServiceUtils.user + "/{id}/changePassword")
     Call<String> changePassword(@Path("id") String id, @Body ChangePasswordDTO changePasswordDTO);
 
-    @GET(ServiceUtils.user + "/email")
-    Call<UserDTO> findByEmail(@Query("email") String email);
+//    @GET(ServiceUtils.user + "/email")
+//    Call<UserDTO> findByEmail(@Query("email") String email);
 
-//    @GET(ServiceUtils.user + "/admin-user")
-//    Call<Long> getAdminId(); //?
     @GET(ServiceUtils.user + "/{id}/user")
     Call<UserDTO> findById(@Path("id") String id);
 
@@ -44,5 +42,8 @@ public interface IUserService {
 
     @POST(ServiceUtils.user + "/login")
     Call<ResponseLoginDTO> login(@Body RequestLoginDTO loginDTO);
+
+    @GET(ServiceUtils.user + "/{email}/resetPasswordByEmail")
+    Call<UserDTO> findByEmail(@Path("email") String email);
 
 }

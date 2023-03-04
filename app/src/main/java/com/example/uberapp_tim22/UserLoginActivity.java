@@ -1,12 +1,14 @@
 package com.example.uberapp_tim22;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +23,7 @@ import com.auth0.android.jwt.JWT;
 import com.example.uberapp_tim22.DTO.RequestLoginDTO;
 import com.example.uberapp_tim22.DTO.ResponseLoginDTO;
 import com.example.uberapp_tim22.DTO.TokenDTO;
+import com.example.uberapp_tim22.DTO.UserDTO;
 import com.example.uberapp_tim22.service.ServiceUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,14 +37,19 @@ import retrofit2.Response;
 
 public class UserLoginActivity extends AppCompatActivity {
 
+
+
     private SharedPreferences sharedPreferences;
     private Intent intent;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
 
-    EditText email;
-    EditText password;
-    Button loginBtn;
-    Button signupBtn;
-    Button forgotBtn;
+    private EditText email, password;
+    private Button loginBtn, signupBtn, forgotBtn;
+
+    private TextView popUpNotification;
+    private EditText popUpEmail;
+    private Button popUpCancelBtn, popUpSendBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,20 +69,7 @@ public class UserLoginActivity extends AppCompatActivity {
         forgotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String em= email.getText().toString();
-                FirebaseAuth.getInstance().sendPasswordResetEmail(em).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(UserLoginActivity.this, "send mail", Toast.LENGTH_SHORT).show();
-                            System.out.println("t");
-                        }
-                        else{
-                            Toast.makeText(UserLoginActivity.this, "Fail", Toast.LENGTH_SHORT).show();
-                            System.out.println("n");
-                        }
-                    }
-                });
+                createNewPopUpDialog();
             }
         });
 
@@ -180,6 +175,57 @@ public class UserLoginActivity extends AppCompatActivity {
     private void setPreferences(Long id, String email, String role, ResponseLoginDTO loginResponse){
         setSharedPreferences(id, email, role);
         setTokenPreference(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
+    }
+
+    private void createNewPopUpDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View popUpView = getLayoutInflater().inflate(R.layout.fragment_forgot_password_pop_up, null);
+
+        popUpEmail = (EditText) popUpView.findViewById(R.id.popUpEditText);
+        popUpCancelBtn = (Button) popUpView.findViewById(R.id.popUpCancelBtn);
+        popUpSendBtn = (Button) popUpView.findViewById(R.id.popUpSendBtn);
+        popUpNotification = (TextView) popUpView.findViewById(R.id.popUpNotification);
+
+        dialogBuilder.setView(popUpView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        popUpCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        popUpSendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendEmail(popUpEmail.getText().toString());
+            }
+        });
+    }
+
+    public void sendEmail(String email){
+        Call<UserDTO> call = ServiceUtils.userService.findByEmail(email);
+        call.enqueue(new Callback<UserDTO>() {
+
+            @Override
+            public void onResponse(@NonNull Call<UserDTO> call, @NonNull Response<UserDTO> response) {
+                if (!response.isSuccessful()) {
+                    popUpNotification.setTextColor(Color.RED);
+                    popUpNotification.setText("Email does not exist");
+                    return;
+                }
+                if (response.code() == 204) {
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable t) {
+                Log.d("Email sending failed", t.getMessage());
+            }
+        });
     }
 
     @Override
