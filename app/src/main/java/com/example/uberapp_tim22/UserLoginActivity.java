@@ -215,6 +215,7 @@ public class UserLoginActivity extends AppCompatActivity {
                     popUpNotification.setTextColor(Color.RED);
                     popUpNotification.setText("Email does not exist");
                     return;
+
                 }
                 if (response.code() == 204) {
                     dialog.dismiss();
