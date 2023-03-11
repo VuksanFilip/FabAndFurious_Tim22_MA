@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.Stepper1Fragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp">
+        <include
+            android:id="@+id/stepper"
+            layout="@layout/stepper3_layout"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="62dp"
+            android:layout_marginEnd="62dp"
+            android:layout_below="@id/stepper"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragmentStepper3VehicleTypeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"
+                android:hint="Select vehicle type">
+            </TextView>
+
+            <RelativeLayout
+                android:id="@+id/fragmentStepper3VehicleTypeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/fragmentStepper3StandardTypeCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:textSize="15sp"
+                    android:text="Standard"/>
+
+                <CheckBox
+                    android:id="@+id/fragmentStepper3LuxuryTypeCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/fragmentStepper3StandardTypeCB"
+                    android:textSize="15sp"
+                    android:text="Luxury"/>
+
+                <CheckBox
+                    android:id="@+id/fragmentStepper3VanTypeCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/fragmentStepper3LuxuryTypeCB"
+                    android:textSize="15sp"
+                    android:text="Van"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/fragmentStepper3PetTransportTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:hint="Select pet transport">
+            </TextView>
+
+            <RadioGroup
+                android:id="@+id/fragmentStepperPetTransportRG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/fragmentStepper1PetTransportYesRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Yes"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/fragmentStepper1PetTransportNoRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="No"
+                    android:textSize="15sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/fragmentStepper3BabyTransportTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:hint="Select baby transport">
+            </TextView>
+
+            <RadioGroup
+                android:id="@+id/fragmentStepperBabyTransportRG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/fragmentStepper1BabyTransportYesRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Yes"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/fragmentStepper1BabyTransportNoRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="No"
+                    android:textSize="15sp" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/fragmentStepper2NextBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginEnd="62dp"
+            android:layout_above="@+id/fragmentStepper2BackBtn"
+            android:text="Next" />
+
+        <Button
+            android:id="@+id/fragmentStepper2BackBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginEnd="62dp"
+            android:layout_alignParentBottom="true"
+            android:text="Back" />
+
+    </RelativeLayout>
+
+</FrameLayout>

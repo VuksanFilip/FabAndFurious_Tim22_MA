@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible">
@@ -14,7 +15,7 @@
             android:id="@+id/circle_one"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/stepper_gray_circle" />
+            android:src="@drawable/stepper_green_circle" />
 
         <View
             android:id="@+id/line_one"
@@ -22,13 +23,13 @@
             android:layout_height="3dp"
             android:layout_marginTop="14dp"
             android:layout_toEndOf="@+id/circle_one"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/holo_green_dark"/>
 
         <ImageView
             android:id="@+id/circle_two"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/stepper_gray_circle"
+            android:src="@drawable/stepper_green_circle"
             android:layout_toEndOf="@+id/line_one" />
 
         <View
@@ -37,7 +38,7 @@
             android:layout_height="3dp"
             android:layout_toEndOf="@+id/circle_two"
             android:layout_marginTop="14dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/holo_green_dark"/>
 
         <ImageView
             android:id="@+id/circle_three"
@@ -66,22 +67,22 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/circle_one"
             android:text="Path"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/holo_green_dark" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/circle_two"
             android:layout_toEndOf="@id/line_one"
-            android:text="Amount"
-            android:textColor="@android:color/darker_gray" />
+            android:text="Select"
+            android:textColor="@android:color/holo_green_dark" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/circle_three"
             android:layout_toEndOf="@id/line_two"
-            android:text="Amount"
+            android:text="Type"
             android:textColor="@android:color/darker_gray" />
 
     </RelativeLayout>

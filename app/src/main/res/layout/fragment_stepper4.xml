@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.Stepper1Fragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp">
+        <include
+            android:id="@+id/stepper"
+            layout="@layout/stepper4_layout"/>
+
+        <Button
+            android:id="@+id/fragmentStepper2NextBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginEnd="62dp"
+            android:layout_above="@+id/fragmentStepper2BackBtn"
+            android:text="Next" />
+
+        <Button
+            android:id="@+id/fragmentStepper2BackBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="62dp"
+            android:layout_marginEnd="62dp"
+            android:layout_alignParentBottom="true"
+            android:text="Back" />
+
+    </RelativeLayout>
+
+</FrameLayout>

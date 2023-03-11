@@ -76,6 +76,7 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
 
         return view;
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

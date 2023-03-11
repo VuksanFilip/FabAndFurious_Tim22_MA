@@ -17,8 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginStart="62dp"
+            android:layout_marginEnd="62dp"
             android:layout_below="@id/stepper"
             android:orientation="vertical">
 
@@ -27,9 +27,7 @@
                 android:id="@+id/departureAddressTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="32dp"
                 android:hint="Departure address">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -43,9 +41,7 @@
                 android:id="@+id/destinationAddressTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="32dp"
                 android:hint="Destination address">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -57,8 +53,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
                 android:layout_marginTop="10dp">
 
                 <Button
@@ -89,8 +83,7 @@
                 android:id="@+id/fragmentStepper1RG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
+
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -110,6 +103,14 @@
                     android:textSize="15sp" />
 
             </RadioGroup>
+
+            <Button
+                android:id="@+id/fragmentStepper1GetCoridnatesBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="buttonGetCoordinates"
+                android:text="Get coordinates"
+                android:textSize="10dp"/>
 
         </LinearLayout>
 

@@ -9,9 +9,12 @@ import android.animation.LayoutTransition;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,11 +25,15 @@ import android.widget.Toast;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
 import com.example.uberapp_tim22.fragments.Stepper2Fragment;
+import com.example.uberapp_tim22.fragments.Stepper3Fragment;
 import com.example.uberapp_tim22.tools.FragmentTransition;
+import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class PassengerMainActivity extends AppCompatActivity {
@@ -36,6 +43,9 @@ public class PassengerMainActivity extends AppCompatActivity {
     private ImageView popUpView;
     private LayoutTransition layoutTransition;
     private Button stepperDateBtn, fragmentStepper1NextBtn, fragmentStepper1TimeBtn;
+
+    private Button fragmentStepper1GetCoridnatesBtn;
+    private EditText departureAddressEditText, destinationAddressEditText;
     private RadioGroup fragmentStepper1RG;
     private RadioButton fragmentStepper1NowRB, fragmentStepper1ScheduleRB;
     private Date currentTime;
@@ -71,6 +81,10 @@ public class PassengerMainActivity extends AppCompatActivity {
         fragmentStepper1NowRB = (RadioButton) findViewById(R.id.fragmentStepper1NowRB);
         fragmentStepper1ScheduleRB = (RadioButton) findViewById(R.id.fragmentStepper1ScheduleRB);
         fragmentStepper1TextView = (TextView) findViewById(R.id.fragmentStepper1TextView);
+
+        departureAddressEditText = (EditText) findViewById(R.id.departureAddressEditText);
+        destinationAddressEditText = (EditText) findViewById(R.id.destinationAddressEditText);
+        fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.fragmentStepper1GetCoridnatesBtn);
 
         fragmentStepper1NextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +156,33 @@ public class PassengerMainActivity extends AppCompatActivity {
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
     }
+
+//    public void buttonGetCoordinates(View view){
+//        Geocoder geocoder = new Geocoder(this);
+//        List<Address> departureAddressList;
+//        List<Address> destinationAddressList;
+//
+//        try {
+//            departureAddressList = geocoder.getFromLocationName(departureAddressEditText.getText().toString(), 1);
+//            destinationAddressList = geocoder.getFromLocationName(destinationAddressEditText.getText().toString(), 1);
+//
+//
+//            if (departureAddressList != null && destinationAddressList != null){
+//                double doubleDepartureLat = departureAddressList.get(0).getLatitude();
+//                double doubleDepartureLong = departureAddressList.get(0).getLongitude();
+//                double doubleDestinationLat = destinationAddressList.get(0).getLatitude();
+//                double doubleDestinationLong = destinationAddressList.get(0).getLongitude();
+//
+//
+//                fragmentStepper1GetCoridnatesBtn.setText("Latitude: " + String.valueOf(doubleDepartureLat)
+//                        + " | " + "Longitude: " + String.valueOf(doubleDepartureLong) + "Latitude: " + String.valueOf(doubleDepartureLat)
+//                        + " | " + "Longitude: " + String.valueOf(doubleDepartureLong));
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 //    public void onRadioButtonClicked(View view) {
 //
