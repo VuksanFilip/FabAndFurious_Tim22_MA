@@ -1,71 +1,46 @@
 package com.example.uberapp_tim22;
 
-import static com.example.uberapp_tim22.fragments.MapFragment.MY_PERMISSIONS_REQUEST_LOCATION;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import android.app.Fragment;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.LocationManager;
+import android.animation.LayoutTransition;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.uberapp_tim22.DTO.ChangePasswordDTO;
-import com.example.uberapp_tim22.DTO.DriverActivityDTO;
-import com.example.uberapp_tim22.DTO.DriverDTO;
-import com.example.uberapp_tim22.DTO.DriverRideDTO;
-import com.example.uberapp_tim22.DTO.LoginDTO;
-import com.example.uberapp_tim22.DTO.LoginResponseDTO;
-import com.example.uberapp_tim22.DTO.MessageDTO;
-import com.example.uberapp_tim22.DTO.PassengerDTO;
-import com.example.uberapp_tim22.DTO.SendMessageDTO;
-import com.example.uberapp_tim22.DTO.TokenDTO;
-import com.example.uberapp_tim22.DTO.UserDTO;
-import com.example.uberapp_tim22.DTO.VehicleDTO;
-import com.example.uberapp_tim22.dialogs.LocationDialog;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
-import com.example.uberapp_tim22.fragments.MapFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
-import com.example.uberapp_tim22.service.Paginated;
-import com.example.uberapp_tim22.service.ServiceUtils;
+import com.example.uberapp_tim22.fragments.Stepper2Fragment;
 import com.example.uberapp_tim22.tools.FragmentTransition;
 
-import java.util.HashMap;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class PassengerMainActivity extends AppCompatActivity {
+
     private CharSequence mTitle;
     private AlertDialog dialog;
     private ImageView popUpView;
-
+    private LayoutTransition layoutTransition;
+    private Button stepperDateBtn, fragmentStepper1NextBtn, fragmentStepper1TimeBtn;
+    private RadioGroup fragmentStepper1RG;
+    private RadioButton fragmentStepper1NowRB, fragmentStepper1ScheduleRB;
+    private Date currentTime;
+    private TextView fragmentStepper1TextView;
+    private int hour, minute;
 
 
     @Override
@@ -78,15 +53,110 @@ public class PassengerMainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("FAB Car");
 
         DrawRouteFragment drawRouteFragment = DrawRouteFragment.newInstance();
-        Stepper1Fragment stepper1Fragment = Stepper1Fragment.newInstance();
-
         FragmentTransition.to(drawRouteFragment, this, false);
 
-        ImageView popUpNotification = findViewById(R.id.circle_one);
-//        popUpNotification.setBackgroundResource(R.drawable.);
-//        FragmentTransition.to(stepper1Fragment, this, false);
-
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransition = fm.beginTransaction();
+        Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
+        fragmentTransition.add(R.id.fragmentStepper2, stepper1Fragment);
+        fragmentTransition.commit();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fragmentStepper1NextBtn=(Button) findViewById(R.id.fragmentStepper1NextBtn);
+        fragmentStepper1TimeBtn = (Button) findViewById(R.id.fragmentStepper1TimeBtn);
+        fragmentStepper1RG = (RadioGroup) findViewById(R.id.fragmentStepper1RG);
+        fragmentStepper1NowRB = (RadioButton) findViewById(R.id.fragmentStepper1NowRB);
+        fragmentStepper1ScheduleRB = (RadioButton) findViewById(R.id.fragmentStepper1ScheduleRB);
+        fragmentStepper1TextView = (TextView) findViewById(R.id.fragmentStepper1TextView);
+
+        fragmentStepper1NextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransition = fm.beginTransaction();
+                Stepper2Fragment fragmentStepper2 = new Stepper2Fragment();
+                fragmentTransition.replace(R.id.fragmentStepper2, fragmentStepper2);
+                fragmentTransition.commit();
+            }
+        });
+
+        fragmentStepper1RG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if (fragmentStepper1ScheduleRB.isChecked()) {
+                    fragmentStepper1TimeBtn.setEnabled(true);
+                }
+                if (fragmentStepper1NowRB.isChecked()) {
+                    fragmentStepper1TimeBtn.setEnabled(false);
+                    fragmentStepper1TimeBtn.setTextSize(10);
+                    fragmentStepper1TimeBtn.setText("SELECT TIME");
+                    fragmentStepper1TextView.setText("");
+                }
+            }
+        });
+    }
+
+
+    public void popTimePicker(View view)
+    {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
+            {
+                hour = selectedHour;
+                minute = selectedMinute;
+
+                currentTime = Calendar.getInstance().getTime();
+                if((hour < currentTime.getHours())){
+                    fragmentStepper1TimeBtn.setTextSize(10);
+                    fragmentStepper1TimeBtn.setText("SELECT TIME");
+                    fragmentStepper1TextView.setText("Cannot select date in the past");
+                }
+                else if(hour == currentTime.getHours() && (minute <= currentTime.getMinutes())){
+                    fragmentStepper1TimeBtn.setTextSize(10);
+                    fragmentStepper1TimeBtn.setText("SELECT TIME");
+                    fragmentStepper1TextView.setText("Cannot select date in the past");
+                }
+                else if((hour - currentTime.getHours()) > 5){
+                    fragmentStepper1TimeBtn.setTextSize(10);
+                    fragmentStepper1TimeBtn.setText("SELECT TIME");
+                    fragmentStepper1TextView.setText("Exceeded 5 hours limit");
+                }
+                else {
+                    fragmentStepper1TimeBtn.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+                    fragmentStepper1TimeBtn.setTextSize(17);
+                    fragmentStepper1TextView.setText("");
+                }
+            }
+        };
+
+         int style = android.app.AlertDialog.THEME_HOLO_DARK;
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, style, onTimeSetListener, hour, minute, true);
+
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
+    }
+
+//    public void onRadioButtonClicked(View view) {
+//
+//        boolean checked = ((RadioButton) view).isChecked();
+//
+//        switch (view.getId()) {
+//            case R.id.fragmentStepper1NowRB:
+//                if (checked) {
+//                    fragmentStepper1TimeBtn.setEnabled(true);
+//                } else
+//
+//                    break;
+//        }
+//    }
+
 
 //        String[] arraySpinner = new String[] {
 //                "1", "2", "3", "4", "5", "6", "7"

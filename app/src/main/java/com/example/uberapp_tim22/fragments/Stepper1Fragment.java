@@ -1,24 +1,21 @@
 package com.example.uberapp_tim22.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+
 import com.example.uberapp_tim22.R;
 
 public class Stepper1Fragment extends Fragment {
 
-    public static Stepper1Fragment newInstance() {
-        Stepper1Fragment fragment = new Stepper1Fragment();
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_stepper1, container, false);
     }
 }

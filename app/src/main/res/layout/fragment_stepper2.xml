@@ -5,7 +5,93 @@
     android:layout_height="wrap_content"
     tools:context=".fragments.Stepper1Fragment">
 
-    <include
-        layout="@layout/stepper_layout"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp">
+        <include
+            android:id="@+id/stepper"
+            layout="@layout/stepper2_layout"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_below="@id/stepper"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/departureAddressTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Departure address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/departureAddressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/destinationAddressTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Destination address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/destinationAddressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/timeTextField"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Select time">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/timeEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="SELECT DATE"
+                    android:id="@+id/btn_date"
+                    android:layout_alignBottom="@+id/timeTextField"
+                    android:layout_toRightOf="@+id/timeTextField"
+                    android:layout_toEndOf="@+id/timeTextField"
+                    android:textSize="10dp"/>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/submit_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:text="Next" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
