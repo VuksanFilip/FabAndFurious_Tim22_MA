@@ -123,7 +123,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     @Override
     public void onLocationChanged(Location location) {
         if (map != null) {
-            addMarker(location);
+            LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+//            addMarker(loc);
         }
     }
 
@@ -215,13 +216,13 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-//        map.setMyLocationEnabled(true);
+        map.setMyLocationEnabled(true);
         Location location = null;
 
         if (provider == null) {
             Log.i("ASD", "Onmapre");
 
-//            showLocatonDialog();
+            showLocatonDialog();
         }else {
             if (checkLocationPermission()) {
                 Log.i("ASD", "str" + provider);
@@ -256,6 +257,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             }
         });
 
+
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -288,13 +290,16 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             }
         });
 
-        if (location != null) {
-            addMarker(location);
-        }
+//        if (location != null) {
+//            LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+//            addMarker(loc);
+//        }
+
+
     }
 
-    private void addMarker(Location location) {
-        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+    public void addMarker(LatLng loc) {
+//        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
 
         if (home != null) {
             home.remove();
@@ -302,14 +307,14 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
         home = map.addMarker(new MarkerOptions()
                 .title("YOUR_POSITON")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                 .position(loc));
         home.setFlat(true);
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(loc).zoom(14).build();
+                .target(loc).zoom(3).build();
 
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @SuppressLint("MissingPermission")

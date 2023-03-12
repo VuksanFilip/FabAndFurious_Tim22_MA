@@ -1,6 +1,7 @@
 package com.example.uberapp_tim22.fragments;
 
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApi;
@@ -45,7 +49,8 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private String TAG = "so47492459";
     private SupportMapFragment mMapFragment;
-
+    private Marker departureMarker;
+    private Marker destinationMarker;
 
     public static DrawRouteFragment newInstance() {
 
@@ -81,36 +86,71 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng barcelona = new LatLng(41.385064,2.173403);
-        mMap.addMarker(new MarkerOptions().position(barcelona).title("Marker in Barcelona"));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+    }
 
-        LatLng madrid = new LatLng(40.416775,-3.70379);
-        mMap.addMarker(new MarkerOptions().position(madrid).title("Marker in Madrid"));
+    public void addDepartureMarker(LatLng loc) {
 
-        LatLng zaragoza = new LatLng(41.648823,-0.889085);
+        if (departureMarker != null) {
+            departureMarker.remove();
+        }
 
-        List<LatLng> path = new ArrayList();
+        departureMarker = mMap.addMarker(new MarkerOptions()
+                .title("DEPARTURE")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                .position(loc));
+        departureMarker.setFlat(true);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(loc).zoom(3).build();
+    }
+
+    public void addDestinationMarker(LatLng loc) {
+
+        if (destinationMarker != null) {
+            destinationMarker.remove();
+        }
+
+        destinationMarker = mMap.addMarker(new MarkerOptions()
+                .title("DESTINATION")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                .position(loc));
+        destinationMarker.setFlat(true);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(loc).zoom(3).build();
+    }
+
+    public void drawLines(){
+
+        double x = (departureMarker.getPosition().latitude + destinationMarker.getPosition().latitude)/2;
+        double y = (departureMarker.getPosition().longitude + destinationMarker.getPosition().longitude)/2;
+
+        LatLng zaragoza = new LatLng(x,y);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zaragoza, 6));
 
 
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey(BuildConfig.MAPS_API_KEY)
                 .build();
-        DirectionsApiRequest req = DirectionsApi.getDirections(context, barcelona.latitude + "," + barcelona.longitude,
-                madrid.latitude + "," + madrid.longitude);
+        DirectionsApiRequest req = DirectionsApi.getDirections(context, departureMarker.getPosition().latitude + "," + departureMarker.getPosition().longitude,
+                destinationMarker.getPosition().latitude + "," + destinationMarker.getPosition().longitude);
+
+        List<LatLng> path = new ArrayList();
 
         try {
             DirectionsResult res = req.await();
             if (res.routes != null && res.routes.length > 0) {
                 DirectionsRoute route = res.routes[0];
 
-                if (route.legs !=null) {
-                    for(int i=0; i<route.legs.length; i++) {
+                if (route.legs != null) {
+                    for (int i = 0; i < route.legs.length; i++) {
                         DirectionsLeg leg = route.legs[i];
                         if (leg.steps != null) {
-                            for (int j=0; j<leg.steps.length;j++){
+                            for (int j = 0; j < leg.steps.length; j++) {
                                 DirectionsStep step = leg.steps[j];
-                                if (step.steps != null && step.steps.length >0) {
-                                    for (int k=0; k<step.steps.length;k++){
+                                if (step.steps != null && step.steps.length > 0) {
+                                    for (int k = 0; k < step.steps.length; k++) {
                                         DirectionsStep step1 = step.steps[k];
                                         EncodedPolyline points1 = step1.polyline;
                                         if (points1 != null) {
@@ -134,7 +174,7 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
                     }
                 }
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Log.e(TAG, ex.getLocalizedMessage());
         }
 
@@ -142,9 +182,5 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
             PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.BLUE).width(5);
             mMap.addPolyline(opts);
         }
-
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zaragoza, 6));
     }
 }

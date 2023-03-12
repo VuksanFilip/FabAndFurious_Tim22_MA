@@ -11,7 +11,9 @@ import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,10 +25,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
+import com.example.uberapp_tim22.fragments.MapFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
 import com.example.uberapp_tim22.fragments.Stepper2Fragment;
 import com.example.uberapp_tim22.fragments.Stepper3Fragment;
 import com.example.uberapp_tim22.tools.FragmentTransition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
@@ -35,6 +40,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class PassengerMainActivity extends AppCompatActivity {
 
@@ -51,6 +57,9 @@ public class PassengerMainActivity extends AppCompatActivity {
     private Date currentTime;
     private TextView fragmentStepper1TextView;
     private int hour, minute;
+    private DrawRouteFragment drawRouteFragment;
+    private Marker dep;
+    private Marker des;
 
 
     @Override
@@ -62,7 +71,7 @@ public class PassengerMainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        DrawRouteFragment drawRouteFragment = DrawRouteFragment.newInstance();
+        drawRouteFragment = DrawRouteFragment.newInstance();
         FragmentTransition.to(drawRouteFragment, this, false);
 
         FragmentManager fm = getFragmentManager();
@@ -157,32 +166,55 @@ public class PassengerMainActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-//    public void buttonGetCoordinates(View view){
-//        Geocoder geocoder = new Geocoder(this);
-//        List<Address> departureAddressList;
-//        List<Address> destinationAddressList;
-//
-//        try {
-//            departureAddressList = geocoder.getFromLocationName(departureAddressEditText.getText().toString(), 1);
-//            destinationAddressList = geocoder.getFromLocationName(destinationAddressEditText.getText().toString(), 1);
-//
-//
-//            if (departureAddressList != null && destinationAddressList != null){
-//                double doubleDepartureLat = departureAddressList.get(0).getLatitude();
-//                double doubleDepartureLong = departureAddressList.get(0).getLongitude();
-//                double doubleDestinationLat = destinationAddressList.get(0).getLatitude();
-//                double doubleDestinationLong = destinationAddressList.get(0).getLongitude();
-//
-//
-//                fragmentStepper1GetCoridnatesBtn.setText("Latitude: " + String.valueOf(doubleDepartureLat)
-//                        + " | " + "Longitude: " + String.valueOf(doubleDepartureLong) + "Latitude: " + String.valueOf(doubleDepartureLat)
-//                        + " | " + "Longitude: " + String.valueOf(doubleDepartureLong));
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void buttonGetCoordinates(View view){
+        Geocoder geocoder = new Geocoder(this);
+        GetDeparture(geocoder);
+        GetDestination(geocoder);
+        drawRouteFragment.drawLines();
+    }
+
+
+    private void GetDeparture(Geocoder geocoder){
+
+        List<Address> departureAddressList;
+        try {
+
+            Log.i("Herrr","GERR");
+            departureAddressList = geocoder.getFromLocationName(departureAddressEditText.getText().toString(), 1);
+
+            Log.i("POTTT","MAN");
+            if (departureAddressList != null || departureAddressList.size() == 0) {
+
+                Log.i(Integer.toString(departureAddressList.size()), "SIZE");
+                double doubleDepartureLat = departureAddressList.get(0).getLatitude();
+                Log.i("POTT","MON");
+                double doubleDepartureLong = departureAddressList.get(0).getLongitude();
+
+                LatLng departureLocation = new LatLng(doubleDepartureLat, doubleDepartureLong);
+                drawRouteFragment.addDepartureMarker(departureLocation);
+            }
+        } catch (IOException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void GetDestination(Geocoder geocoder){
+        List<Address> destinationAddressList;
+        try {
+            destinationAddressList = geocoder.getFromLocationName(destinationAddressEditText.getText().toString(), 1);
+
+            if (destinationAddressList != null) {
+
+                double doubleDestinationLat = destinationAddressList.get(0).getLatitude();
+                double doubleDestinationLong = destinationAddressList.get(0).getLongitude();
+
+                LatLng destinationLocation = new LatLng(doubleDestinationLat, doubleDestinationLong);
+                drawRouteFragment.addDestinationMarker(destinationLocation);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 //    public void onRadioButtonClicked(View view) {
 //
