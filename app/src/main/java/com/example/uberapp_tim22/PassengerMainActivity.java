@@ -1,7 +1,9 @@
 package com.example.uberapp_tim22;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import android.app.Fragment;
 
@@ -9,17 +11,26 @@ import android.animation.LayoutTransition;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -36,6 +47,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -61,6 +73,12 @@ public class PassengerMainActivity extends AppCompatActivity {
     private Marker dep;
     private Marker des;
 
+    LinearLayout itsLinearLayout;
+    LinearLayout layoutList;
+    List<String> teamList = new ArrayList<>();
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +97,12 @@ public class PassengerMainActivity extends AppCompatActivity {
         Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
         fragmentTransition.add(R.id.fragmentStepper2, stepper1Fragment);
         fragmentTransition.commit();
+
+
+        teamList.add("Team");
+        teamList.add("India");
+        teamList.add("Australia");
+        teamList.add("England");
     }
 
     @Override
@@ -91,9 +115,12 @@ public class PassengerMainActivity extends AppCompatActivity {
         fragmentStepper1ScheduleRB = (RadioButton) findViewById(R.id.fragmentStepper1ScheduleRB);
         fragmentStepper1TextView = (TextView) findViewById(R.id.fragmentStepper1TextView);
 
+        layoutList = findViewById(R.id.layout_list);
+
         departureAddressEditText = (EditText) findViewById(R.id.departureAddressEditText);
         destinationAddressEditText = (EditText) findViewById(R.id.destinationAddressEditText);
         fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.fragmentStepper1GetCoridnatesBtn);
+
 
         fragmentStepper1NextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,21 +243,40 @@ public class PassengerMainActivity extends AppCompatActivity {
         }
     }
 
-//    public void onRadioButtonClicked(View view) {
-//
-//        boolean checked = ((RadioButton) view).isChecked();
-//
-//        switch (view.getId()) {
-//            case R.id.fragmentStepper1NowRB:
-//                if (checked) {
-//                    fragmentStepper1TimeBtn.setEnabled(true);
-//                } else
-//
-//                    break;
-//        }
-//    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    private void addView() {
+
+        final View cricketerView = getLayoutInflater().inflate(R.layout.row_add_cricketer,null,false);
+        Log.i("ASDDSASD", "ASDDSASD");
+//        EditText editText = (EditText)cricketerView.findViewById(R.id.edit_cricketer_name);
+//        AppCompatSpinner spinnerTeam = (AppCompatSpinner)cricketerView.findViewById(R.id.spinner_team);
+//        ImageView imageClose = (ImageView)cricketerView.findViewById(R.id.image_remove);
+//
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,teamList);
+//        spinnerTeam.setAdapter(arrayAdapter);
+//
+//        imageClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                removeView(cricketerView);
+//            }
+//        });
+
+        layoutList.addView(cricketerView);
+
+    }
+
+    private void removeView(View view){
+
+        layoutList.removeView(view);
+
+    }
 //        String[] arraySpinner = new String[] {
 //                "1", "2", "3", "4", "5", "6", "7"
 //        };
