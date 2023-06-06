@@ -74,14 +74,14 @@
             </TextView>
 
             <RadioGroup
-                android:id="@+id/fragmentStepperPetTransportRG"
+                android:id="@+id/fragmentStepper3PetTransportRG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/fragmentStepper1PetTransportYesRB"
+                    android:id="@+id/fragmentStepper3PetTransportYesRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -89,7 +89,7 @@
                     android:textSize="15sp" />
 
                 <RadioButton
-                    android:id="@+id/fragmentStepper1PetTransportNoRB"
+                    android:id="@+id/fragmentStepper3PetTransportNoRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
@@ -108,14 +108,14 @@
             </TextView>
 
             <RadioGroup
-                android:id="@+id/fragmentStepperBabyTransportRG"
+                android:id="@+id/fragmentStepper3BabyTransportRG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/fragmentStepper1BabyTransportYesRB"
+                    android:id="@+id/fragmentStepper3BabyTransportYesRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -123,7 +123,7 @@
                     android:textSize="15sp" />
 
                 <RadioButton
-                    android:id="@+id/fragmentStepper1BabyTransportNoRB"
+                    android:id="@+id/fragmentStepper3BabyTransportNoRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
@@ -135,16 +135,16 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/fragmentStepper2NextBtn"
+            android:id="@+id/fragmentStepper3NextBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="62dp"
             android:layout_marginEnd="62dp"
-            android:layout_above="@+id/fragmentStepper2BackBtn"
+            android:layout_above="@+id/fragmentStepper3BackBtn"
             android:text="Next" />
 
         <Button
-            android:id="@+id/fragmentStepper2BackBtn"
+            android:id="@+id/fragmentStepper3BackBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="62dp"

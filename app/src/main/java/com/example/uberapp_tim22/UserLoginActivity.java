@@ -108,6 +108,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call<ResponseLoginDTO> call, @NonNull Response<ResponseLoginDTO> response) {
+
                 if(!response.isSuccessful()) return;
                 if(response.code() == 204){
                     Toast.makeText(UserLoginActivity.this, "Email not confirmed!", Toast.LENGTH_SHORT).show();
@@ -122,7 +123,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 String role = jwt.getClaim("role").asString();
 
                 setToken(loginResponse);
-
+                Log.e(role, role);
                 if(role.equalsIgnoreCase("PASSENGER")){
                     setPreferences(id, email, role, loginResponse);
                     startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));

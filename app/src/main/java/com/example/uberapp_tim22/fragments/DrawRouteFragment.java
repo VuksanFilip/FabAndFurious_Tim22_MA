@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
@@ -119,6 +120,20 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(loc).zoom(3).build();
+    }
+
+    public void drawLine() {
+        LatLng departureLatLng = departureMarker.getPosition();
+        LatLng destinationLatLng = destinationMarker.getPosition();
+
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .add(departureLatLng)
+                .add(destinationLatLng)
+                .color(Color.RED)
+                .width(5)
+                .geodesic(true);
+
+        Polyline polyline = mMap.addPolyline(polylineOptions);
     }
 
     public void drawLines(){
