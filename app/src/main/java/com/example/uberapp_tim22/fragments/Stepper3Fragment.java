@@ -32,9 +32,7 @@ public class Stepper3Fragment extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Confirmation")
-                        .setMessage("Cena: \n" +
-                                "1000din \n " +
-                                "5h")
+                        .setMessage("Price: 1000din, time: 5h")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

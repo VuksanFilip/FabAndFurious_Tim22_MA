@@ -125,7 +125,10 @@ public class Stepper2Fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.i("JBT", "JBG");
+        Bundle bundle = getArguments();
+        bundle.size();
+        String asd = bundle.getString("asd");
+        Log.i("JBT", asd);
         Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
     }
 }

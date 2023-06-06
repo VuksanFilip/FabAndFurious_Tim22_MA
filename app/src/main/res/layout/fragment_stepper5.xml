@@ -15,16 +15,16 @@
             layout="@layout/stepper5_layout"/>
 
         <Button
-            android:id="@+id/fragmentStepper2NextBtn"
+            android:id="@+id/fragmentStepper5PayBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="62dp"
             android:layout_marginEnd="62dp"
-            android:layout_above="@+id/fragmentStepper2BackBtn"
-            android:text="Next" />
+            android:layout_above="@+id/fragmentStepper5BackBtn"
+            android:text="Pay" />
 
         <Button
-            android:id="@+id/fragmentStepper2BackBtn"
+            android:id="@+id/fragmentStepper5BackBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="62dp"

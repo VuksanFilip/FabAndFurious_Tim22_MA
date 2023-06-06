@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -47,6 +48,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +75,9 @@ public class PassengerMainActivity extends AppCompatActivity {
     private DrawRouteFragment drawRouteFragment;
     private Marker dep;
     private Marker des;
+    private String date;
+    private Bundle bundle = new Bundle();
+    private LocalDateTime dateTime;
 
     LinearLayout itsLinearLayout;
     LinearLayout layoutList;
@@ -125,9 +131,12 @@ public class PassengerMainActivity extends AppCompatActivity {
         fragmentStepper1NextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bundle.putString("date", date);
+                bundle.putString("asd", "asd");
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransition = fm.beginTransaction();
                 Stepper2Fragment fragmentStepper2 = new Stepper2Fragment();
+                fragmentStepper2.setArguments(bundle);
                 fragmentTransition.replace(R.id.fragmentStepper2, fragmentStepper2);
                 fragmentTransition.commit();
             }
@@ -139,6 +148,9 @@ public class PassengerMainActivity extends AppCompatActivity {
 
                 if (fragmentStepper1ScheduleRB.isChecked()) {
                     fragmentStepper1TimeBtn.setEnabled(true);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        dateTime = LocalDateTime.now();
+                    }
                 }
                 if (fragmentStepper1NowRB.isChecked()) {
                     fragmentStepper1TimeBtn.setEnabled(false);
@@ -179,6 +191,14 @@ public class PassengerMainActivity extends AppCompatActivity {
                 }
                 else {
                     fragmentStepper1TimeBtn.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+                    DateTimeFormatter formatter = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        formatter = DateTimeFormatter.ofPattern("HH:mm");
+                    }
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        dateTime = LocalDateTime.parse(String.valueOf(hour)+":"+String.valueOf(minute), formatter);
+                    }
                     fragmentStepper1TimeBtn.setTextSize(17);
                     fragmentStepper1TextView.setText("");
                 }

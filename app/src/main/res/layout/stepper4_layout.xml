@@ -81,7 +81,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/circle_three"
             android:layout_toEndOf="@id/line_two"
-            android:text="Type"
+            android:text="Add"
             android:textColor="@android:color/holo_green_dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circle_four"
+            android:layout_toEndOf="@id/line_three"
+            android:text="Pay"
+            android:textColor="@android:color/darker_gray" />
 
 </RelativeLayout>
