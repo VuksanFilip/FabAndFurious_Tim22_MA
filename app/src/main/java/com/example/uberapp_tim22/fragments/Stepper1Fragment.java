@@ -22,14 +22,17 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.uberapp_tim22.DTO.NewLocationDTO;
 import com.example.uberapp_tim22.R;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Stepper1Fragment extends Fragment {
@@ -45,6 +48,7 @@ public class Stepper1Fragment extends Fragment {
     private int hour, minute;
     private LocalDateTime dateTime;
     private Date currentTime;
+    private List<NewLocationDTO> locations;
 
     @Nullable
     @Override
@@ -95,6 +99,7 @@ public class Stepper1Fragment extends Fragment {
                     bundle.putString("departure", departureAddress);
                     bundle.putString("destination", destinationAddress);
                     bundle.putString("date", dateTime.toString());
+                    bundle.putSerializable("locations", (Serializable) locations);
 
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransition = fm.beginTransaction();
@@ -208,5 +213,9 @@ public class Stepper1Fragment extends Fragment {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void setLocations(List<NewLocationDTO> locations) {
+        this.locations = locations;
     }
 }

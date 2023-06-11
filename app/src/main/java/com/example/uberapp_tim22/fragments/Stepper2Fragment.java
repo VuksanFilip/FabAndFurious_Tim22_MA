@@ -3,6 +3,8 @@ package com.example.uberapp_tim22.fragments;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,13 +20,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uberapp_tim22.DTO.NewLocationDTO;
+import com.example.uberapp_tim22.DTO.NewLocationWithAddressDTO;
+import com.example.uberapp_tim22.DTO.NewRideDTO;
 import com.example.uberapp_tim22.R;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Stepper2Fragment extends Fragment {
 
     private TextInputEditText departureAddressEditText;
     private LinearLayout layoutList;
+    private List<NewLocationDTO> locations;
+    private NewLocationWithAddressDTO newDeparture;
+    private NewLocationWithAddressDTO newDestination = new NewLocationWithAddressDTO();
+    private double doubleDestinationLong;
+    private double doubleDestinationLat;
+//    private NewLocationDTO location;
+    private Geocoder geocoder;
+
 
     @Nullable
     @Override
@@ -32,7 +50,11 @@ public class Stepper2Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stepper2, container, false);
         departureAddressEditText = view.findViewById(R.id.departureAddressEditText);
         layoutList = view.findViewById(R.id.layout_list);
+        locations = (List<NewLocationDTO>) getArguments().getSerializable("locations");
+        geocoder = new Geocoder(getActivity());
+
         Button buttonAdd = view.findViewById(R.id.buttonAdd);
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,17 +87,19 @@ public class Stepper2Fragment extends Fragment {
         return view;
     }
 
-    private void loadFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
+    private LinearLayout lastAddedItemLayout;
 
     private void addAddressToList() {
         String address = departureAddressEditText.getText().toString();
+        Log.i("address", address);
         if (!TextUtils.isEmpty(address)) {
+            GetDestination(geocoder);
+
+            NewLocationWithAddressDTO njuDeparture = locations.get(locations.size()-1).getDestination();
+            NewLocationWithAddressDTO njuDestination = new NewLocationWithAddressDTO(address, doubleDestinationLat, doubleDestinationLong);
+            NewLocationDTO location = new NewLocationDTO(njuDeparture, njuDestination);
+            locations.add(location);
+
             // Create a new LinearLayout to hold the address and delete button
             LinearLayout itemLayout = new LinearLayout(getActivity());
             itemLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -102,8 +126,27 @@ public class Stepper2Fragment extends Fragment {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Remove the corresponding address from the layout
-                    layoutList.removeView(itemLayout);
+                    // Remove the last added item from the layout
+                    if (itemLayout == lastAddedItemLayout) {
+                        layoutList.removeView(itemLayout);
+                        locations.remove(locations.size()-1);
+                        for(NewLocationDTO loc : locations){
+                            Log.i("asd", loc.getDeparture().getAddress() + " " + loc.getDestination().getAddress());
+                        }
+                        // Update the reference to the new last added item
+                        int childCount = layoutList.getChildCount();
+                        if (childCount > 0) {
+                            View lastChild = layoutList.getChildAt(childCount - 1);
+                            if (lastChild instanceof LinearLayout) {
+                                lastAddedItemLayout = (LinearLayout) lastChild;
+                            }
+                        } else {
+                            lastAddedItemLayout = null;
+                        }
+                    } else {
+                        // Notify the user that only the last added item can be deleted
+                        Toast.makeText(getActivity(), "You can only delete the last added item.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -114,10 +157,28 @@ public class Stepper2Fragment extends Fragment {
             // Add the itemLayout to the layoutList
             layoutList.addView(itemLayout);
 
+            // Update the reference to the last added item
+            lastAddedItemLayout = itemLayout;
+
             departureAddressEditText.setText("");
         }
     }
 
+    private void GetDestination(Geocoder geocoder){
+        List<Address> destinationAddressList;
+        try {
+            destinationAddressList = geocoder.getFromLocationName(departureAddressEditText.getText().toString(), 1);
+
+            if (destinationAddressList != null) {
+
+                doubleDestinationLat = destinationAddressList.get(0).getLatitude();
+                doubleDestinationLong = destinationAddressList.get(0).getLongitude();
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
@@ -133,9 +194,10 @@ public class Stepper2Fragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Bundle bundle = getArguments();
-        bundle.size();
-        String asd = bundle.getString("date");
-        Log.i("JBT", asd);
+
+        //        bundle.size();
+//        String asd = bundle.getString("date");
+//        Log.i("JBT", asd);
         Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
     }
 }

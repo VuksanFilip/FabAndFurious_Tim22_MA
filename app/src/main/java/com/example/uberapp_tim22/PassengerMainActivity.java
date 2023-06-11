@@ -37,6 +37,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.uberapp_tim22.DTO.NewLocationDTO;
+import com.example.uberapp_tim22.DTO.NewLocationWithAddressDTO;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
 import com.example.uberapp_tim22.fragments.MapFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
@@ -69,10 +70,16 @@ public class PassengerMainActivity extends AppCompatActivity {
     private LinearLayout layoutList;
     private List<String> teamList = new ArrayList<>();
     private List<NewLocationDTO> locations = new ArrayList<>();
+    private NewLocationWithAddressDTO departure = new NewLocationWithAddressDTO();
+    private NewLocationWithAddressDTO destination = new NewLocationWithAddressDTO();
+    private NewLocationDTO location = new NewLocationDTO();
     private double doubleDepartureLat;
     private double doubleDepartureLong;
     private double doubleDestinationLat;
     private double doubleDestinationLong;
+    FragmentManager fm = getFragmentManager();
+    FragmentTransaction fragmentTransition = fm.beginTransaction();
+    Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +93,9 @@ public class PassengerMainActivity extends AppCompatActivity {
         drawRouteFragment = DrawRouteFragment.newInstance();
         FragmentTransition.to(drawRouteFragment, this, false);
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransition = fm.beginTransaction();
-        Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
+//        FragmentManager fm = getFragmentManager();
+//        FragmentTransaction fragmentTransition = fm.beginTransaction();
+//        Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
         fragmentTransition.add(R.id.fragmentStepper2, stepper1Fragment);
         fragmentTransition.commit();
 
@@ -115,12 +122,29 @@ public class PassengerMainActivity extends AppCompatActivity {
         fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.fragmentStepper1GetCoridnatesBtn);
     }
 
-    public void buttonGetCoordinates(View view){
+    public void buttonGetCoordinates(View view) {
         Geocoder geocoder = new Geocoder(this);
         GetDeparture(geocoder);
         GetDestination(geocoder);
         drawRouteFragment.drawLines();
+
+        departure.setAddress(departureAddressEditText.getText().toString());
+        departure.setLatitude(doubleDepartureLat);
+        departure.setLongitude(doubleDepartureLong);
+
+        destination.setAddress(destinationAddressEditText.getText().toString());
+        destination.setLatitude(doubleDestinationLat);
+        destination.setLongitude(doubleDestinationLong);
+
+        location.setDeparture(departure);
+        location.setDestination(destination);
+
+        locations.clear();
+        locations.add(location);
+        stepper1Fragment.setLocations(locations);
+
     }
+
 
     private void GetDeparture(Geocoder geocoder){
 
@@ -130,8 +154,8 @@ public class PassengerMainActivity extends AppCompatActivity {
 
             if (departureAddressList != null || departureAddressList.size() == 0) {
 
-                double doubleDepartureLat = departureAddressList.get(0).getLatitude();
-                double doubleDepartureLong = departureAddressList.get(0).getLongitude();
+                doubleDepartureLat = departureAddressList.get(0).getLatitude();
+                doubleDepartureLong = departureAddressList.get(0).getLongitude();
 
                 LatLng departureLocation = new LatLng(doubleDepartureLat, doubleDepartureLong);
                 drawRouteFragment.addDepartureMarker(departureLocation);
@@ -149,8 +173,8 @@ public class PassengerMainActivity extends AppCompatActivity {
 
             if (destinationAddressList != null) {
 
-                double doubleDestinationLat = destinationAddressList.get(0).getLatitude();
-                double doubleDestinationLong = destinationAddressList.get(0).getLongitude();
+                doubleDestinationLat = destinationAddressList.get(0).getLatitude();
+                doubleDestinationLong = destinationAddressList.get(0).getLongitude();
 
                 LatLng destinationLocation = new LatLng(doubleDestinationLat, doubleDestinationLong);
                 drawRouteFragment.addDestinationMarker(destinationLocation);
