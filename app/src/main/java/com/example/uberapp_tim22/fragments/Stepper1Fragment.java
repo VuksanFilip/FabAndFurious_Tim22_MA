@@ -76,21 +76,18 @@ public class Stepper1Fragment extends Fragment {
                     }
 
                     if (dateTime == null) {
-                        // Handle the case where dateTime is null
                         showDialog("Please select a valid date and time");
                         return;
                     }
 
                     String departureAddress = departureAddressEditText.getText().toString();
                     if (departureAddress == null || departureAddress.isEmpty()) {
-                        // Handle the case where departureAddress is null or empty
                         showDialog("Please enter a valid departure address");
                         return;
                     }
 
                     String destinationAddress = destinationAddressEditText.getText().toString();
                     if (destinationAddress == null || destinationAddress.isEmpty()) {
-                        // Handle the case where destinationAddress is null or empty
                         showDialog("Please enter a valid destination address");
                         return;
                     }

@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class Stepper2Fragment extends Fragment {
     private NewLocationWithAddressDTO newDestination = new NewLocationWithAddressDTO();
     private double doubleDestinationLong;
     private double doubleDestinationLat;
-//    private NewLocationDTO location;
+    Bundle bundle = new Bundle();
     private Geocoder geocoder;
 
 
@@ -50,6 +51,7 @@ public class Stepper2Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stepper2, container, false);
         departureAddressEditText = view.findViewById(R.id.departureAddressEditText);
         layoutList = view.findViewById(R.id.layout_list);
+        bundle = getArguments();
         locations = (List<NewLocationDTO>) getArguments().getSerializable("locations");
         geocoder = new Geocoder(getActivity());
 
@@ -70,6 +72,8 @@ public class Stepper2Fragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
+                bundle.putSerializable("locations", (Serializable) locations);
+                fragment.setArguments(bundle);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -91,7 +95,6 @@ public class Stepper2Fragment extends Fragment {
 
     private void addAddressToList() {
         String address = departureAddressEditText.getText().toString();
-        Log.i("address", address);
         if (!TextUtils.isEmpty(address)) {
             GetDestination(geocoder);
 
@@ -100,40 +103,31 @@ public class Stepper2Fragment extends Fragment {
             NewLocationDTO location = new NewLocationDTO(njuDeparture, njuDestination);
             locations.add(location);
 
-            // Create a new LinearLayout to hold the address and delete button
             LinearLayout itemLayout = new LinearLayout(getActivity());
             itemLayout.setOrientation(LinearLayout.HORIZONTAL);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             itemLayout.setLayoutParams(layoutParams);
 
-            // Create a new TextView to display the address
             TextView textView = new TextView(getActivity());
             textView.setText(address);
-            textView.setTextSize(18); // Set the desired text size in SP
+            textView.setTextSize(18);
             LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(
                     0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
             textView.setLayoutParams(textViewParams);
 
-            // Create a new ImageView for the X button
             ImageView deleteButton = new ImageView(getActivity());
-            deleteButton.setImageResource(R.drawable.ic_delete); // Replace with the appropriate image resource
+            deleteButton.setImageResource(R.drawable.ic_delete);
             LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             deleteButton.setLayoutParams(deleteButtonParams);
 
-            // Set click listener for the delete button
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Remove the last added item from the layout
                     if (itemLayout == lastAddedItemLayout) {
                         layoutList.removeView(itemLayout);
                         locations.remove(locations.size()-1);
-                        for(NewLocationDTO loc : locations){
-                            Log.i("asd", loc.getDeparture().getAddress() + " " + loc.getDestination().getAddress());
-                        }
-                        // Update the reference to the new last added item
                         int childCount = layoutList.getChildCount();
                         if (childCount > 0) {
                             View lastChild = layoutList.getChildAt(childCount - 1);
@@ -144,22 +138,16 @@ public class Stepper2Fragment extends Fragment {
                             lastAddedItemLayout = null;
                         }
                     } else {
-                        // Notify the user that only the last added item can be deleted
                         Toast.makeText(getActivity(), "You can only delete the last added item.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
 
-            // Add the TextView and delete button to the itemLayout
             itemLayout.addView(textView);
             itemLayout.addView(deleteButton);
 
-            // Add the itemLayout to the layoutList
             layoutList.addView(itemLayout);
-
-            // Update the reference to the last added item
             lastAddedItemLayout = itemLayout;
-
             departureAddressEditText.setText("");
         }
     }
@@ -180,24 +168,15 @@ public class Stepper2Fragment extends Fragment {
         }
     }
 
-
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        Log.i("JBT", "JBL");
         Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Bundle bundle = getArguments();
-
-        //        bundle.size();
-//        String asd = bundle.getString("date");
-//        Log.i("JBT", asd);
         Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
     }
 }
