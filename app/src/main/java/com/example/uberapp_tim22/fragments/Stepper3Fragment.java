@@ -49,6 +49,15 @@ public class Stepper3Fragment extends Fragment {
             }
         });
 
+        Button backButton = view.findViewById(R.id.fragmentStepper3BackBtn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the previous fragment
+                getFragmentManager().popBackStack();
+            }
+        });
+
 
         return view;
     }

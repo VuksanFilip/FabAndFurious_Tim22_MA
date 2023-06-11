@@ -44,13 +44,20 @@ public class Stepper2Fragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to fragment_stepper3
                 Fragment fragment = new Stepper3Fragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+
+        Button backButton = view.findViewById(R.id.fragmentStepper2BackBtn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
             }
         });
 
@@ -127,7 +134,7 @@ public class Stepper2Fragment extends Fragment {
         super.onAttach(context);
         Bundle bundle = getArguments();
         bundle.size();
-        String asd = bundle.getString("asd");
+        String asd = bundle.getString("date");
         Log.i("JBT", asd);
         Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
     }
