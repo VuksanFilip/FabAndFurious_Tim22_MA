@@ -31,38 +31,35 @@
                 android:hint="Select vehicle type">
             </TextView>
 
-            <RelativeLayout
-                android:id="@+id/fragmentStepper3VehicleTypeLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/fragmentStepper3VehicleTypeRG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/fragmentStepper3StandardTypeCB"
+                <RadioButton
+                    android:id="@+id/fragmentStepper3StandardTypeRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:textSize="15sp"
-                    android:text="Standard"/>
+                    android:checked="true"
+                    android:text="Standard"
+                    android:textSize="15sp" />
 
-                <CheckBox
-                    android:id="@+id/fragmentStepper3LuxuryTypeCB"
+                <RadioButton
+                    android:id="@+id/fragmentStepper3LuxuryTypeRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/fragmentStepper3StandardTypeCB"
-                    android:textSize="15sp"
-                    android:text="Luxury"/>
+                    android:text="Luxury"
+                    android:textSize="15sp" />
 
-                <CheckBox
-                    android:id="@+id/fragmentStepper3VanTypeCB"
+                <RadioButton
+                    android:id="@+id/fragmentStepper3VanTypeRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/fragmentStepper3LuxuryTypeCB"
-                    android:textSize="15sp"
-                    android:text="Van"/>
+                    android:text="Van"
+                    android:textSize="15sp" />
 
-            </RelativeLayout>
+            </RadioGroup>
 
             <TextView
                 android:id="@+id/fragmentStepper3PetTransportTextView"
