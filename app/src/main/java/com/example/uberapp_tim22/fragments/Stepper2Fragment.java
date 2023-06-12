@@ -1,5 +1,6 @@
 package com.example.uberapp_tim22.fragments;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -104,76 +105,89 @@ public class Stepper2Fragment extends Fragment {
     private void addAddressToList() {
         String address = departureAddressEditText.getText().toString();
         if (!TextUtils.isEmpty(address)) {
-            GetDestination(geocoder);
+            boolean success = GetDestination(geocoder);
+            if(success) {
+                NewLocationWithAddressDTO njuDeparture = locations.get(locations.size() - 1).getDestination();
+                NewLocationWithAddressDTO njuDestination = new NewLocationWithAddressDTO(address, doubleDestinationLat, doubleDestinationLong);
+                NewLocationDTO location = new NewLocationDTO(njuDeparture, njuDestination);
+                locations.add(location);
+                LinearLayout itemLayout = new LinearLayout(getActivity());
+                itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                itemLayout.setLayoutParams(layoutParams);
 
-            NewLocationWithAddressDTO njuDeparture = locations.get(locations.size()-1).getDestination();
-            NewLocationWithAddressDTO njuDestination = new NewLocationWithAddressDTO(address, doubleDestinationLat, doubleDestinationLong);
-            NewLocationDTO location = new NewLocationDTO(njuDeparture, njuDestination);
-            locations.add(location);
+                TextView textView = new TextView(getActivity());
+                textView.setText(address);
+                textView.setTextSize(18);
+                LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(
+                        0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                textView.setLayoutParams(textViewParams);
 
-            LinearLayout itemLayout = new LinearLayout(getActivity());
-            itemLayout.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            itemLayout.setLayoutParams(layoutParams);
+                ImageView deleteButton = new ImageView(getActivity());
+                deleteButton.setImageResource(R.drawable.ic_delete);
+                LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                deleteButton.setLayoutParams(deleteButtonParams);
 
-            TextView textView = new TextView(getActivity());
-            textView.setText(address);
-            textView.setTextSize(18);
-            LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(
-                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
-            textView.setLayoutParams(textViewParams);
-
-            ImageView deleteButton = new ImageView(getActivity());
-            deleteButton.setImageResource(R.drawable.ic_delete);
-            LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            deleteButton.setLayoutParams(deleteButtonParams);
-
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (itemLayout == lastAddedItemLayout) {
-                        layoutList.removeView(itemLayout);
-                        locations.remove(locations.size()-1);
-                        int childCount = layoutList.getChildCount();
-                        if (childCount > 0) {
-                            View lastChild = layoutList.getChildAt(childCount - 1);
-                            if (lastChild instanceof LinearLayout) {
-                                lastAddedItemLayout = (LinearLayout) lastChild;
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (itemLayout == lastAddedItemLayout) {
+                            layoutList.removeView(itemLayout);
+                            locations.remove(locations.size() - 1);
+                            int childCount = layoutList.getChildCount();
+                            if (childCount > 0) {
+                                View lastChild = layoutList.getChildAt(childCount - 1);
+                                if (lastChild instanceof LinearLayout) {
+                                    lastAddedItemLayout = (LinearLayout) lastChild;
+                                }
+                            } else {
+                                lastAddedItemLayout = null;
                             }
                         } else {
-                            lastAddedItemLayout = null;
+                            Toast.makeText(getActivity(), "You can only delete the last added item.", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(getActivity(), "You can only delete the last added item.", Toast.LENGTH_SHORT).show();
                     }
-                }
-            });
+                });
 
-            itemLayout.addView(textView);
-            itemLayout.addView(deleteButton);
+                itemLayout.addView(textView);
+                itemLayout.addView(deleteButton);
 
-            layoutList.addView(itemLayout);
-            lastAddedItemLayout = itemLayout;
-            departureAddressEditText.setText("");
+                layoutList.addView(itemLayout);
+                lastAddedItemLayout = itemLayout;
+                departureAddressEditText.setText("");
+            }else{
+                showPopup("Error", "Failed to retrieve destination coordinates.");
+            }
         }
     }
 
-    private void GetDestination(Geocoder geocoder){
+    private boolean GetDestination(Geocoder geocoder){
         List<Address> destinationAddressList;
         try {
             destinationAddressList = geocoder.getFromLocationName(departureAddressEditText.getText().toString(), 1);
 
-            if (destinationAddressList != null) {
-
+            if (destinationAddressList != null && !destinationAddressList.isEmpty()) {
                 doubleDestinationLat = destinationAddressList.get(0).getLatitude();
                 doubleDestinationLong = destinationAddressList.get(0).getLongitude();
+                return true;
 
+            } else {
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+    }
+
+    private void showPopup(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
     }
 
 //    @Override

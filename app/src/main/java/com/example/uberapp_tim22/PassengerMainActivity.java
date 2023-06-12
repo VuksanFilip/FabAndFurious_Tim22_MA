@@ -128,63 +128,96 @@ public class PassengerMainActivity extends AppCompatActivity {
 
     public void buttonGetCoordinates(View view) {
         Geocoder geocoder = new Geocoder(this);
-        GetDeparture(geocoder);
-        GetDestination(geocoder);
-        drawRouteFragment.drawLines();
+        try {
+            GetDeparture(geocoder);
+            GetDestination(geocoder);
+            drawRouteFragment.drawLines();
 
-        departure.setAddress(departureAddressEditText.getText().toString());
-        departure.setLatitude(doubleDepartureLat);
-        departure.setLongitude(doubleDepartureLong);
+            departure.setAddress(departureAddressEditText.getText().toString());
+            departure.setLatitude(doubleDepartureLat);
+            departure.setLongitude(doubleDepartureLong);
 
-        destination.setAddress(destinationAddressEditText.getText().toString());
-        destination.setLatitude(doubleDestinationLat);
-        destination.setLongitude(doubleDestinationLong);
+            destination.setAddress(destinationAddressEditText.getText().toString());
+            destination.setLatitude(doubleDestinationLat);
+            destination.setLongitude(doubleDestinationLong);
 
-        location.setDeparture(departure);
-        location.setDestination(destination);
+            location.setDeparture(departure);
+            location.setDestination(destination);
 
-        locations.clear();
-        locations.add(location);
-        stepper1Fragment.setLocations(locations);
+            locations.clear();
+            locations.add(location);
+            stepper1Fragment.setLocations(locations);
+        } catch (NullPointerException e) {
+            showPopup("Error", "An error occurred while getting coordinates.");
+            e.printStackTrace();
+        }
+    }
 
+    private void showPopup(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
     }
 
 
-    private void GetDeparture(Geocoder geocoder){
-
+    private void GetDeparture(Geocoder geocoder) {
         List<Address> departureAddressList;
         try {
             departureAddressList = geocoder.getFromLocationName(departureAddressEditText.getText().toString(), 1);
 
-            if (departureAddressList != null || departureAddressList.size() == 0) {
-
+            if (departureAddressList != null && departureAddressList.size() > 0) {
                 doubleDepartureLat = departureAddressList.get(0).getLatitude();
                 doubleDepartureLong = departureAddressList.get(0).getLongitude();
 
                 LatLng departureLocation = new LatLng(doubleDepartureLat, doubleDepartureLong);
                 drawRouteFragment.addDepartureMarker(departureLocation);
                 locations.add(new NewLocationDTO());
+            } else {
+                // Display a popup or toast indicating that no address was found
+                Toast.makeText(this, "No departure address found", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            // Display a popup or dialog indicating the error
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Error")
+                    .setMessage("IndexOutOfBoundsException occurred. Please check your inputs.")
+                    .setPositiveButton("OK", null)
+                    .show();
         }
     }
 
-    private void GetDestination(Geocoder geocoder){
+
+    private void GetDestination(Geocoder geocoder) {
         List<Address> destinationAddressList;
         try {
             destinationAddressList = geocoder.getFromLocationName(destinationAddressEditText.getText().toString(), 1);
 
-            if (destinationAddressList != null) {
-
+            if (destinationAddressList != null && destinationAddressList.size() > 0) {
                 doubleDestinationLat = destinationAddressList.get(0).getLatitude();
                 doubleDestinationLong = destinationAddressList.get(0).getLongitude();
 
                 LatLng destinationLocation = new LatLng(doubleDestinationLat, doubleDestinationLong);
                 drawRouteFragment.addDestinationMarker(destinationLocation);
+            } else {
+                // Display a popup or toast indicating that no address was found
+                Toast.makeText(this, "No destination address found", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            // Display a popup or dialog indicating the error
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Error")
+                    .setMessage("IndexOutOfBoundsException occurred. Please check your inputs.")
+                    .setPositiveButton("OK", null)
+                    .show();
         }
     }
+
 }

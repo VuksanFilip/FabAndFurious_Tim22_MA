@@ -123,6 +123,13 @@ public class Stepper5Fragment extends Fragment {
                 createRide(ride);
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
         return view;
     }
 
@@ -151,7 +158,6 @@ public class Stepper5Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // Handle failure
             }
         });
     }
