@@ -91,40 +91,40 @@ public class Stepper4Fragment extends Fragment {
     }
 
 
-    private void checkIfExist(){
-        Call<ResponseLoginDTO> call = ServiceUtils.userService.login(loginDTO);
-        call.enqueue(new Callback<ResponseLoginDTO>() {
-
-            @Override
-            public void onResponse(@NonNull Call<ResponseLoginDTO> call, @NonNull Response<ResponseLoginDTO> response) {
-
-                if(!response.isSuccessful()) return;
-                if(response.code() == 204){
-                    Toast.makeText(UserLoginActivity.this, "Email not confirmed!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                ResponseLoginDTO loginResponse = response.body();
-                JWT jwt = new JWT(loginResponse.getAccessToken());
-
-                Long id = jwt.getClaim("id").asLong();
-                String email = jwt.getClaim("sub").asString();
-                String role = jwt.getClaim("role").asString();
-
-                setToken(loginResponse);
-                Log.e(role, role);
-                if(role.equalsIgnoreCase("PASSENGER")){
-                    setPreferences(id, email, role, loginResponse);
-                    startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));
-                }
-                else if(role.equalsIgnoreCase("DRIVER")) {
-                    setPreferences(id, email, role, loginResponse);
-                    setTokenPreference(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
-                    startActivity(new Intent(UserLoginActivity.this, DriverMainActivity.class));
-                }
-            }
-
-        }
+//    private void checkIfExist(){
+//        Call<ResponseLoginDTO> call = ServiceUtils.userService.login(loginDTO);
+//        call.enqueue(new Callback<ResponseLoginDTO>() {
+//
+//            @Override
+//            public void onResponse(@NonNull Call<ResponseLoginDTO> call, @NonNull Response<ResponseLoginDTO> response) {
+//
+//                if(!response.isSuccessful()) return;
+//                if(response.code() == 204){
+//                    Toast.makeText(UserLoginActivity.this, "Email not confirmed!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                ResponseLoginDTO loginResponse = response.body();
+//                JWT jwt = new JWT(loginResponse.getAccessToken());
+//
+//                Long id = jwt.getClaim("id").asLong();
+//                String email = jwt.getClaim("sub").asString();
+//                String role = jwt.getClaim("role").asString();
+//
+//                setToken(loginResponse);
+//                Log.e(role, role);
+//                if(role.equalsIgnoreCase("PASSENGER")){
+//                    setPreferences(id, email, role, loginResponse);
+//                    startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));
+//                }
+//                else if(role.equalsIgnoreCase("DRIVER")) {
+//                    setPreferences(id, email, role, loginResponse);
+//                    setTokenPreference(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
+//                    startActivity(new Intent(UserLoginActivity.this, DriverMainActivity.class));
+//                }
+//            }
+//
+//        }
 
 
     private void addAddressToList() {
