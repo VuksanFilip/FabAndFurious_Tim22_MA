@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +44,11 @@ public class Stepper3Fragment extends Fragment {
         petTransportNoRB = view.findViewById(R.id.fragmentStepper3PetTransportNoRB);
         babyTransportYesRB = view.findViewById(R.id.fragmentStepper3BabyTransportYesRB);
         babyTransportYesRB = view.findViewById(R.id.fragmentStepper3BabyTransportYesRB);
-        bundle = getArguments();
-
         nextButton = view.findViewById(R.id.fragmentStepper3NextBtn);
+
+        bundle = getArguments();
+        String date = getArguments().getString("date");
+        Log.i("DAtE", date);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override

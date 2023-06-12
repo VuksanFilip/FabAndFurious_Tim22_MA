@@ -41,21 +41,28 @@ public class Stepper2Fragment extends Fragment {
     private NewLocationWithAddressDTO newDestination = new NewLocationWithAddressDTO();
     private double doubleDestinationLong;
     private double doubleDestinationLat;
-    Bundle bundle = new Bundle();
+    private Bundle bundle = new Bundle();
     private Geocoder geocoder;
+    private String date;
+    private Button buttonAdd, nextButton, backButton;
+    private LinearLayout lastAddedItemLayout;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stepper2, container, false);
+
         departureAddressEditText = view.findViewById(R.id.departureAddressEditText);
         layoutList = view.findViewById(R.id.layout_list);
+        buttonAdd = view.findViewById(R.id.buttonAdd);
+        nextButton = view.findViewById(R.id.fragmentStepper2NextBtn);
+        backButton = view.findViewById(R.id.fragmentStepper2BackBtn);
         bundle = getArguments();
-        locations = (List<NewLocationDTO>) getArguments().getSerializable("locations");
         geocoder = new Geocoder(getActivity());
 
-        Button buttonAdd = view.findViewById(R.id.buttonAdd);
+        locations = (List<NewLocationDTO>) getArguments().getSerializable("locations");
+        date = getArguments().getString("date");
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,22 +71,23 @@ public class Stepper2Fragment extends Fragment {
             }
         });
 
-        Button nextButton = view.findViewById(R.id.fragmentStepper2NextBtn);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Fragment fragment = new Stepper3Fragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
+
                 bundle.putSerializable("locations", (Serializable) locations);
                 fragment.setArguments(bundle);
+
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
 
-        Button backButton = view.findViewById(R.id.fragmentStepper2BackBtn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,8 +98,6 @@ public class Stepper2Fragment extends Fragment {
 
         return view;
     }
-
-    private LinearLayout lastAddedItemLayout;
 
     private void addAddressToList() {
         String address = departureAddressEditText.getText().toString();
