@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import android.app.Fragment;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.uberapp_tim22.MainActivity;
 import com.example.uberapp_tim22.R;
@@ -80,7 +81,7 @@ public class Stepper3Fragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                bundle.putSerializable("vehicleType", vehicleName);
+                                bundle.putSerializable("vehicleName", vehicleName);
                                 bundle.putBoolean("petTransport", petTransport);
                                 bundle.putBoolean("babyTransport", babyTransport);
                                 Fragment fragment = new Stepper4Fragment();
@@ -107,5 +108,17 @@ public class Stepper3Fragment extends Fragment {
 
         return view;
     }
+
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
+//    }
 
 }

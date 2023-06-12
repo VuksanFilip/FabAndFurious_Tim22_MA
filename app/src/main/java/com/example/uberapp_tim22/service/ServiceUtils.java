@@ -46,7 +46,7 @@ public class ServiceUtils {
     public static IVehicleService vehicleService = retrofit.create(IVehicleService.class);
     public static IReviewService reviewService = retrofit.create(IReviewService.class);
     public static IPanicService panicService = retrofit.create(IPanicService.class);
-//    public static IRideService rideService = retrofit.create(IRideService.class);
+    public static IRideService rideService = retrofit.create(IRideService.class);
     public static IUnregisteredUserService unregisteredUserService = retrofit.create(IUnregisteredUserService.class);
 
 

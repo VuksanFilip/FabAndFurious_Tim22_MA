@@ -3,6 +3,7 @@ package com.example.uberapp_tim22.fragments;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -63,6 +64,7 @@ public class Stepper2Fragment extends Fragment {
 
         locations = (List<NewLocationDTO>) getArguments().getSerializable("locations");
         date = getArguments().getString("date");
+
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,15 +176,15 @@ public class Stepper2Fragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
+//    }
 }

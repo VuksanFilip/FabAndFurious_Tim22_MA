@@ -1,5 +1,7 @@
 package com.example.uberapp_tim22.service;
 
+import com.example.uberapp_tim22.DTO.EmailDTO;
+import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
 import com.example.uberapp_tim22.DTO.PassengerDTO;
 import com.example.uberapp_tim22.DTO.RequestPassengerDTO;
 
@@ -26,6 +28,9 @@ public interface IPassengerService {
 
     @POST(ServiceUtils.passenger) //Create passenger
     Call<PassengerDTO> createPassenger(@Body RequestPassengerDTO request);
+
+    @POST(ServiceUtils.passenger + "/exist") //Get Passenger Id and Email
+    Call<IdAndEmailDTO> getPassengerIdAndEmail(@Body EmailDTO email);
 
 //    @PUT(ServiceUtils.passenger + "/{id}") //Update existing passenger
 //    Call<PassengerDTO> updatePassenger(@Path("id") String id, @Body PassengerDTO passengerDTO);

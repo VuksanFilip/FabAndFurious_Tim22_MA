@@ -11,6 +11,8 @@ import android.animation.LayoutTransition;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -92,6 +94,8 @@ public class PassengerMainActivity extends AppCompatActivity {
 
         drawRouteFragment = DrawRouteFragment.newInstance();
         FragmentTransition.to(drawRouteFragment, this, false);
+        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        String myEmail = sharedPreferences.getString("pref_email", "");
 
 //        FragmentManager fm = getFragmentManager();
 //        FragmentTransaction fragmentTransition = fm.beginTransaction();

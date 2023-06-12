@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -23,6 +25,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.auth0.android.jwt.JWT;
+import com.example.uberapp_tim22.DTO.EmailDTO;
+import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
+import com.example.uberapp_tim22.DTO.RequestLoginDTO;
 import com.example.uberapp_tim22.DTO.ResponseLoginDTO;
 import com.example.uberapp_tim22.DriverMainActivity;
 import com.example.uberapp_tim22.PassengerMainActivity;
@@ -30,6 +35,10 @@ import com.example.uberapp_tim22.R;
 import com.example.uberapp_tim22.UserLoginActivity;
 import com.example.uberapp_tim22.service.ServiceUtils;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +49,11 @@ public class Stepper4Fragment extends Fragment {
     private TextInputEditText emailEditText;
     private LinearLayout layoutEmailList;
     private Bundle bundle = new Bundle();
-    private Button buttonAdd, nextButton;
+    private Button buttonAdd, nextButton, backButton;
+    private List<IdAndEmailDTO> passengers = new ArrayList<>();
+    private boolean attributeExists;
+    private LinearLayout lastAddedItemLayout;
+
 
     @Nullable
     @Override
@@ -51,12 +64,13 @@ public class Stepper4Fragment extends Fragment {
         layoutEmailList = view.findViewById(R.id.layout_email_list);
         buttonAdd = view.findViewById(R.id.buttonAddEmail);
         nextButton = view.findViewById(R.id.fragmentStepper4NextBtn);
-        bundle = getArguments();
+        backButton = view.findViewById(R.id.fragmentStepper4BackBtn);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        String myEmail = sharedPreferences.getString("pref_email", "");
+        Long myId = sharedPreferences.getLong("pref_id", 0);
+        passengers.add(new IdAndEmailDTO(myId, myEmail));
 
-        boolean bol = getArguments().getBoolean("petTransport");
-        String date = getArguments().getString("date");
-        Log.i("ASD", Boolean.toString(bol));
-        Log.i("ASD", date);
+        bundle = getArguments();
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +91,8 @@ public class Stepper4Fragment extends Fragment {
                                 FragmentManager fragmentManager = getFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
+                                bundle.putSerializable("passengers", (Serializable) passengers);
+                                fragment.setArguments(bundle);
                                 fragmentTransaction.addToBackStack(null);
                                 fragmentTransaction.commit();
                             }
@@ -86,84 +102,139 @@ public class Stepper4Fragment extends Fragment {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
 
         return view;
     }
 
 
-//    private void checkIfExist(){
-//        Call<ResponseLoginDTO> call = ServiceUtils.userService.login(loginDTO);
-//        call.enqueue(new Callback<ResponseLoginDTO>() {
-//
-//            @Override
-//            public void onResponse(@NonNull Call<ResponseLoginDTO> call, @NonNull Response<ResponseLoginDTO> response) {
-//
-//                if(!response.isSuccessful()) return;
-//                if(response.code() == 204){
-//                    Toast.makeText(UserLoginActivity.this, "Email not confirmed!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                ResponseLoginDTO loginResponse = response.body();
-//                JWT jwt = new JWT(loginResponse.getAccessToken());
-//
-//                Long id = jwt.getClaim("id").asLong();
-//                String email = jwt.getClaim("sub").asString();
-//                String role = jwt.getClaim("role").asString();
-//
-//                setToken(loginResponse);
-//                Log.e(role, role);
-//                if(role.equalsIgnoreCase("PASSENGER")){
-//                    setPreferences(id, email, role, loginResponse);
-//                    startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));
-//                }
-//                else if(role.equalsIgnoreCase("DRIVER")) {
-//                    setPreferences(id, email, role, loginResponse);
-//                    setTokenPreference(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
-//                    startActivity(new Intent(UserLoginActivity.this, DriverMainActivity.class));
-//                }
-//            }
-//
-//        }
+    private void checkIfExist(String email, OnCheckExistListener listener) {
+
+        EmailDTO emailDTO = new EmailDTO(email);
+        Call<IdAndEmailDTO> call = ServiceUtils.passengerService.getPassengerIdAndEmail(emailDTO);
+        call.enqueue(new Callback<IdAndEmailDTO>() {
+
+            @Override
+            public void onResponse(@NonNull Call<IdAndEmailDTO> call, @NonNull Response<IdAndEmailDTO> response) {
+
+                if (!response.isSuccessful()) {
+                    listener.onExist(false);
+                    return;
+                }
+
+                if (response.code() == 204) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        Toast.makeText(getContext(), "Email not confirmed!", Toast.LENGTH_SHORT).show();
+                    }
+                    listener.onExist(false);
+                    return;
+                }
+
+                attributeExists = false;
+                IdAndEmailDTO idEmailResponse = response.body();
+                for (IdAndEmailDTO passenger : passengers) {
+                    if (passenger.getEmail().equals(idEmailResponse.getEmail())) {
+                        attributeExists = true;
+                        break;
+                    }
+                }
+
+                if (attributeExists) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        listener.onExist(false);
+                        Toast.makeText(getContext(), "Passenger already added", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    passengers.add(idEmailResponse);
+                    listener.onExist(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IdAndEmailDTO> call, Throwable t) {
+                Log.d("Adding Failed", t.getMessage());
+            }
+        });
+    }
+
+    interface OnCheckExistListener {
+        void onExist(boolean exist);
+    }
 
 
     private void addAddressToList() {
-        String address = emailEditText.getText().toString();
-        if (!TextUtils.isEmpty(address)) {
+        String email = emailEditText.getText().toString();
+        checkIfExist(email, new OnCheckExistListener() {
+            @Override
+            public void onExist(boolean exist) {
+                if(!exist)return;
+                if (!TextUtils.isEmpty(email)) {
 
-            LinearLayout itemLayout = new LinearLayout(getActivity());
-            itemLayout.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            itemLayout.setLayoutParams(layoutParams);
+                    LinearLayout itemLayout = new LinearLayout(getActivity());
+                    itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    itemLayout.setLayoutParams(layoutParams);
 
-            TextView textView = new TextView(getActivity());
-            textView.setText(address);
-            textView.setTextSize(18);
-            LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(
-                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
-            textView.setLayoutParams(textViewParams);
+                    TextView textView = new TextView(getActivity());
+                    textView.setText(email);
+                    textView.setTextSize(18);
+                    LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(
+                            0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                    textView.setLayoutParams(textViewParams);
 
-            ImageView deleteButton = new ImageView(getActivity());
-            deleteButton.setImageResource(R.drawable.ic_delete);
-            LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            deleteButton.setLayoutParams(deleteButtonParams);
+                    ImageView deleteButton = new ImageView(getActivity());
+                    deleteButton.setImageResource(R.drawable.ic_delete);
+                    LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    deleteButton.setLayoutParams(deleteButtonParams);
 
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    layoutEmailList.removeView(itemLayout);
+                    deleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (itemLayout == lastAddedItemLayout) {
+                                layoutEmailList.removeView(itemLayout);
+                                passengers.remove(passengers.size()-1);
+                                int childCount = layoutEmailList.getChildCount();
+                                if (childCount > 0) {
+                                    View lastChild = layoutEmailList.getChildAt(childCount - 1);
+                                    if (lastChild instanceof LinearLayout) {
+                                        lastAddedItemLayout = (LinearLayout) lastChild;
+                                    }
+                                } else {
+                                    lastAddedItemLayout = null;
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), "You can only delete the last added item.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    itemLayout.addView(textView);
+                    itemLayout.addView(deleteButton);
+
+                    layoutEmailList.addView(itemLayout);
+                    lastAddedItemLayout = itemLayout;
+                    emailEditText.setText("");
                 }
-            });
-
-            itemLayout.addView(textView);
-            itemLayout.addView(deleteButton);
-
-            layoutEmailList.addView(itemLayout);
-
-            emailEditText.setText("");
-        }
+            }
+        });
     }
 
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        Toast.makeText(getActivity(), "onAttach()", Toast.LENGTH_SHORT).show();
+//    }
 }
