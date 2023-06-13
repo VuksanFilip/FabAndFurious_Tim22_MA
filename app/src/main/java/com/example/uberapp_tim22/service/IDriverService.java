@@ -3,6 +3,7 @@ package com.example.uberapp_tim22.service;
 import com.example.uberapp_tim22.DTO.DriverActivityDTO;
 import com.example.uberapp_tim22.DTO.DriverDTO;
 import com.example.uberapp_tim22.DTO.DriverRideDTO;
+import com.example.uberapp_tim22.model.Driver;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,7 +20,7 @@ public interface IDriverService {
                     "Content-Type:application/json"}
     )
     @GET(ServiceUtils.driver + "/{id}") //Get driver details
-    Call<DriverDTO> getDriver(@Path("id") String id);
+    Call<Driver> getDriver(@Path("id") String id);
 
     @PUT(ServiceUtils.driver + "/{id}") //Update existing driver
     Call<DriverDTO> updateDriver(@Path("id") String id, @Body DriverDTO driverDTO);
