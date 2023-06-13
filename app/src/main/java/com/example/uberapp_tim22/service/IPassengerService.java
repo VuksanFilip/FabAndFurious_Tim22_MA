@@ -4,6 +4,9 @@ import com.example.uberapp_tim22.DTO.EmailDTO;
 import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
 import com.example.uberapp_tim22.DTO.PassengerDTO;
 import com.example.uberapp_tim22.DTO.RequestPassengerDTO;
+import com.example.uberapp_tim22.DTO.ResponseRideDTO;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,12 +35,14 @@ public interface IPassengerService {
     @POST(ServiceUtils.passenger + "/exist") //Get Passenger Id and Email
     Call<IdAndEmailDTO> getPassengerIdAndEmail(@Body EmailDTO email);
 
+//    @GET(ServiceUtils.passenger + "/{id}/ride")
+//    Call<Paginated<ResponseRideDTO>> getPassengerRides(@Path("id") String id, @Query("page") int page, @Query("size") int size);
+
+    @GET(ServiceUtils.passenger + "/{id}/rides")
+    Call<List<ResponseRideDTO>> getPassengerRides(@Path("id") String id);
 //    @PUT(ServiceUtils.passenger + "/{id}") //Update existing passenger
 //    Call<PassengerDTO> updatePassenger(@Path("id") String id, @Body PassengerDTO passengerDTO);
 
-//    @GET(ServiceUtils.passenger + "/{id}/rides") //Passenger rides
-//    Call<Paginated<PassengerRideDTO>> getPassengerRides(@Path("id") String id, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
-//
 
 //    @GET(ServiceUtils.passenger + "/activate/{activationId}") //Activate passenger account
 //    Call<> activatePassenger(@Path("id") String id);

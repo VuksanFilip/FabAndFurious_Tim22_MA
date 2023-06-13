@@ -12,6 +12,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
@@ -21,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +126,26 @@ public class PassengerMainActivity extends AppCompatActivity {
         departureAddressEditText = (EditText) findViewById(R.id.departureAddressEditText);
         destinationAddressEditText = (EditText) findViewById(R.id.destinationAddressEditText);
         fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.fragmentStepper1GetCoridnatesBtn);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.login_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.menuHistory) {
+            Intent intent = new Intent(this, PassangerRideHistory.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void buttonGetCoordinates(View view) {
