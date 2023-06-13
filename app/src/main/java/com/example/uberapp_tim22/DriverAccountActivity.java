@@ -1,26 +1,44 @@
 package com.example.uberapp_tim22;
 
+import static android.app.PendingIntent.getActivity;
+import static com.example.uberapp_tim22.service.ServiceUtils.driverService;
+import static com.example.uberapp_tim22.service.ServiceUtils.userService;
+
+import android.app.Fragment;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uberapp_tim22.DTO.DriverDTO;
+import com.example.uberapp_tim22.model.Driver;
 import com.google.android.material.navigation.NavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
 public class DriverAccountActivity extends AppCompatActivity {
 
 //    DrawerLayout drawerLayout;
 //    NavigationView navigationView;
 //    Button current_ride;
+    private Driver driver;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +53,10 @@ public class DriverAccountActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
+        SharedPreferences preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        int id = preferences.getInt("p_id", 0);
+
+        getDriver(id);
         Button proba = findViewById(R.id.button9);
         proba.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,4 +144,32 @@ public class DriverAccountActivity extends AppCompatActivity {
         super.onDestroy();
         Toast.makeText(this, "onDestroy()",Toast.LENGTH_SHORT).show();
     }
+
+    public void getDriver(int id){
+        Call<Driver> call = driverService.getDriver(Integer.toString(id));
+        call.enqueue(new Callback<Driver>() {
+            @Override
+            public void onResponse(Call<Driver> call, Response<Driver> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    driver = new Driver(response.body());
+                    setDriverData(driver);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Driver> call, Throwable t) {
+                Log.d("Adding Failed", t.getMessage());
+            }
+        });
+    }
+
+    private void setDriverData(Driver driver) {
+//        String user = driver.getFirstName() + " " + driver.getSurname();
+
+        ((TextView) findViewById(R.id.editTextTextPersonName4)).setText(driver.getFirstName());
+//        ((TextView) findViewById(R.id.txtEmail)).setText(driver.getEmail());
+//        ((TextView) findViewById(R.id.txtPhone)).setText(driver.getTelephoneNumber());
+//        ((TextView) findViewById(R.id.txtAddress)).setText(driver.getAddress());
+        }
 }

@@ -22,6 +22,14 @@ public class Driver extends User{
         super(id, firstName, lastName, picture, phoneNumber, email, address, password, blocked, active);
     }
 
+
+    public Driver(Driver body) {
+        super(body.getId(), body.getFirstName(), body.getLastName(), body.getPicture(), body.getPhoneNumber(), body.getEmail(), body.getAddress(), body.getPassword(), body.isBlocked(), body.isActive());
+        this.documents = body.getDocuments();
+        this.rides = body.getRides();
+        this.vehicle = body.getVehicle();
+    }
+
     public List<Document> getDocuments() {
         return documents;
     }
