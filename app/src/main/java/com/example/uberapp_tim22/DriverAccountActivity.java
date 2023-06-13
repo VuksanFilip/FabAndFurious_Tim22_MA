@@ -33,6 +33,8 @@ import retrofit2.Response;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
+import org.w3c.dom.Text;
+
 public class DriverAccountActivity extends AppCompatActivity {
 
 //    DrawerLayout drawerLayout;
@@ -146,14 +148,15 @@ public class DriverAccountActivity extends AppCompatActivity {
     }
 
     public void getDriver(int id){
-        Call<Driver> call = driverService.getDriver(Integer.toString(id));
+        Call<Driver> call = driverService.getDriver("5");
         call.enqueue(new Callback<Driver>() {
             @Override
             public void onResponse(Call<Driver> call, Response<Driver> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     driver = new Driver(response.body());
-                    setDriverData(driver);
+                    Log.i("asd", driver.getAddress());
+                    setDriverData(driver.getFirstName());
                 }
             }
 
@@ -164,10 +167,15 @@ public class DriverAccountActivity extends AppCompatActivity {
         });
     }
 
-    private void setDriverData(Driver driver) {
+    private void setDriverData(String driver) {
 //        String user = driver.getFirstName() + " " + driver.getSurname();
-
-        ((TextView) findViewById(R.id.editTextTextPersonName4)).setText(driver.getFirstName());
+//
+//        TextView email;
+//        email = findViewById(R.id.editTextTextPersonName4);
+//        email.setText(driver.getFirstName());
+//        Log.i("aaa",email.toString());
+        ((TextView) findViewById(R.id.editTextTextPersonName4)).setText(driver);
+        Log.i("ime", driver);
 //        ((TextView) findViewById(R.id.txtEmail)).setText(driver.getEmail());
 //        ((TextView) findViewById(R.id.txtPhone)).setText(driver.getTelephoneNumber());
 //        ((TextView) findViewById(R.id.txtAddress)).setText(driver.getAddress());
