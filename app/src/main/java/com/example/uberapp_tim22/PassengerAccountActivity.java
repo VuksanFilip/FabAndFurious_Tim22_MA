@@ -58,12 +58,12 @@ public class PassengerAccountActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
         Long myId = sharedPreferences.getLong("pref_id", 0);
 
-        getPassenger(String.valueOf("2"));
+        getPassenger(String.valueOf(myId));
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatePassenger(String.valueOf("2"));
+                updatePassenger(String.valueOf(myId));
             }
         });
 
@@ -129,29 +129,29 @@ public class PassengerAccountActivity extends AppCompatActivity {
         dialogFragment.show(getSupportFragmentManager(), "ChangePopupDialogFragment");
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-
-        if (itemId == R.id.menuOrder) {
-            Intent intent = new Intent(this, PassengerMainActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        if (itemId == R.id.menuHistory) {
-            Intent intent = new Intent(this, PassangerRideHistory.class);
-            startActivity(intent);
-            return true;
-        }
-        if (itemId == R.id.menuLogOut) {
-            deletePreferences();
-            Intent intent = new Intent(this, UserLoginActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int itemId = item.getItemId();
+//
+//        if (itemId == R.id.menuOrder) {
+//            Intent intent = new Intent(this, PassengerMainActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
+//        if (itemId == R.id.menuHistory) {
+//            Intent intent = new Intent(this, PassangerRideHistory.class);
+//            startActivity(intent);
+//            return true;
+//        }
+//        if (itemId == R.id.menuLogOut) {
+//            deletePreferences();
+//            Intent intent = new Intent(this, UserLoginActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void deletePreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
@@ -166,6 +166,35 @@ public class PassengerAccountActivity extends AppCompatActivity {
         inflater.inflate(R.menu.example_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            Intent intent = new Intent(PassengerAccountActivity.this, PassengerAccountActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item2){
+            Intent intent = new Intent(PassengerAccountActivity.this, PassengerInboxActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item3){
+            Intent intent = new Intent(PassengerAccountActivity.this, PassangerRideHistory.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item4){
+            Intent intent = new Intent(PassengerAccountActivity.this, PassengerMainActivity.class);
+            startActivity(intent);
+        }
+        if(id == R.id.item5){
+            Intent intent = new Intent(PassengerAccountActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     @Override
     protected void onStart() {
@@ -221,7 +250,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             String oldPass = oldPassword.getText().toString();
                             String newPass = newPassword.getText().toString();
-                            changePassword(String.valueOf("2"), oldPass, newPass);
+                            changePassword(String.valueOf(myId), oldPass, newPass);
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
