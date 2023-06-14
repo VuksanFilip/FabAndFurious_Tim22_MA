@@ -20,14 +20,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.example.uberapp_tim22.DTO.DriverActivityDTO;
+import com.example.uberapp_tim22.DTO.PassengerDTO;
+import com.example.uberapp_tim22.DTO.ResponseRideDTO;
 import com.example.uberapp_tim22.fragments.MapFragment;
+import com.example.uberapp_tim22.service.ServiceUtils;
 import com.example.uberapp_tim22.tools.FragmentTransition;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DriverMainActivity extends AppCompatActivity {
 
     Button acceptanceRide;
     Button currentRide;
+    ToggleButton online;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +54,50 @@ public class DriverMainActivity extends AppCompatActivity {
 
         acceptanceRide = findViewById(R.id.button);
         currentRide = findViewById(R.id.button2);
+        online = findViewById(R.id.toggleButton);
 
         acceptanceRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DriverMainActivity.this, AcceptanceRide.class);
                 startActivity(intent);
+            }
+        });
+
+        online.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View view) {
+                DriverActivityDTO driverActivityDTO = new DriverActivityDTO();
+                if (online.getText()=="Online"){
+                    Toast.makeText(DriverMainActivity.this, "You are offline now", Toast.LENGTH_SHORT).show();
+
+                    driverActivityDTO.setActive(false);}
+                else{
+                    Toast.makeText(DriverMainActivity.this, "You are offline now", Toast.LENGTH_SHORT).show();
+                    driverActivityDTO.setActive(true);
+                }
+                Call<String> call = ServiceUtils.driverService.changeActivity("5",driverActivityDTO);
+
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            String active = response.body();
+                            Log.i("aktivan", active);
+                        } else {
+                            onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.e("DriverMainActivityy", "API call failed: " + t.getMessage());
+                          }
+
+
+                });
             }
         });
 

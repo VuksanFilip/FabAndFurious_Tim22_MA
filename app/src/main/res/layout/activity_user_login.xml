@@ -78,7 +78,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:hint="min. 8 characters"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textPassword" />
                 <Button
                     android:id="@+id/forgot_button"
                     android:layout_width="100dp"

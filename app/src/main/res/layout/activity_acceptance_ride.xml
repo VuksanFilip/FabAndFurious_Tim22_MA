@@ -11,6 +11,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="666dp"
@@ -19,6 +20,28 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="17dp"
         tools:layout_editor_absoluteY="76dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView346"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ID" />
+
+            <TextView
+                android:id="@+id/textView367"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1"
+                android:textAlignment="textEnd" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="address1"
+                android:text="Bulevar vojvode Stepe 31"
                 android:textAlignment="textEnd" />
         </LinearLayout>
 
@@ -58,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="address2"
+                android:text="Jevrejska 14"
                 android:textAlignment="textEnd" />
         </LinearLayout>
 
@@ -79,13 +102,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="15 min"
+                android:text="15"
                 android:textAlignment="textEnd" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="26dp"
+            android:layout_height="56dp"
             android:orientation="horizontal">
 
             <TextView
@@ -103,7 +126,25 @@
                 android:text="800"
                 android:textAlignment="textEnd" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/textView376"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Enter ride id" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textView379"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="textEnd" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="36dp"

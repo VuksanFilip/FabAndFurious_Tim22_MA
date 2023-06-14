@@ -78,7 +78,8 @@ public class UserLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String getEmail= email.getText().toString();
                 String getPassword = password.getText().toString();
-
+//                String getEmail = "marko.markovic@gmail.com";
+//                String getPassword = "marko123";
                 login(getEmail, getPassword);
             }
         });

@@ -65,7 +65,7 @@ public class PassangerRideHistory extends AppCompatActivity implements RideListA
     }
 
     private void getPassengerRides(String passengerId) {
-        Call<List<ResponseRideDTO>> call = ServiceUtils.passengerService.getPassengerRides(passengerId);
+        Call<List<ResponseRideDTO>> call = ServiceUtils.passengerService.getPassengerRides("1");
 
         call.enqueue(new Callback<List<ResponseRideDTO>>() {
             @Override

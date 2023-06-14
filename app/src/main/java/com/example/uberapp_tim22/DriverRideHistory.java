@@ -2,16 +2,37 @@ package com.example.uberapp_tim22;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import java.util.List;
 
-public class DriverRideHistory extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
+import com.example.uberapp_tim22.DTO.ResponseRideDTO;
+import com.example.uberapp_tim22.adapters.RideListAdapter;
+import com.example.uberapp_tim22.service.ServiceUtils;
+
+public class DriverRideHistory extends AppCompatActivity implements RideListAdapter.RideItemClickListener{
+
+    private RecyclerView rideListRecyclerView;
+    private RideListAdapter rideListAdapter;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +40,74 @@ public class DriverRideHistory extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
+
+        rideListRecyclerView = findViewById(R.id.rideListRecyclerView);
+        rideListAdapter = new RideListAdapter(this);
+//        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+//        Long myId = sharedPreferences.getLong("pref_id", 0);
+
+        rideListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rideListRecyclerView.setAdapter(rideListAdapter);
+
+        getDriverRides("5");
+    }
+    private void getDriverRides(String driverId) {
+        Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
+
+        call.enqueue(new Callback<List<ResponseRideDTO>>() {
+            @Override
+            public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
+                if (response.isSuccessful()) {
+                    List<ResponseRideDTO> rideList = response.body();
+                    if (rideList != null) {
+                        rideListAdapter.setRideList(rideList);
+                        Log.i("123",rideListAdapter.toString());
+                    }
+                } else {
+                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseRideDTO>> call, Throwable t) {
+                Log.e("DriverRideHistory", "API call failed: " + t.getMessage());
+                Toast.makeText(DriverRideHistory.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onRideItemClick(ResponseRideDTO ride) {
+        showPopup(ride);
+    }
+
+    public String driverToString(List<IdAndEmailDTO> passengers){
+        String passengerString = "";
+        for(IdAndEmailDTO passenger : passengers){
+            passengerString = passengerString + passenger.getEmail() + " ";
+        }
+
+        return passengerString;
+    }
+    private void showPopup(ResponseRideDTO ride) {
+//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverRideHistory.this);
+//        LayoutInflater inflater = LayoutInflater.from(DriverRideHistory.this);
+//        View dialogView = inflater.inflate(R.layout.dialog_ride_details, null);
+//        dialogBuilder.setView(dialogView);
+//
+//        TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
+//        String message = "ID: " + ride.getId() + "\n" +
+//                "Driver: " + ride.getDriver().getEmail() + "\n" +
+//                "Passengers: " + driverToString(ride.getPassengers()) + "\n" +
+//                "Rejection: " + (ride.getRejection() != null ? ride.getRejection().getReason() : "") + "\n" +
+//                "Total cost: " + ride.getTotalCost() + "\n" +
+//                "Start Time: " + ride.getStartTime() + "\n" +
+//                "End Time: " + ride.getEndTime();
+//        messageTextView.setText(message);
+//        messageTextView.setTextSize(18);
+//
+//        AlertDialog alertDialog = dialogBuilder.create();
+//        alertDialog.show();
     }
 
     @Override

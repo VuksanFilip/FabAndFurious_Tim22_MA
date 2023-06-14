@@ -146,7 +146,7 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
 
 
         GeoApiContext context = new GeoApiContext.Builder()
-                .apiKey(BuildConfig.MAPS_API_KEY)
+                .apiKey("abc")
                 .build();
         DirectionsApiRequest req = DirectionsApi.getDirections(context, departureMarker.getPosition().latitude + "," + departureMarker.getPosition().longitude,
                 destinationMarker.getPosition().latitude + "," + destinationMarker.getPosition().longitude);
