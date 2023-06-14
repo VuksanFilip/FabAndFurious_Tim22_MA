@@ -75,7 +75,7 @@ public class DriverMainActivity extends AppCompatActivity {
 
                     driverActivityDTO.setActive(false);}
                 else{
-                    Toast.makeText(DriverMainActivity.this, "You are online now", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverMainActivity.this, "You are offline now", Toast.LENGTH_SHORT).show();
                     driverActivityDTO.setActive(true);
                 }
                 Call<String> call = ServiceUtils.driverService.changeActivity("5",driverActivityDTO);

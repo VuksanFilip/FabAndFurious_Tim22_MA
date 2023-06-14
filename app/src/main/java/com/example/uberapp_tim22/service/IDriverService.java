@@ -35,8 +35,8 @@ public interface IDriverService {
     @GET(ServiceUtils.driver + "/{id}") //Get driver details
     Call<DriverDTO> getDriver(@Path("id") String id);
 
-    @PUT(ServiceUtils.driver + "/{id}") //Update existing passenger
-    Call<DriverDTO> updateDriver(@Path("id") String id, @Body DriverUpdate driverUpdate);
+    @PUT(ServiceUtils.driver + "/update/{id}") //Update existing driver
+    Call<DriverDTO> updateDriver2(@Path("id") String id, @Body DriverUpdate driverUpdate);
 
     //    @GET(ServiceUtils.driver + "/{id}/ride")
 //    Call<Paginated<DriverRideDTO>> getRides(@Path("id") String id,

@@ -75,15 +75,15 @@ public class DriverAccountActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        SharedPreferences preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
-        int id = preferences.getInt("p_id", 0);
+        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        Long myId = sharedPreferences.getLong("pref_id", 0);
 
-        getDriver("5");
+        getDriver(String.valueOf(myId));
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDriver(String.valueOf("5"));
+                updateDriver(String.valueOf(myId));
             }
         });
         changeBtn.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class DriverAccountActivity extends AppCompatActivity {
 
     private void updateDriver(String driverId) {
         DriverUpdate driverUpdate = new DriverUpdate(editName.getText().toString(), editSurname.getText().toString(), "picture", editNumber.getText().toString(), editEmail.getText().toString(), editAddress.getText().toString());
-        Call<DriverDTO> call = driverService.updateDriver(driverId, driverUpdate);
+        Call<DriverDTO> call = driverService.updateDriver2(driverId, driverUpdate);
 
         call.enqueue(new Callback<DriverDTO>() {
             @Override
