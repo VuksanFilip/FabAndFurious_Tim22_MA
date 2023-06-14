@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="name"
+                        android:text="Marko"
                         android:textAlignment="textEnd" />
                 </LinearLayout>
 
@@ -110,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="lastname"
+                        android:text="Markovic"
                         android:textAlignment="textEnd" />
                 </LinearLayout>
 
@@ -152,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="asd@gmail.com"
+                        android:text="marko.markovic@gmail.com"
                         android:textAlignment="textEnd" />
                 </LinearLayout>
 
@@ -173,7 +173,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="type"
+                        android:text="Kosovska 10"
                         android:textAlignment="textEnd" />
                 </LinearLayout>
 
@@ -214,7 +214,7 @@
                         android:id="@+id/textView16"
                         android:layout_width="204dp"
                         android:layout_height="wrap_content"
-                        android:text="address 1" />
+                        android:text="Bulevar vojvode Stepe 31" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -232,7 +232,7 @@
                         android:id="@+id/textView18"
                         android:layout_width="205dp"
                         android:layout_height="wrap_content"
-                        android:text="address 2" />
+                        android:text="Jevrejska 14" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -251,7 +251,7 @@
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="5dp"
                 tools:layout_editor_absoluteY="676dp"
-                tools:text="10:43" />
+                tools:text="09:06" />
 
             <Button
                 android:id="@+id/button6"

@@ -40,14 +40,19 @@ public class AcceptanceRide extends AppCompatActivity {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(AcceptanceRide.this, "Uspesno prihvacena voznja", Toast.LENGTH_SHORT).show();
+
                 acceptRide(String.valueOf("5"));
+
             }
         });
 
         decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(AcceptanceRide.this, "Odbijena voznja", Toast.LENGTH_SHORT).show();
                 declineRide(String.valueOf("5"));
+
             }
         });
     }
