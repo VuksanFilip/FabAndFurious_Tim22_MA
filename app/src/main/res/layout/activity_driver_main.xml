@@ -37,35 +37,47 @@
         <RelativeLayout
             android:id="@+id/mainContent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_marginTop="340dp"
+                android:text="@string/acceptance_ride"
+                android:textColor="#805D84"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="132dp"
+                tools:layout_editor_absoluteY="547dp" />
+        </RelativeLayout>
 
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignWithParentIfMissing="false"
-                    android:layout_marginTop="340dp"
-                    android:text="@string/acceptance_ride"
-                    android:textColor="#805D84"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="132dp"
-                    tools:layout_editor_absoluteY="547dp" />
-
-                <Button
+            <Button
                     android:id="@+id/button2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="400dp"
+                    android:layout_marginTop="390dp"
                     android:text="@string/current_ride"
                     android:textColor="#805D84"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="131dp"
                     tools:layout_editor_absoluteY="611dp" />
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_marginTop="440dp"
+                android:text="Report"
+                android:textColor="#805D84"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="132dp"
+                tools:layout_editor_absoluteY="547dp" />
 
 
                 <ToggleButton
