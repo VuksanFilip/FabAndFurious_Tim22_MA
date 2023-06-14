@@ -81,13 +81,14 @@ public class PassengerRegisterActivity extends AppCompatActivity {
     }
 
     public void putPassenger(RequestPassengerDTO request){
+        Log.i("ADS","AAAAAAAAAAAAAAa");
         Call<PassengerDTO> call = ServiceUtils.passengerService.createPassenger(request);
         call.enqueue(new Callback<PassengerDTO>() {
             @Override
             public void onResponse(Call<PassengerDTO> call, Response<PassengerDTO> response) {
                 if(!response.isSuccessful()) return;
                 Log.d("Success" ,"Successfully registered passenger");
-                Intent intent = new Intent(PassengerRegisterActivity.this, PassengerMainActivity.class);
+                Intent intent = new Intent(PassengerRegisterActivity.this, UserLoginActivity.class);
                 startActivity(intent);
             }
 
