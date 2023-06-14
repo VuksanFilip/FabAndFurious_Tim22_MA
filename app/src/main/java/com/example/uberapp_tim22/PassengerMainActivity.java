@@ -145,7 +145,26 @@ public class PassengerMainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (itemId == R.id.menuAccount) {
+            Intent intent = new Intent(this, PassengerAccountActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (itemId == R.id.menuLogOut) {
+            deletePreferences();
+            Intent intent = new Intent(this, UserLoginActivity.class);
+            startActivity(intent);
+            return true;
+
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deletePreferences(){
+        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = sharedPreferences.edit();
+        spEditor.clear().commit();
     }
 
     public void buttonGetCoordinates(View view) {
@@ -226,14 +245,12 @@ public class PassengerMainActivity extends AppCompatActivity {
                 LatLng destinationLocation = new LatLng(doubleDestinationLat, doubleDestinationLong);
                 drawRouteFragment.addDestinationMarker(destinationLocation);
             } else {
-                // Display a popup or toast indicating that no address was found
                 Toast.makeText(this, "No destination address found", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
-            // Display a popup or dialog indicating the error
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Error")
                     .setMessage("IndexOutOfBoundsException occurred. Please check your inputs.")
@@ -241,5 +258,4 @@ public class PassengerMainActivity extends AppCompatActivity {
                     .show();
         }
     }
-
 }

@@ -56,13 +56,12 @@
                 android:text="@string/name" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/editTextPersonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Pera" />
+                android:inputType="textPersonName"/>
 
         </LinearLayout>
 
@@ -79,13 +78,12 @@
                 android:text="@string/lastname" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/editTextPersonSurname"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Peric" />
+                android:inputType="textPersonName"/>
         </LinearLayout>
 
         <LinearLayout
@@ -101,13 +99,12 @@
                 android:text="@string/phone" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName5"
+                android:id="@+id/editTextPersonNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="0659785746" />
+                android:inputType="textPersonName"/>
         </LinearLayout>
 
         <LinearLayout
@@ -123,13 +120,12 @@
                 android:text="@string/address" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName6"
+                android:id="@+id/editTextPersonAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Kosovska 15" />
+                android:inputType="textPersonName"/>
         </LinearLayout>
 
         <LinearLayout
@@ -142,27 +138,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/email" />
+                android:text="Email"/>
 
             <EditText
-                android:id="@+id/editTextTextPersonName7"
+                android:id="@+id/editTextPersonEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="pera@gmail.com" />
+                android:inputType="textPersonName"/>
         </LinearLayout>
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/personChangeBtn"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:text="@string/change_password"
             android:textColor="#805D84" />
 
         <Button
-            android:id="@+id/button9"
+            android:id="@+id/personSaveBtn"
             android:layout_width="match_parent"
             android:layout_height="33dp"
             android:layout_weight="1"

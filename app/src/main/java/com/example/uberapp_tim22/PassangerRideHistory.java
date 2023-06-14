@@ -139,8 +139,25 @@ public class PassangerRideHistory extends AppCompatActivity implements RideListA
             startActivity(intent);
             return true;
         }
+        if (itemId == R.id.menuAccount) {
+            Intent intent = new Intent(this, PassengerAccountActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuLogOut) {
+            deletePreferences();
+            Intent intent = new Intent(this, UserLoginActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deletePreferences(){
+        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = sharedPreferences.edit();
+        spEditor.clear().commit();
     }
 
 
