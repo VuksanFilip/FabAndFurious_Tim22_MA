@@ -88,7 +88,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
                     editSurname.setText(passenger.getSurname());
                     editNumber.setText(passenger.getTelephoneNumber());
                     editAddress.setText(passenger.getAddress());
-                    editAddress.setText(passenger.getEmail());
+                    editEmail.setText(passenger.getEmail());
                 } else {
                     onFailure(call, new Throwable("API call failed with status code: " + response.code()));
                 }
@@ -163,8 +163,8 @@ public class PassengerAccountActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.example_menu, menu);
-        return true;
+        inflater.inflate(R.menu.login_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -233,14 +233,13 @@ public class PassengerAccountActivity extends AppCompatActivity {
         }
 
         private void changePassword(String passengerId, String oldPassword, String newPassword) {
-            ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO(newPassword, newPassword);
+            ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO(newPassword, oldPassword);
             Call<ResponsePassengerDTO> call = ServiceUtils.userService.changePassword(passengerId, changePasswordDTO);
 
             call.enqueue(new Callback<ResponsePassengerDTO>() {
                 @Override
                 public void onResponse(Call<ResponsePassengerDTO> call, Response<ResponsePassengerDTO> response) {
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Successfully updated Password", Toast.LENGTH_SHORT).show();
                     } else {
                         onFailure(call, new Throwable("API call failed with status code: " + response.code()));
                     }
@@ -249,7 +248,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<ResponsePassengerDTO> call, Throwable t) {
                     Log.e("PassangerRideHistory", "API call failed: " + t.getMessage());
-                    Toast.makeText(getContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

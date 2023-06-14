@@ -30,34 +30,6 @@ public class PassengerInboxActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        if(id == R.id.item1){
-            Intent intent = new Intent(PassengerInboxActivity.this, PassengerAccountActivity.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item2){
-            Intent intent = new Intent(PassengerInboxActivity.this, PassengerInboxActivity.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item3){
-            Intent intent = new Intent(PassengerInboxActivity.this, PassangerRideHistory.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item4){
-            Intent intent = new Intent(PassengerInboxActivity.this, PassengerMainActivity.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item5){
-            Intent intent = new Intent(PassengerInboxActivity.this, UserLoginActivity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
     protected void onStart() {
         super.onStart();
         Toast.makeText(this, "onStart()", Toast.LENGTH_SHORT).show();
