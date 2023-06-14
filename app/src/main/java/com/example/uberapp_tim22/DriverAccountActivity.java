@@ -4,27 +4,40 @@ import static android.app.PendingIntent.getActivity;
 import static com.example.uberapp_tim22.service.ServiceUtils.driverService;
 import static com.example.uberapp_tim22.service.ServiceUtils.userService;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uberapp_tim22.DTO.ChangePasswordDTO;
 import com.example.uberapp_tim22.DTO.DriverDTO;
+import com.example.uberapp_tim22.DTO.DriverUpdate;
+import com.example.uberapp_tim22.DTO.PassengerDTO;
+import com.example.uberapp_tim22.DTO.PassengerUpdate;
+import com.example.uberapp_tim22.DTO.ResponseDriverDTO;
+import com.example.uberapp_tim22.DTO.ResponsePassengerDTO;
 import com.example.uberapp_tim22.model.Driver;
+import com.example.uberapp_tim22.service.ServiceUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Call;
@@ -40,16 +53,23 @@ public class DriverAccountActivity extends AppCompatActivity {
 //    DrawerLayout drawerLayout;
 //    NavigationView navigationView;
 //    Button current_ride;
-    private Driver driver;
+    private SharedPreferences sharedPreferences;
+    private EditText editName, editSurname, editNumber, editAddress, editEmail,editCarType;
+    private Button saveBtn, changeBtn;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_account);
 
-//        navigationView.findViewById(R.id.nav_view);
-//        drawerLayout.findViewById(R.id.drawer_layout);
-//        current_ride.findViewById(R.id.button11);
+        editName = findViewById(R.id.editTextTextPersonName4);
+        editSurname = findViewById(R.id.editTextTextPersonName3);
+        editNumber = findViewById(R.id.editTextTextPersonName5);
+        editAddress = findViewById(R.id.editTextTextPersonName6);
+        editEmail = findViewById(R.id.editTextTextPersonName77);
+        editCarType = findViewById(R.id.editTextTextPersonName7);
+        saveBtn = findViewById(R.id.button9);
+        changeBtn = findViewById(R.id.button10);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,31 +78,134 @@ public class DriverAccountActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         int id = preferences.getInt("p_id", 0);
 
-        getDriver(id);
-        Button proba = findViewById(R.id.button9);
-        proba.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        getDriver("5");
 
-                Intent intent = new Intent(DriverAccountActivity.this, DriverStatisticsActivity.class);
-                startActivity(intent);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateDriver(String.valueOf("5"));
+            }
+        });
+        changeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupDialog();
             }
         });
 
-//        navigationView.bringToFront();
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
-
-//        current_ride.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(DriverAccountActivity.this, CurrentRideDriver.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
+
+    private void getDriver(String driverId) {
+        Call<DriverDTO> call = driverService.getDriver(driverId);
+
+        call.enqueue(new Callback<DriverDTO>() {
+            @Override
+            public void onResponse(Call<DriverDTO> call, Response<DriverDTO> response) {
+                if (response.isSuccessful()) {
+                    DriverDTO driverDTO = response.body();
+                    editName.setText(driverDTO.getName());
+                    editSurname.setText(driverDTO.getSurname());
+                    editNumber.setText(driverDTO.getTelephoneNumber());
+                    editAddress.setText(driverDTO.getAddress());
+                    editEmail.setText(driverDTO.getEmail());
+                  //  editCarType.setText(driverDTO.ge);
+                } else {
+                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DriverDTO> call, Throwable t) {
+                Log.e("DriverAccountActivity", "API call failed: " + t.getMessage());
+                Toast.makeText(DriverAccountActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateDriver(String driverId) {
+        DriverUpdate driverUpdate = new DriverUpdate(editName.getText().toString(), editSurname.getText().toString(), "picture", editNumber.getText().toString(), editEmail.getText().toString(), editAddress.getText().toString());
+        Call<DriverDTO> call = driverService.updateDriver(driverId, driverUpdate);
+
+        call.enqueue(new Callback<DriverDTO>() {
+            @Override
+            public void onResponse(Call<DriverDTO> call, Response<DriverDTO> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(DriverAccountActivity.this, "Successfully updated driver!", Toast.LENGTH_SHORT).show();
+                } else {
+                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DriverDTO> call, Throwable t) {
+                Log.e("DriverAccountActivity", "API call failed: " + t.getMessage());
+                Toast.makeText(DriverAccountActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showPopupDialog() {
+        DialogFragment dialogFragment = new ChangePopupDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), "ChangePopupDialogFragment");
+    }
+    public static class ChangePopupDialogFragment extends DialogFragment {
+
+        private EditText oldPassword, newPassword;
+        private SharedPreferences sharedPreferences;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.dialog_change_popup, null);
+
+            oldPassword = view.findViewById(R.id.oldPassword);
+            newPassword = view.findViewById(R.id.newPassword);
+
+            sharedPreferences = getActivity().getSharedPreferences("preferences", MODE_PRIVATE);
+            Long myId = sharedPreferences.getLong("pref_id", 0);
+
+            builder.setView(view)
+                    .setTitle("Change Details")
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String oldPass = oldPassword.getText().toString();
+                            String newPass = newPassword.getText().toString();
+                            changePassword(String.valueOf("5"), oldPass, newPass);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+            return builder.create();
+        }
+
+        private void changePassword(String driverId, String oldPassword, String newPassword) {
+            ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO(newPassword, newPassword);
+            Call<ResponsePassengerDTO> call = ServiceUtils.userService.changePassword(driverId, changePasswordDTO);
+
+            call.enqueue(new Callback<ResponsePassengerDTO>() {
+                @Override
+                public void onResponse(Call<ResponsePassengerDTO> call, Response<ResponsePassengerDTO> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getContext(), "Successfully updated Password", Toast.LENGTH_SHORT).show();
+                    } else {
+                        onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponsePassengerDTO> call, Throwable t) {
+                    Log.e("PassangerRideHistory", "API call failed: " + t.getMessage());
+                    Toast.makeText(getContext(), "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -147,37 +270,5 @@ public class DriverAccountActivity extends AppCompatActivity {
         Toast.makeText(this, "onDestroy()",Toast.LENGTH_SHORT).show();
     }
 
-    public void getDriver(int id){
-        Call<Driver> call = driverService.getDriver("5");
-        call.enqueue(new Callback<Driver>() {
-            @Override
-            public void onResponse(Call<Driver> call, Response<Driver> response) {
-                if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    driver = new Driver(response.body());
-                    Log.i("asd", driver.getAddress());
-                    setDriverData(driver.getFirstName());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Driver> call, Throwable t) {
-                Log.d("Adding Failed", t.getMessage());
-            }
-        });
-    }
-
-    private void setDriverData(String driver) {
-//        String user = driver.getFirstName() + " " + driver.getSurname();
-//
-//        TextView email;
-//        email = findViewById(R.id.editTextTextPersonName4);
-//        email.setText(driver.getFirstName());
-//        Log.i("aaa",email.toString());
-        ((TextView) findViewById(R.id.editTextTextPersonName4)).setText(driver);
-        Log.i("ime", driver);
-//        ((TextView) findViewById(R.id.txtEmail)).setText(driver.getEmail());
-//        ((TextView) findViewById(R.id.txtPhone)).setText(driver.getTelephoneNumber());
-//        ((TextView) findViewById(R.id.txtAddress)).setText(driver.getAddress());
-        }
 }

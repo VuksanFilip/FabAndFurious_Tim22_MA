@@ -58,12 +58,12 @@ public class PassengerAccountActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
         Long myId = sharedPreferences.getLong("pref_id", 0);
 
-        getPassenger(String.valueOf(myId));
+        getPassenger(String.valueOf("2"));
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatePassenger(String.valueOf(myId));
+                updatePassenger(String.valueOf("2"));
             }
         });
 
@@ -221,7 +221,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             String oldPass = oldPassword.getText().toString();
                             String newPass = newPassword.getText().toString();
-                            changePassword(String.valueOf(myId), oldPass, newPass);
+                            changePassword(String.valueOf("2"), oldPass, newPass);
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
