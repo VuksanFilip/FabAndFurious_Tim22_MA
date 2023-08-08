@@ -1,5 +1,6 @@
 package com.example.uberapp_tim22.service;
 
+import com.example.uberapp_tim22.DTO.AssumptionDTO;
 import com.example.uberapp_tim22.DTO.PassengerDTO;
 import com.example.uberapp_tim22.DTO.UnregisteredUserDTO;
 
@@ -16,6 +17,6 @@ public interface IUnregisteredUserService {
             {"User-Agent: Mobile-Android",
                     "Content-Type:application/json"}
     )
-    @POST(ServiceUtils.unregisteredUser) //Getting the assumption about the time and cost of the ride
-    Call<UnregisteredUserDTO> getAssumption(@Body UnregisteredUserDTO unregisteredUserDTO);
+    @POST(ServiceUtils.unregisteredUser)
+    Call<AssumptionDTO> getAssumption(@Body UnregisteredUserDTO unregisteredUserDTO);
 }

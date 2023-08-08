@@ -104,7 +104,7 @@ public class Stepper5Fragment extends Fragment {
         }
 
 
-        RideDTO ride = new RideDTO(locations, passengers, vehicleName.toString(), babyTransport, petTransport, "2023-06-12T18:32:28Z");
+        RideDTO ride = new RideDTO(locations, passengers, vehicleName.toString(), babyTransport, petTransport, "2023-08-08T18:32:28Z");
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
