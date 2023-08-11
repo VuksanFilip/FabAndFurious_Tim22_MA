@@ -5,21 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PassengerMainActivity">
+    tools:context=".PassengerMapActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/mapAppbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <include
-            android:id="@+id/toolbar"
+            android:id="@+id/mapToolbar"
             layout="@layout/toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
+        android:id="@+id/mapDrawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -37,7 +37,7 @@
                 android:layout_alignParentTop="true" />
 
             <LinearLayout
-                android:id="@+id/fragmentStepper2"
+                android:id="@+id/fragmentChat"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/map_layout"

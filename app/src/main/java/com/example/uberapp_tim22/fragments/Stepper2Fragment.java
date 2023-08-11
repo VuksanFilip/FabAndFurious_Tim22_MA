@@ -1,8 +1,8 @@
 package com.example.uberapp_tim22.fragments;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

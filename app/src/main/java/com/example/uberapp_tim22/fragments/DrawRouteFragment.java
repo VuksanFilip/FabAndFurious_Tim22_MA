@@ -52,6 +52,9 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment mMapFragment;
     private Marker departureMarker;
     private Marker destinationMarker;
+    private Marker driverLocationMarker;
+    private List<Marker> markers = new ArrayList<>();
+
 
     public static DrawRouteFragment newInstance() {
 
@@ -117,6 +120,22 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 .position(loc));
         destinationMarker.setFlat(true);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(loc).zoom(3).build();
+    }
+
+    public void addDriverLocationMarker(LatLng loc) {
+
+        if (driverLocationMarker != null) {
+            driverLocationMarker.remove();
+        }
+
+        driverLocationMarker = mMap.addMarker(new MarkerOptions()
+                .title("DRIVER")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                .position(loc));
+        driverLocationMarker.setFlat(true);
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(loc).zoom(3).build();
@@ -197,5 +216,14 @@ public class DrawRouteFragment extends Fragment implements OnMapReadyCallback {
             PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.BLUE).width(5);
             mMap.addPolyline(opts);
         }
+    }
+
+    public void addMarker(LatLng loc, String title, float hue) {
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .title(title)
+                .icon(BitmapDescriptorFactory.defaultMarker(hue))
+                .position(loc));
+        marker.setFlat(true);
+        markers.add(marker);
     }
 }

@@ -4,6 +4,7 @@ import com.example.uberapp_tim22.DTO.DriverActivityDTO;
 import com.example.uberapp_tim22.DTO.DriverDTO;
 import com.example.uberapp_tim22.DTO.DriverRideDTO;
 import com.example.uberapp_tim22.DTO.DriverUpdate;
+import com.example.uberapp_tim22.DTO.DriverVehicleDTO;
 import com.example.uberapp_tim22.DTO.PassengerDTO;
 import com.example.uberapp_tim22.DTO.PassengerUpdate;
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
@@ -49,6 +50,10 @@ public interface IDriverService {
 
     @POST(ServiceUtils.driver + "/{id}/activity")
     Call<String> changeActivity(@Path("id") String id, @Body DriverActivityDTO driverActivityDTO);
+
+
+    @GET(ServiceUtils.driver + "/{id}/vehicle")
+    Call<DriverVehicleDTO> getDriverVehicle(@Path("id") String id);
 
 //    @POST(ServiceUtils.driver + "/{id}/activity")
 //    Call<String> changeActivity(@Path("id") String id, @Body DriverActivityDTO driverActivityDTO); cemu ovo

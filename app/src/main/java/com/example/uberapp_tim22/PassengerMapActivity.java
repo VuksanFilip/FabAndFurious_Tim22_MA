@@ -1,17 +1,12 @@
 package com.example.uberapp_tim22;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,83 +19,91 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.uberapp_tim22.DTO.NewLocationDTO;
 import com.example.uberapp_tim22.DTO.NewLocationWithAddressDTO;
+import com.example.uberapp_tim22.fragments.ChatFragment;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
-
 import com.example.uberapp_tim22.tools.FragmentTransition;
 import com.google.android.gms.maps.model.LatLng;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PassengerMainActivity extends AppCompatActivity {
+public class PassengerMapActivity extends AppCompatActivity {
 
-    private Button fragmentStepper1NextBtn, fragmentStepper1TimeBtn, fragmentStepper1GetCoridnatesBtn;
-    private EditText departureAddressEditText, destinationAddressEditText;
-    private RadioGroup fragmentStepper1RG;
-    private RadioButton fragmentStepper1NowRB, fragmentStepper1ScheduleRB;
-    private TextView fragmentStepper1TextView;
-    private DrawRouteFragment drawRouteFragment;
-    private LinearLayout layoutList;
-    private List<String> teamList = new ArrayList<>();
+    private Button fragmentStepper1GetCoridnatesBtn;
+    private DrawRouteFragment  drawRouteFragment;
     private List<NewLocationDTO> locations = new ArrayList<>();
-    private NewLocationWithAddressDTO departure = new NewLocationWithAddressDTO();
-    private NewLocationWithAddressDTO destination = new NewLocationWithAddressDTO();
-    private NewLocationDTO location = new NewLocationDTO();
-    private double doubleDepartureLat;
-    private double doubleDepartureLong;
-    private double doubleDestinationLat;
-    private double doubleDestinationLong;
-//    private Bundle bundle = new Bundle();
+    private String departureAddress, destinationAddress, driverVehicleAddress;
+    private double doubleDepartureLat, doubleDepartureLong, doubleDestinationLat, doubleDestinationLong, doubleDriverLocationLat, doubleDriverLocationLong;
     FragmentManager fm = getSupportFragmentManager();
     FragmentTransaction fragmentTransition = fm.beginTransaction();
-    Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
+    ChatFragment chatFragment = new ChatFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_passenger_main);
+        setContentView(R.layout.activity_passenger_map);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.chatGetCoridnatesBtn);
+
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+
+            driverVehicleAddress = bundle.getString("driverVehicleAddress");
+            departureAddress = bundle.getString("departure");
+            destinationAddress = bundle.getString("destination");
+
+            Log.d("Departure", departureAddress);
+            Log.d("Destination", destinationAddress);
+            Log.d("Address", driverVehicleAddress);
+        }
+
+        Toolbar toolbar = findViewById(R.id.mapToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
         drawRouteFragment = DrawRouteFragment.newInstance();
         FragmentTransition.to(drawRouteFragment, this, false);
-        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
-        String myEmail = sharedPreferences.getString("pref_email", "");
 
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction fragmentTransition = fm.beginTransaction();
-//        Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
-        fragmentTransition.add(R.id.fragmentStepper2, stepper1Fragment);
+        fragmentTransition.add(R.id.fragmentChat, chatFragment);
         fragmentTransition.commit();
-
-        teamList.add("Team");
-        teamList.add("India");
-        teamList.add("Australia");
-        teamList.add("England");
     }
 
     @Override
     protected void onResume() {
+
         super.onResume();
-        fragmentStepper1NextBtn=(Button) findViewById(R.id.fragmentStepper1NextBtn);
-        fragmentStepper1TimeBtn = (Button) findViewById(R.id.fragmentStepper1TimeBtn);
-        fragmentStepper1RG = (RadioGroup) findViewById(R.id.fragmentStepper1RG);
-        fragmentStepper1NowRB = (RadioButton) findViewById(R.id.fragmentStepper1NowRB);
-        fragmentStepper1ScheduleRB = (RadioButton) findViewById(R.id.fragmentStepper1ScheduleRB);
-        fragmentStepper1TextView = (TextView) findViewById(R.id.fragmentStepper1TextView);
+        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.chatGetCoridnatesBtn);
+        fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonGetCoordinatesMap(v);
+            }
+        });
+    }
 
-        layoutList = findViewById(R.id.layout_list);
+    private void buttonGetCoordinatesMap(View view) {
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            GetDeparture(geocoder);
+            GetDestination(geocoder);
+            GetDriverLocation(geocoder);
+            drawRouteFragment.drawLines();
 
-        departureAddressEditText = (EditText) findViewById(R.id.departureAddressEditText);
-        destinationAddressEditText = (EditText) findViewById(R.id.destinationAddressEditText);
-        fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.fragmentStepper1GetCoridnatesBtn);
+        } catch (NullPointerException e) {
+            showPopup("Error", "An error occurred while getting coordinates.");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -142,33 +145,6 @@ public class PassengerMainActivity extends AppCompatActivity {
         spEditor.clear().commit();
     }
 
-    public void buttonGetCoordinates(View view) {
-        Geocoder geocoder = new Geocoder(this);
-        try {
-            GetDeparture(geocoder);
-            GetDestination(geocoder);
-            drawRouteFragment.drawLines();
-
-            departure.setAddress(departureAddressEditText.getText().toString());
-            departure.setLatitude(doubleDepartureLat);
-            departure.setLongitude(doubleDepartureLong);
-
-            destination.setAddress(destinationAddressEditText.getText().toString());
-            destination.setLatitude(doubleDestinationLat);
-            destination.setLongitude(doubleDestinationLong);
-
-            location.setDeparture(departure);
-            location.setDestination(destination);
-
-            locations.clear();
-            locations.add(location);
-            stepper1Fragment.setLocations(locations);
-        } catch (NullPointerException e) {
-            showPopup("Error", "An error occurred while getting coordinates.");
-            e.printStackTrace();
-        }
-    }
-
     private void showPopup(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
@@ -181,26 +157,23 @@ public class PassengerMainActivity extends AppCompatActivity {
     private void GetDeparture(Geocoder geocoder) {
         List<Address> departureAddressList;
         try {
-            departureAddressList = geocoder.getFromLocationName(departureAddressEditText.getText().toString(), 1);
+            departureAddressList = geocoder.getFromLocationName(departureAddress, 1);
 
             if (departureAddressList != null && departureAddressList.size() > 0) {
                 doubleDepartureLat = departureAddressList.get(0).getLatitude();
                 doubleDepartureLong = departureAddressList.get(0).getLongitude();
-//                bundle.putDouble("departureLatitude", doubleDepartureLat);
-//                bundle.putDouble("departureLongitude", doubleDepartureLong);
+                Log.i("Departure lat",String.valueOf(doubleDepartureLat));
 
                 LatLng departureLocation = new LatLng(doubleDepartureLat, doubleDepartureLong);
                 drawRouteFragment.addDepartureMarker(departureLocation);
                 locations.add(new NewLocationDTO());
             } else {
-                // Display a popup or toast indicating that no address was found
                 Toast.makeText(this, "No departure address found", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
-            // Display a popup or dialog indicating the error
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Error")
                     .setMessage("IndexOutOfBoundsException occurred. Please check your inputs.")
@@ -213,13 +186,11 @@ public class PassengerMainActivity extends AppCompatActivity {
     private void GetDestination(Geocoder geocoder) {
         List<Address> destinationAddressList;
         try {
-            destinationAddressList = geocoder.getFromLocationName(destinationAddressEditText.getText().toString(), 1);
+            destinationAddressList = geocoder.getFromLocationName(destinationAddress, 1);
 
             if (destinationAddressList != null && destinationAddressList.size() > 0) {
                 doubleDestinationLat = destinationAddressList.get(0).getLatitude();
                 doubleDestinationLong = destinationAddressList.get(0).getLongitude();
-//                bundle.putDouble("destinationLatitude", doubleDestinationLat);
-//                bundle.putDouble("destinationLongitude", doubleDestinationLong);
 
                 LatLng destinationLocation = new LatLng(doubleDestinationLat, doubleDestinationLong);
                 drawRouteFragment.addDestinationMarker(destinationLocation);
@@ -237,4 +208,33 @@ public class PassengerMainActivity extends AppCompatActivity {
                     .show();
         }
     }
+
+    private void GetDriverLocation(Geocoder geocoder) {
+        List<Address> departureAddressList;
+        try {
+            departureAddressList = geocoder.getFromLocationName(driverVehicleAddress, 1);
+
+            if (departureAddressList != null && departureAddressList.size() > 0) {
+                doubleDriverLocationLat = departureAddressList.get(0).getLatitude();
+                doubleDriverLocationLong = departureAddressList.get(0).getLongitude();
+
+                LatLng driverLocation = new LatLng(doubleDriverLocationLat, doubleDriverLocationLong);
+                drawRouteFragment.addDriverLocationMarker(driverLocation);
+                locations.add(new NewLocationDTO());
+            } else {
+                Toast.makeText(this, "No departure address found", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException | SecurityException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Error")
+                    .setMessage("IndexOutOfBoundsException occurred. Please check your inputs.")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.example.uberapp_tim22.service;
 
 import com.example.uberapp_tim22.DTO.DriverRideDTO;
 import com.example.uberapp_tim22.DTO.PassengerDTO;
+import com.example.uberapp_tim22.DTO.ResponseRideNewDTO;
 import com.example.uberapp_tim22.DTO.RideDTO;
 
 import retrofit2.Call;
@@ -22,7 +23,7 @@ public interface IRideService {
     Call<DriverRideDTO> getRide(@Path("id") String id);
 
     @POST(ServiceUtils.ride)
-    Call<Void> createRide(@Body RideDTO ride);
+    Call<ResponseRideNewDTO> createRide(@Body RideDTO ride);
 
 //    @GET(ServiceUtils.ride + "/driver/{driverId}/active") // Active ride for driver
 //    Call<RideDTO> getRide(@Path("driverId") String id);

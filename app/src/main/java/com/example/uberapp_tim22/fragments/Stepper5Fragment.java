@@ -1,6 +1,10 @@
 package com.example.uberapp_tim22.fragments;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,20 +19,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.uberapp_tim22.DTO.EmailDTO;
+import com.example.uberapp_tim22.DTO.DriverVehicleDTO;
 import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
 import com.example.uberapp_tim22.DTO.NewLocationDTO;
+import com.example.uberapp_tim22.DTO.ResponseRideNewDTO;
 import com.example.uberapp_tim22.DTO.RideDTO;
+import com.example.uberapp_tim22.PassengerMapActivity;
 import com.example.uberapp_tim22.R;
-import com.example.uberapp_tim22.model.VehicleType;
 import com.example.uberapp_tim22.model.enums.VehicleName;
 import com.example.uberapp_tim22.service.ServiceUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +51,8 @@ public class Stepper5Fragment extends Fragment {
     private String departure;
     private String destination;
     private LinearLayout passengersLayout;
+    private long id;
+
 
     @Nullable
     @Override
@@ -109,17 +112,6 @@ public class Stepper5Fragment extends Fragment {
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (IdAndEmailDTO email : passengers) {
-                    Log.i("Passengers", email.getId().toString());
-                }
-                for (NewLocationDTO location : locations) {
-                    Log.i("Locations", location.getDestination().getAddress());
-                }
-                Log.i("Date", scheduledTime);
-                Log.i("Pet transport", Boolean.toString(petTransport));
-                Log.i("Baby transport", Boolean.toString(babyTransport));
-                Log.i("Vehicle type", vehicleName.toString());
-
                 createRide(ride);
             }
         });
@@ -134,10 +126,10 @@ public class Stepper5Fragment extends Fragment {
     }
 
     private void createRide(RideDTO ride) {
-        Call<Void> call = ServiceUtils.rideService.createRide(ride);
-        call.enqueue(new Callback<Void>() {
+        Call<ResponseRideNewDTO> call = ServiceUtils.rideService.createRide(ride);
+        call.enqueue(new Callback<ResponseRideNewDTO>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<ResponseRideNewDTO> call, @NonNull Response<ResponseRideNewDTO> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
@@ -154,10 +146,61 @@ public class Stepper5Fragment extends Fragment {
                     }
                     return;
                 }
+                Long id = response.body().getDriver().getId();
+                bundle.putLong("driverId", id);
+                getVehicleByDriverId(id.toString());
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<ResponseRideNewDTO> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getVehicleByDriverId(String id) {
+        Call<DriverVehicleDTO> call = ServiceUtils.driverService.getDriverVehicle(id);
+        call.enqueue(new Callback<DriverVehicleDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<DriverVehicleDTO> call, @NonNull Response<DriverVehicleDTO> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+
+                if (response.code() == 204) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        Toast.makeText(getContext(), "Email not confirmed!", Toast.LENGTH_SHORT).show();
+                    }
+                    return;
+                }
+                if (response.code() == 400) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        Toast.makeText(getContext(), "OK!", Toast.LENGTH_SHORT).show();
+                    }
+                    return;
+                }
+
+                bundle.putDouble("driverVehicleLatitude", response.body().getCurrentLocation().getLatitude());
+                bundle.putDouble("driverVehicleLongitude", response.body().getCurrentLocation().getLongitude());
+                bundle.putString("driverVehicleAddress", response.body().getCurrentLocation().getAddress());
+                Log.i("Pet Transport", String.valueOf(getArguments().getBoolean("petTransport")));
+
+                Intent intent = new Intent(getActivity(), PassengerMapActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+
+//                Fragment fragment = new Stepper6Fragment();
+//                FragmentManager fragmentManager = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragment.setArguments(bundle);
+//                fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+
+            }
+
+            @Override
+            public void onFailure(Call<DriverVehicleDTO> call, Throwable t) {
             }
         });
     }
