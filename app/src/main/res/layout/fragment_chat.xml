@@ -8,16 +8,12 @@
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="15dp">
-        <include
-            android:id="@+id/stepper"
-            layout="@layout/stepper1_layout"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="62dp"
             android:layout_marginEnd="62dp"
-            android:layout_below="@id/stepper"
             android:orientation="vertical">
 
 
@@ -107,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="buttonGetCoordinatesMap"
-                android:text="Get coordinates"
+                android:text="View ride"
                 android:textSize="10dp"/>
 
         </LinearLayout>
