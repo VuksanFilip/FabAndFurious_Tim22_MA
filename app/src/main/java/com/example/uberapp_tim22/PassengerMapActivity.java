@@ -29,6 +29,7 @@ import com.example.uberapp_tim22.DTO.NewLocationDTO;
 import com.example.uberapp_tim22.DTO.NewLocationWithAddressDTO;
 import com.example.uberapp_tim22.fragments.ChatFragment;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
+import com.example.uberapp_tim22.fragments.PassengerLiveChatFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
 import com.example.uberapp_tim22.tools.FragmentTransition;
 import com.google.android.gms.maps.model.LatLng;
@@ -46,14 +47,14 @@ public class PassengerMapActivity extends AppCompatActivity {
     private double doubleDepartureLat, doubleDepartureLong, doubleDestinationLat, doubleDestinationLong, doubleDriverLocationLat, doubleDriverLocationLong;
     FragmentManager fm = getSupportFragmentManager();
     FragmentTransaction fragmentTransition = fm.beginTransaction();
-    ChatFragment chatFragment = new ChatFragment();
+    PassengerLiveChatFragment chatFragment = new PassengerLiveChatFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_map);
 
-        fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.chatGetCoridnatesBtn);
+        fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.getCoordinates);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -83,7 +84,7 @@ public class PassengerMapActivity extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.chatGetCoridnatesBtn);
+        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.getCoordinates);
         fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
