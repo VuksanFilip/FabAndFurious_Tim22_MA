@@ -1,0 +1,109 @@
+    <!-- dialog_ride_details.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+android:orientation="vertical"
+android:padding="16dp">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <!-- Add this, so AppBarLayout has a bug, which causes ViewPager not to show listview entirely on the screen
+        Adding this view fixes (workaround) the problem -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <!-- The main content view -->
+        <RelativeLayout
+            android:id="@+id/mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.example.uberapp_tim22.model.BarChartView
+                android:id="@+id/barChart"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="57dp"
+                android:layout_width="301dp"
+                android:layout_height="168dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="53dp"
+                tools:layout_editor_absoluteY="428dp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Rides per day"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="163dp"
+                tools:layout_editor_absoluteY="619dp" />
+            <com.example.uberapp_tim22.model.BarChartView
+                android:id="@+id/barChart2"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_marginTop="270dp"
+                android:layout_marginLeft="57dp"
+                android:layout_width="301dp"
+                android:layout_height="168dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="53dp"
+                tools:layout_editor_absoluteY="428dp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="250dp"
+                android:text="Money per day"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="163dp"
+                tools:layout_editor_absoluteY="303dp" />
+
+
+            <com.example.uberapp_tim22.model.BarChartView
+                android:id="@+id/barChart3"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_marginTop="490dp"
+                android:layout_marginLeft="57dp"
+                android:layout_width="301dp"
+                android:layout_height="168dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="53dp"
+                tools:layout_editor_absoluteY="428dp" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="440dp"
+                android:text="Kilometres per day"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="163dp"
+                tools:layout_editor_absoluteY="303dp" />
+
+
+        </RelativeLayout>
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</LinearLayout>

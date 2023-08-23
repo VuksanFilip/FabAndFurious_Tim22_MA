@@ -2,17 +2,24 @@ package com.example.uberapp_tim22;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
+import com.example.uberapp_tim22.adapters.RideListAdapter;
 import com.example.uberapp_tim22.model.BarChartView;
 import com.example.uberapp_tim22.service.ServiceUtils;
 
@@ -33,7 +40,9 @@ import retrofit2.Response;
 
 public class DriverReportsActivity extends AppCompatActivity {
 
-    private SharedPreferences sharedPreferences;
+    private RideListAdapter rideListAdapter;
+    private Button prikaz;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,57 +52,65 @@ public class DriverReportsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
-        Long myId = sharedPreferences.getLong("pref_id", 0);
+//        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+//        Long myId = sharedPreferences.getLong("pref_id", 0);
 
-        getDriverRides(String.valueOf(myId));
+       // getDriverRides("5");
 
-        getChart1();
-        getChart2();
-        getChart3();
-
-    }
-    private void getDriverRides(String driverId) {
-        Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
-
-        BarChartView barChart = findViewById(R.id.barChart);
-
-        call.enqueue(new Callback<List<ResponseRideDTO>>() {
+        prikaz = findViewById(R.id.prikaz);
+        prikaz.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
-                if (response.isSuccessful()) {
-                    List<ResponseRideDTO> rideList = response.body();
-                    List<Date> dates = new ArrayList<>();
-
-                    for (ResponseRideDTO ride :rideList){
-                        dates.add(new Date());
-                    }
-                    Collections.sort(dates);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-                    List<String> labels = new ArrayList<>();
-
-                    for (Date date : dates) {
-                        String label = sdf.format(date);
-                        labels.add(label);
-                    }
-
-Log.i("probaaa",rideList.get(0).toString());
-                    List<String> labelss = labels;
-                    List<Integer> values = Arrays.asList(5, 8, 3, 6, 4, 9, 7);
-
-                    barChart.setData(labels, values);
-                } else {
-                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ResponseRideDTO>> call, Throwable t) {
-                Log.e("DriverRideHistory", "API call failed: " + t.getMessage());
-                Toast.makeText(DriverReportsActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                showPopup(new Date(), new Date());
             }
         });
+
+
+//        getChart1();
+//        getChart2();
+//        getChart3();
+
     }
+//    private void getDriverRides(String driverId) {
+//        Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
+//
+//        call.enqueue(new Callback<List<ResponseRideDTO>>() {
+//            @Override
+//            public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
+//                if (response.isSuccessful()) {
+//                    List<ResponseRideDTO> rideList = response.body();
+//                    if (rideList != null) {
+//                        rideListAdapter.setRideList(rideList);
+//                        Log.i("123",rideListAdapter.toString());
+//                    }
+//                } else {
+//                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<ResponseRideDTO>> call, Throwable t) {
+//                Log.e("DriverRideHistory", "API call failed: " + t.getMessage());
+//                Toast.makeText(DriverReportsActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+    private void showPopup(Date datum1, Date datum2) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverReportsActivity.this);
+        LayoutInflater inflater = LayoutInflater.from(DriverReportsActivity.this);
+        View dialogView = inflater.inflate(R.layout.dialog_statistics, null);
+        dialogBuilder.setView(dialogView);
+
+        TextView messageTextView = dialogView.findViewById(R.id.textView7);
+        String message = "Kilometres per day";
+        messageTextView.setText(message);
+        messageTextView.setTextSize(18);
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
