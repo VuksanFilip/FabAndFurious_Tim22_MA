@@ -1,6 +1,8 @@
 package com.example.uberapp_tim22.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +16,16 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
+import com.example.uberapp_tim22.DTO.NewLocationDTO;
 import com.example.uberapp_tim22.R;
 import com.example.uberapp_tim22.adapters.MessageAdapter;
+import com.example.uberapp_tim22.model.enums.VehicleName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,23 +36,35 @@ import okio.ByteString;
 
 public class PassengerLiveChatFragment extends Fragment {
 
-
-    private static final String TAG = "WebSocketFragment";
     private WebSocket webSocket;
     private MessageAdapter adapter;
+    private ListView messsageList;
+    private EditText messageBox;
+    private TextView send;
+    private Long driverId, rideId, myId;
+    private SharedPreferences sharedPreferences;
 
+    @SuppressLint("LongLogTag")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live_chat, container, false);
 
+        messsageList = view.findViewById(R.id.messageList);
+        messageBox = view.findViewById(R.id.messageBox);
+        send = view.findViewById(R.id.send);
 
-        ListView messsageList = view.findViewById(R.id.messageList);
-        final EditText messageBox = view.findViewById(R.id.messageBox);
-        TextView send = view.findViewById(R.id.send);
+        sharedPreferences = getContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        myId = sharedPreferences.getLong("pref_myId", 0);
+        driverId = sharedPreferences.getLong("pref_driverId", 0);
+        rideId = sharedPreferences.getLong("pref_rideId", 0);
+
+        Log.d("Fragment live chat myId", String.valueOf(myId));
+        Log.d("Fragment live chat driverId", String.valueOf(driverId));
+        Log.d("Fragment live chat rideId", String.valueOf(rideId));
 
         instantiateWebSocket();
 
-        adapter = new MessageAdapter();
+        adapter = new MessageAdapter(getContext());
         messsageList.setAdapter(adapter);
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +92,7 @@ public class PassengerLiveChatFragment extends Fragment {
 
     private void instantiateWebSocket() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://192.168.55.189:8084/socket/websocket").build();
+        Request request = new Request.Builder().url("ws://192.168.1.17:8084/socket/websocket").build();
         SocketListener socketListener = new SocketListener();
         webSocket = client.newWebSocket(request, socketListener);
     }
@@ -104,71 +123,23 @@ public class PassengerLiveChatFragment extends Fragment {
             super.onMessage(webSocket, bytes);
         }
 
-
-
         @Override
         public void onClosing(WebSocket webSocket, int code, String reason) {
             super.onClosing(webSocket, code, reason);
         }
 
-
-
         @Override
         public void onClosed(WebSocket webSocket, int code, String reason) {
-            super.onClosed(webSocket, code, reason);
-        }
-
-
+            if (webSocket != null) {
+                webSocket.cancel();
+            }        }
 
         @Override
         public void onFailure(WebSocket webSocket, final Throwable t, @Nullable final Response response) {
             super.onFailure(webSocket, t, response);
         }
-
     }
 }
-
-
-//        String serverUri = "ws://192.168.55.189:8084/socket/websocket";
-//
-//        OkHttpClient client = new OkHttpClient();
-//        Request request = new Request.Builder().url(serverUri).build();
-//        WebSocketListener webSocketListener = new WebSocketListener() {
-//            @Override
-//            public void onOpen(WebSocket webSocket, okhttp3.Response response) {
-//                Log.d(TAG, "WebSocket connection opened");
-//                // You can send messages here using webSocket.send("Your Message");
-//            }
-//
-//            @Override
-//            public void onMessage(WebSocket webSocket, String text) {
-//                Log.d(TAG, "WebSocket message received: " + text);
-//                // Handle incoming messages here.
-//            }
-//
-//            @Override
-//            public void onClosed(WebSocket webSocket, int code, String reason) {
-//                Log.d(TAG, "WebSocket connection closed");
-//            }
-//
-//            @Override
-//            public void onFailure(WebSocket webSocket, Throwable t, okhttp3.Response response) {
-//                Log.e(TAG, "WebSocket error occurred: " + t.getMessage());
-//            }
-//        };
-//
-//        webSocket = client.newWebSocket(request, webSocketListener);
-//
-//        return view;
-//    }
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        if (webSocket != null) {
-//            webSocket.cancel();
-//        }
-//    }
 
 
 

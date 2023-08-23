@@ -1,5 +1,8 @@
 package com.example.uberapp_tim22;
 
+import static android.app.PendingIntent.getActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,27 +48,47 @@ public class PassengerMapActivity extends AppCompatActivity {
     private List<NewLocationDTO> locations = new ArrayList<>();
     private String departureAddress, destinationAddress, driverVehicleAddress;
     private double doubleDepartureLat, doubleDepartureLong, doubleDestinationLat, doubleDestinationLong, doubleDriverLocationLat, doubleDriverLocationLong;
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction fragmentTransition = fm.beginTransaction();
-    PassengerLiveChatFragment chatFragment = new PassengerLiveChatFragment();
+    private Long myId, driverId,rideId, myIdPreference;
+    private FragmentManager fm = getSupportFragmentManager();
+    private FragmentTransaction fragmentTransition = fm.beginTransaction();
+    private PassengerLiveChatFragment chatFragment = new PassengerLiveChatFragment();
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor spEditor;
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_map);
 
         fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.getCoordinates);
+        sharedPreferences = this.getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        spEditor = sharedPreferences.edit();
+
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
+
             driverVehicleAddress = bundle.getString("driverVehicleAddress");
             departureAddress = bundle.getString("departure");
             destinationAddress = bundle.getString("destination");
+            myId = bundle.getLong("myId");
+            driverId = bundle.getLong("driverId");
+            rideId = bundle.getLong("rideId");
 
-            Log.d("Departure", departureAddress);
-            Log.d("Destination", destinationAddress);
-            Log.d("Address", driverVehicleAddress);
+            Log.d("Passenger Map Activity Departure", departureAddress);
+            Log.d("Passenger Map Activity Destination", destinationAddress);
+            Log.d("Passenger Map Activity Address", driverVehicleAddress);
+            Log.d("Passenger Map Activity MyId", String.valueOf(myId));
+            Log.d("Passenger Map Activity DriverId", String.valueOf(driverId));
+            Log.d("Passenger Map Activity RideId", String.valueOf(rideId));
+
+            spEditor.putLong("pref_myId", myId);
+            spEditor.putLong("pref_driverId", driverId);
+            spEditor.putLong("pref_rideId", rideId);
+            spEditor.apply();
+
         }
 
         Toolbar toolbar = findViewById(R.id.mapToolbar);
