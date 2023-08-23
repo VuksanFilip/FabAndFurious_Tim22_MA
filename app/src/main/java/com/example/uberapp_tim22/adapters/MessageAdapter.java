@@ -21,6 +21,11 @@ public class MessageAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<JSONObject> messagesList = new ArrayList<>();
 
+    public MessageAdapter(Context context) {
+        this.context = context;
+        this.inflater = LayoutInflater.from(context); // Initialize the LayoutInflater
+    }
+
     @Override
     public int getCount() {
         return messagesList.size();

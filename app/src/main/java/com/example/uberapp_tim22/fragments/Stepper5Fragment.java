@@ -147,7 +147,7 @@ public class Stepper5Fragment extends Fragment {
                     return;
                 }
                 Long id = response.body().getDriver().getId();
-                bundle.putLong("driverId", id);
+                bundle.putLong("rideId", response.body().getId());
                 getVehicleByDriverId(id.toString());
             }
 
@@ -182,6 +182,8 @@ public class Stepper5Fragment extends Fragment {
                 bundle.putDouble("driverVehicleLatitude", response.body().getCurrentLocation().getLatitude());
                 bundle.putDouble("driverVehicleLongitude", response.body().getCurrentLocation().getLongitude());
                 bundle.putString("driverVehicleAddress", response.body().getCurrentLocation().getAddress());
+                bundle.putLong("driverId", response.body().getDriverId());
+
                 Log.i("Pet Transport", String.valueOf(getArguments().getBoolean("petTransport")));
 
                 Intent intent = new Intent(getActivity(), PassengerMapActivity.class);
