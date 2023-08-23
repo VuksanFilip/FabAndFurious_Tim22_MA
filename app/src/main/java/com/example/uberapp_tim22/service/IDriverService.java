@@ -44,7 +44,7 @@ public interface IDriverService {
 //                                            @Query("page") int page,
 //                                            @Query("size") int size,
 //                                            @Query("sort") String sort);
-    @GET(ServiceUtils.driver + "/{id}/ride")
+    @GET(ServiceUtils.driver + "/{id}/rides")
     Call<List<ResponseRideDTO>> getDriverRides(@Path("id") String id);
 
 
