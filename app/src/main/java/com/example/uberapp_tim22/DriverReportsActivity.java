@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,11 @@ public class DriverReportsActivity extends AppCompatActivity {
     private RideListAdapter rideListAdapter;
     private Button prikaz;
 
+    private Button selectDateButton;
+    private TextView selectedDateTextView;
+    private Button selectDateButtonTo;
+    private TextView selectedDateTextViewTo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +72,68 @@ public class DriverReportsActivity extends AppCompatActivity {
             }
         });
 
+        selectDateButton = findViewById(R.id.select_date_button);
+        selectedDateTextView = findViewById(R.id.selected_date_text_view);
+
+        selectDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog();
+            }
+        });
+
+        selectDateButtonTo = findViewById(R.id.select_date_button2);
+        selectedDateTextViewTo = findViewById(R.id.selected_date_text_view2);
+
+        selectDateButtonTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog2();
+            }
+        });
+
 
 //        getChart1();
 //        getChart2();
 //        getChart3();
 
+    }
+
+    private void showDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
+                        // Handle the select`ed date here
+                        String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                        selectedDateTextView.setText(selectedDate);
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show();
+    }
+    private void showDatePickerDialog2() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
+                        // Handle the selected date here
+                        String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                        selectedDateTextViewTo.setText(selectedDate);
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show();
     }
 //    private void getDriverRides(String driverId) {
 //        Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
