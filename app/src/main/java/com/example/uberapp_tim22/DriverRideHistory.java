@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -49,7 +50,8 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
         rideListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         rideListRecyclerView.setAdapter(rideListAdapter);
 
-        getDriverRides("5");
+        getDriverRides("5"); //promeniti
+
     }
     private void getDriverRides(String driverId) {
         Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
@@ -81,7 +83,7 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
         showPopup(ride);
     }
 
-    public String driverToString(List<IdAndEmailDTO> passengers){
+    public String passengersToString(List<IdAndEmailDTO> passengers){
         String passengerString = "";
         for(IdAndEmailDTO passenger : passengers){
             passengerString = passengerString + passenger.getEmail() + " ";
@@ -89,25 +91,26 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
 
         return passengerString;
     }
+
     private void showPopup(ResponseRideDTO ride) {
-//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverRideHistory.this);
-//        LayoutInflater inflater = LayoutInflater.from(DriverRideHistory.this);
-//        View dialogView = inflater.inflate(R.layout.dialog_ride_details, null);
-//        dialogBuilder.setView(dialogView);
-//
-//        TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
-//        String message = "ID: " + ride.getId() + "\n" +
-//                "Driver: " + ride.getDriver().getEmail() + "\n" +
-//                "Passengers: " + driverToString(ride.getPassengers()) + "\n" +
-//                "Rejection: " + (ride.getRejection() != null ? ride.getRejection().getReason() : "") + "\n" +
-//                "Total cost: " + ride.getTotalCost() + "\n" +
-//                "Start Time: " + ride.getStartTime() + "\n" +
-//                "End Time: " + ride.getEndTime();
-//        messageTextView.setText(message);
-//        messageTextView.setTextSize(18);
-//
-//        AlertDialog alertDialog = dialogBuilder.create();
-//        alertDialog.show();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverRideHistory.this);
+        LayoutInflater inflater = LayoutInflater.from(DriverRideHistory.this);
+        View dialogView = inflater.inflate(R.layout.dialog_ride_details, null);
+        dialogBuilder.setView(dialogView);
+
+        TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
+        String message = "ID: " + ride.getId() + "\n" +
+                "Driver: " + ride.getDriver().getEmail() + "\n" +
+                "Passengers: " + passengersToString(ride.getPassengers()) + "\n" +
+                "Rejection: " + (ride.getRejection() != null ? ride.getRejection().getReason() : "") + "\n" +
+                "Total cost: " + ride.getTotalCost() + "\n" +
+                "Start Time: " + ride.getStartTime() + "\n" +
+                "End Time: " + ride.getEndTime();
+        messageTextView.setText(message);
+        messageTextView.setTextSize(18);
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override
@@ -143,6 +146,13 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void deletePreferences(){
+        SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = sharedPreferences.edit();
+        spEditor.clear().commit();
+    }
+
 
     @Override
     protected void onStart() {
