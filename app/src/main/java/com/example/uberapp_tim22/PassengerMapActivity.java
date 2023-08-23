@@ -56,7 +56,6 @@ public class PassengerMapActivity extends AppCompatActivity {
 
         fragmentStepper1GetCoridnatesBtn = (Button) findViewById(R.id.getCoordinates);
 
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
@@ -84,13 +83,13 @@ public class PassengerMapActivity extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.getCoordinates);
-        fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonGetCoordinatesMap(v);
-            }
-        });
+//        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.getCoordinates);
+//        fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                buttonGetCoordinatesMap(v);
+//            }
+//        });
     }
 
     private void buttonGetCoordinatesMap(View view) {
