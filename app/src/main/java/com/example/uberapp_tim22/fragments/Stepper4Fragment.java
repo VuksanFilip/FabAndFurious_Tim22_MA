@@ -53,6 +53,8 @@ public class Stepper4Fragment extends Fragment {
     private List<IdAndEmailDTO> passengers = new ArrayList<>();
     private boolean attributeExists;
     private LinearLayout lastAddedItemLayout;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor spEditor;
 
 
     @Nullable

@@ -78,10 +78,10 @@ public class UserLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                String getEmail= email.getText().toString();
 //                String getPassword = password.getText().toString();
-//                String getEmail = "marko.markovic@gmail.com";
-//                String getPassword = "marko123";
-                String getEmail = "andrea.katzenberger@gmail.com";
-                String getPassword = "andrea123";
+                String getEmail = "marko.markovic@gmail.com";
+                String getPassword = "marko123";
+//                String getEmail = "andrea.katzenberger@gmail.com";
+//                String getPassword = "andrea123";
                 login(getEmail, getPassword);
             }
         });
@@ -128,8 +128,8 @@ public class UserLoginActivity extends AppCompatActivity {
                 Log.e(role, role);
                 if(role.equalsIgnoreCase("PASSENGER")){
                     setPreferences(id, email, role, loginResponse);
-                    startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));
-//                    startActivity(new Intent(UserLoginActivity.this, WebSocketActivity.class));
+//                    startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));
+                    startActivity(new Intent(UserLoginActivity.this, PassengerInboxActivity.class));
 
                 }
                 else if(role.equalsIgnoreCase("DRIVER")) {
