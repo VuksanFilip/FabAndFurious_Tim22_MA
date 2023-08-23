@@ -17,16 +17,9 @@ public class PassengerInboxActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_inbox);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.inboxToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.example_menu, menu);
-        return true;
     }
 
     @Override
