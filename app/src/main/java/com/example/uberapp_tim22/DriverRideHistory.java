@@ -18,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,12 +31,16 @@ import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
 import com.example.uberapp_tim22.adapters.RideListAdapter;
 import com.example.uberapp_tim22.service.ServiceUtils;
+import com.example.uberapp_tim22.tools.ShakeDetector;
 
 public class DriverRideHistory extends AppCompatActivity implements RideListAdapter.RideItemClickListener{
 
     private RecyclerView rideListRecyclerView;
     private RideListAdapter rideListAdapter;
     private SharedPreferences sharedPreferences;
+    private boolean opadajuce = true;
+    private List<ResponseRideDTO> rides;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,37 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
 
         getDriverRides("5"); //promeniti
 
+
+        ShakeDetector shakeDetector = new ShakeDetector(this);
+        shakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+            @Override
+            public void onShake() {
+               if (opadajuce){
+                   Collections.sort(rides, new Comparator<ResponseRideDTO>() {
+                       @Override
+                       public int compare(ResponseRideDTO o1, ResponseRideDTO o2) {
+                           return o1.getEndTime().compareTo(o2.getEndTime());
+                       }
+                   });
+
+                   //redosled od najnovije
+               }else{
+                   //redosled od najstarije
+                   Collections.sort(rides, new Comparator<ResponseRideDTO>() {
+                       @Override
+                       public int compare(ResponseRideDTO o1, ResponseRideDTO o2) {
+                           return o2.getEndTime().compareTo(o1.getEndTime());
+                       }
+                   });
+               }
+
+                rideListAdapter.setRideList(rides);
+
+                }
+        });
+
+
+
     }
     private void getDriverRides(String driverId) {
         Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
@@ -63,6 +101,7 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
                     List<ResponseRideDTO> rideList = response.body();
                     if (rideList != null) {
                         rideListAdapter.setRideList(rideList);
+                        rides = rideList;
                         Log.i("123",rideListAdapter.toString());
                     }
                 } else {
