@@ -2,6 +2,7 @@ package com.example.uberapp_tim22;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
@@ -23,10 +24,12 @@ import android.widget.Toast;
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
 import com.example.uberapp_tim22.adapters.RideListAdapter;
 import com.example.uberapp_tim22.model.BarChartView;
+import com.example.uberapp_tim22.model.Ride;
 import com.example.uberapp_tim22.service.ServiceUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +46,14 @@ import retrofit2.Response;
 public class DriverReportsActivity extends AppCompatActivity {
 
     private RideListAdapter rideListAdapter;
+    private RecyclerView rideListRecyclerView;
     private Button prikaz;
+    private List<ResponseRideDTO> rides;
+    private Date from;
+    private Date to;
+    private BarChartView barChart;
+    private BarChartView barChart2;
+    private BarChartView barChart3;
 
     private Button selectDateButton;
     private TextView selectedDateTextView;
@@ -59,16 +69,19 @@ public class DriverReportsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
+        rides = new ArrayList<ResponseRideDTO>();
+
 //        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
 //        Long myId = sharedPreferences.getLong("pref_id", 0);
+//        rideListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        rideListRecyclerView.setAdapter(rideListAdapter);
 
-       // getDriverRides("5");
 
         prikaz = findViewById(R.id.prikaz);
         prikaz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(new Date(), new Date());
+                showPopup();
             }
         });
 
@@ -93,10 +106,6 @@ public class DriverReportsActivity extends AppCompatActivity {
         });
 
 
-//        getChart1();
-//        getChart2();
-//        getChart3();
-
     }
 
     private void showDatePickerDialog() {
@@ -109,9 +118,15 @@ public class DriverReportsActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
-                        // Handle the select`ed date here
-                        String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
-                        selectedDateTextView.setText(selectedDate);
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+
+                        // Convert the Calendar object to a Date object
+                        from = selectedCalendar.getTime();
+
+                        // Now, you have the selectedDate as a Date object
+                        // You can use it as needed
+                        selectedDateTextView.setText("Selected Date: " + from);
                     }
                 }, year, month, day);
 
@@ -127,52 +142,70 @@ public class DriverReportsActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
-                        // Handle the selected date here
-                        String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
-                        selectedDateTextViewTo.setText(selectedDate);
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+
+                        // Convert the Calendar object to a Date object
+                        to = selectedCalendar.getTime();
+
+                        // Now, you have the selectedDate as a Date object
+                        // You can use it as needed
+                        selectedDateTextViewTo.setText("Selected Date: " + to);
                     }
                 }, year, month, day);
 
         datePickerDialog.show();
     }
-//    private void getDriverRides(String driverId) {
-//        Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
-//
-//        call.enqueue(new Callback<List<ResponseRideDTO>>() {
-//            @Override
-//            public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
-//                if (response.isSuccessful()) {
-//                    List<ResponseRideDTO> rideList = response.body();
-//                    if (rideList != null) {
-//                        rideListAdapter.setRideList(rideList);
-//                        Log.i("123",rideListAdapter.toString());
-//                    }
-//                } else {
-//                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<ResponseRideDTO>> call, Throwable t) {
-//                Log.e("DriverRideHistory", "API call failed: " + t.getMessage());
-//                Toast.makeText(DriverReportsActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void getDriverRides(String driverId) {
+        Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides("5");
 
-    private void showPopup(Date datum1, Date datum2) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverReportsActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(DriverReportsActivity.this);
-        View dialogView = inflater.inflate(R.layout.dialog_statistics, null);
-        dialogBuilder.setView(dialogView);
+        call.enqueue(new Callback<List<ResponseRideDTO>>() {
+            @Override
+            public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
+                if (response.isSuccessful()) {
+                    List<ResponseRideDTO> rideList = response.body();
+                    for (ResponseRideDTO r: rideList) {
+                        if (r.getStartTime().after(from) && r.getStartTime().before(to)){
+                            rides.add(r);
+                        }
+                        }
+                    Log.i("voznjiceeee", String.valueOf(rides.size()));
 
-        TextView messageTextView = dialogView.findViewById(R.id.textView7);
-        String message = "Kilometres per day";
-        messageTextView.setText(message);
-        messageTextView.setTextSize(18);
+                } else {
+                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+                }
+            }
 
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+            @Override
+            public void onFailure(Call<List<ResponseRideDTO>> call, Throwable t) {
+                Log.e("DriverRideHistory", "API call failed: " + t.getMessage());
+                Toast.makeText(DriverReportsActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showPopup() {
+//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverReportsActivity.this);
+//        LayoutInflater inflater = LayoutInflater.from(DriverReportsActivity.this);
+//        View dialogView = inflater.inflate(R.layout.dialog_statistics, null);
+//        dialogBuilder.setView(dialogView);
+
+
+        getDriverRides("5");
+        barChart3 = findViewById(R.id.barChart3);
+        getChart3();
+        barChart2 = findViewById(R.id.barChart2);
+        getChart2();
+        barChart = findViewById(R.id.barChart1);
+        getChart1();
+
+//        TextView messageTextView = dialogView.findViewById(R.id.textView7);
+//        String message = "Kilometres per day";
+//        messageTextView.setText(message);
+//        messageTextView.setTextSize(18);
+
+//        AlertDialog alertDialog = dialogBuilder.create();
+//        alertDialog.show();
     }
 
     @Override
@@ -240,27 +273,11 @@ public class DriverReportsActivity extends AppCompatActivity {
     }
 
     public void getChart1(){
-        List<Date> dates = new ArrayList<>();Calendar calendar = Calendar.getInstance();
+        List<Date> dates = new ArrayList<>();
 
-        BarChartView barChart = findViewById(R.id.barChart);
-        // Set the desired year, month, and day
-        calendar.set(Calendar.YEAR, 2022);
-        calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 6);
-        // Get a Date object from the Calendar instance
-         Date date3 = calendar.getTime();
-
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 13);
-        Date date4 = calendar.getTime();
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 14);
-        Date date5 = calendar.getTime();
-        dates.add(date3);
-        dates.add(date4);
-        dates.add(date5);
+        for (ResponseRideDTO r:rides){
+            dates.add(r.getStartTime());
+        }
 
         Collections.sort(dates);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -272,33 +289,23 @@ public class DriverReportsActivity extends AppCompatActivity {
         }
 
         List<String> labelss = labels;
-        List<Integer> values = Arrays.asList(1, 1, 2, 1);
+        List<Integer> values = new ArrayList<>();
 
+        for (ResponseRideDTO r:rides){
+            values.add(r.getTotalCost()+300);
+        }
+        //List<Integer> values = Arrays.asList(1, 1, 2, 1);
+        //todo ako je isti dan
+//        barChart=null;
         barChart.setData(labelss, values);
     }
 
     public void getChart2(){
         List<Date> dates = new ArrayList<>();Calendar calendar = Calendar.getInstance();
 
-        BarChartView barChart = findViewById(R.id.barChart3);
-        // Set the desired year, month, and day
-        calendar.set(Calendar.YEAR, 2022);
-        calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 6);
-        // Get a Date object from the Calendar instance
-        Date date3 = calendar.getTime();
-
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 13);
-        Date date4 = calendar.getTime();
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 14);
-        Date date5 = calendar.getTime();
-        dates.add(date3);
-        dates.add(date4);
-        dates.add(date5);
+        for (ResponseRideDTO r:rides){
+            dates.add(r.getStartTime());
+        }
 
         Collections.sort(dates);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -310,32 +317,22 @@ public class DriverReportsActivity extends AppCompatActivity {
         }
 
         List<String> labelss = labels;
-        List<Integer> values = Arrays.asList(4, 26, 3);
+        List<Integer> values = new ArrayList<>();
 
-        barChart.setData(labelss, values);
+        for (ResponseRideDTO r:rides){
+            values.add(r.getTotalCost());
+        }
+        //List<Integer> values = Arrays.asList(1, 1, 2, 1);
+        //todo ako je isti dan
+//        barChart2=null;
+        barChart2.setData(labelss, values);
     }
     public void getChart3(){
-        List<Date> dates = new ArrayList<>();Calendar calendar = Calendar.getInstance();
+        List<Date> dates = new ArrayList<>();
 
-        BarChartView barChart = findViewById(R.id.barChart2);
-        // Set the desired year, month, and day
-        calendar.set(Calendar.YEAR, 2022);
-        calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 6);
-        // Get a Date object from the Calendar instance
-        Date date3 = calendar.getTime();
-
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 13);
-        Date date4 = calendar.getTime();
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 14);
-        Date date5 = calendar.getTime();
-        dates.add(date3);
-        dates.add(date4);
-        dates.add(date5);
+        for (ResponseRideDTO r:rides){
+            dates.add(r.getStartTime());
+        }
 
         Collections.sort(dates);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -347,8 +344,14 @@ public class DriverReportsActivity extends AppCompatActivity {
         }
 
         List<String> labelss = labels;
-        List<Integer> values = Arrays.asList(300, 1250, 700);
+        List<Integer> values = new ArrayList<>();
 
-        barChart.setData(labelss, values);
+        for (ResponseRideDTO r:rides){
+            values.add(1);
+        }
+        //List<Integer> values = Arrays.asList(1, 1, 2, 1);
+        //todo ako je isti dan
+//        barChart3=null;
+        barChart3.setData(labelss, values);
     }
 }
