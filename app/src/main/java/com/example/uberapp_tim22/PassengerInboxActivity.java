@@ -23,6 +23,7 @@ import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
 import com.example.uberapp_tim22.adapters.ChatBoxListAdapter;
 import com.example.uberapp_tim22.adapters.RideListAdapter;
+import com.example.uberapp_tim22.fragments.PassengerLiveChatFragment;
 import com.example.uberapp_tim22.service.ServiceUtils;
 
 import java.util.List;
@@ -84,37 +85,17 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
 
     @Override
     public void onChatBoxItemClick(ResponseRideDTO ride) {
-        showPopup(ride);
-    }
+        PassengerLiveChatFragment fragment = new PassengerLiveChatFragment();
 
-    public String passengersToString(List<IdAndEmailDTO> passengers){
-        String passengerString = "";
-        for(IdAndEmailDTO passenger : passengers){
-            passengerString = passengerString + passenger.getEmail() + " ";
-        }
+        Bundle args = new Bundle();
+        args.putLong("ride", ride.getId());
+        fragment.setArguments(args);
 
-        return passengerString;
-    }
-
-    private void showPopup(ResponseRideDTO ride) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PassengerInboxActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(PassengerInboxActivity.this);
-        View dialogView = inflater.inflate(R.layout.dialog_ride_details, null);
-        dialogBuilder.setView(dialogView);
-
-        TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
-        String message = "ID: " + ride.getId() + "\n" +
-                "Driver: " + ride.getDriver().getEmail() + "\n" +
-                "Passengers: " + passengersToString(ride.getPassengers()) + "\n" +
-                "Rejection: " + (ride.getRejection() != null ? ride.getRejection().getReason() : "") + "\n" +
-                "Total cost: " + ride.getTotalCost() + "\n" +
-                "Start Time: " + ride.getStartTime() + "\n" +
-                "End Time: " + ride.getEndTime();
-        messageTextView.setText(message);
-        messageTextView.setTextSize(18);
-
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.chat, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

@@ -70,24 +70,24 @@ public class PassengerMapActivity extends AppCompatActivity {
         if (bundle != null) {
 
 
-            driverVehicleAddress = bundle.getString("driverVehicleAddress");
-            departureAddress = bundle.getString("departure");
-            destinationAddress = bundle.getString("destination");
-            myId = bundle.getLong("myId");
-            driverId = bundle.getLong("driverId");
-            rideId = bundle.getLong("rideId");
-
-            Log.d("Passenger Map Activity Departure", departureAddress);
-            Log.d("Passenger Map Activity Destination", destinationAddress);
-            Log.d("Passenger Map Activity Address", driverVehicleAddress);
-            Log.d("Passenger Map Activity MyId", String.valueOf(myId));
-            Log.d("Passenger Map Activity DriverId", String.valueOf(driverId));
-            Log.d("Passenger Map Activity RideId", String.valueOf(rideId));
-
-            spEditor.putLong("pref_myId", myId);
-            spEditor.putLong("pref_driverId", driverId);
-            spEditor.putLong("pref_rideId", rideId);
-            spEditor.apply();
+//            driverVehicleAddress = bundle.getString("driverVehicleAddress");
+//            departureAddress = bundle.getString("departure");
+//            destinationAddress = bundle.getString("destination");
+//            myId = bundle.getLong("myId");
+//            driverId = bundle.getLong("driverId");
+//            rideId = bundle.getLong("rideId");
+//
+//            Log.d("Passenger Map Activity Departure", departureAddress);
+//            Log.d("Passenger Map Activity Destination", destinationAddress);
+//            Log.d("Passenger Map Activity Address", driverVehicleAddress);
+//            Log.d("Passenger Map Activity MyId", String.valueOf(myId));
+//            Log.d("Passenger Map Activity DriverId", String.valueOf(driverId));
+//            Log.d("Passenger Map Activity RideId", String.valueOf(rideId));
+//
+//            spEditor.putLong("pref_myId", myId);
+//            spEditor.putLong("pref_driverId", driverId);
+//            spEditor.putLong("pref_rideId", rideId);
+//            spEditor.apply();
 
         }
 

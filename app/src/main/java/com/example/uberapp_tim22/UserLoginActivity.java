@@ -129,7 +129,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 if(role.equalsIgnoreCase("PASSENGER")){
                     setPreferences(id, email, role, loginResponse);
 //                    startActivity(new Intent(UserLoginActivity.this, PassengerMainActivity.class));
-                    startActivity(new Intent(UserLoginActivity.this, PassengerInboxActivity.class));
+                    startActivity(new Intent(UserLoginActivity.this, PassengerMapActivity.class));
 
                 }
                 else if(role.equalsIgnoreCase("DRIVER")) {
