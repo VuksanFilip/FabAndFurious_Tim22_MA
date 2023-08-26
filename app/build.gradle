@@ -57,5 +57,7 @@ dependencies {
     implementation 'tech.gusavila92:java-android-websocket-client:1.2.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 
 }

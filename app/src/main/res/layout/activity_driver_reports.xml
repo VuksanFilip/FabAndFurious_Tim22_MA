@@ -40,7 +40,7 @@
                             android:id="@+id/prikaz"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="300px"
+                            android:layout_marginTop="200px"
                             android:text="See report" />
 
                         <Button
@@ -59,7 +59,7 @@
                         <Button
                             android:id="@+id/select_date_button2"
                             android:layout_width="wrap_content"
-                            android:layout_marginTop="200px"
+                            android:layout_marginTop="100px"
                             android:layout_height="wrap_content"
                             android:text="To"/>
 
@@ -70,7 +70,7 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:layout_marginLeft="500px"
-                            android:layout_marginTop="200px"/>
+                            android:layout_marginTop="100px"/>
 
 
                         <com.example.uberapp_tim22.model.BarChartView
@@ -78,7 +78,7 @@
                             android:layout_width="300dp"
                             android:layout_height="100dp"
                             android:layout_marginLeft="150px"
-                            android:layout_marginTop="500px"/>
+                            android:layout_marginTop="340px"/>
 
                         <TextView
                                     android:id="@+id/textView7"
@@ -93,7 +93,7 @@
                             android:id="@+id/barChart2"
                             android:layout_width="300dp"
                             android:layout_height="100dp"
-                            android:layout_marginTop="820px"
+                            android:layout_marginTop="680px"
                             android:layout_marginLeft="150px" />
 
                         <TextView
@@ -108,7 +108,7 @@
                             android:id="@+id/barChart1"
                             android:layout_width="300dp"
                             android:layout_height="100dp"
-                            android:layout_marginTop="1150px"
+                            android:layout_marginTop="1000px"
                             android:layout_marginLeft="150px" />
 
                         <TextView
@@ -118,6 +118,31 @@
                             android:layout_below="@+id/barChart1"
                             android:layout_centerHorizontal="true"
                             android:text="Rides per day" />
+
+                        <TableLayout
+                            android:id="@+id/tableLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="144dp"
+                            android:layout_marginTop="1340px"
+                            android:stretchColumns="0,1,2,3">
+
+                                <TableRow
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+
+                                <TableRow
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+
+                                <TableRow
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+
+                                <TableRow
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+                        </TableLayout>
+
 
                 </RelativeLayout>
 
