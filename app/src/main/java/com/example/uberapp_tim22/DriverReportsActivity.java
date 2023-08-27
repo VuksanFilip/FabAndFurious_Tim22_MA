@@ -420,7 +420,7 @@ public class DriverReportsActivity extends AppCompatActivity {
         //List<Integer> values = Arrays.asList(1, 1, 2, 1);
         //todo ako je isti dan
 //        barChart=null;
-        barChart.setData(labelss, values, "Date", "Y Axis Label");
+        barChart.setData(labelss, values);
     }
 
     public void getChart2(){
