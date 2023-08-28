@@ -146,6 +146,11 @@ public class PassangerRideHistory extends AppCompatActivity implements RideListA
         }
         if (itemId == R.id.menuStatistic) {
             Intent intent = new Intent(this, PassengerReportsActivity.class);
+          startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuInbox) {
+            Intent intent = new Intent(this, PassengerInboxActivity.class);
             startActivity(intent);
             return true;
         }

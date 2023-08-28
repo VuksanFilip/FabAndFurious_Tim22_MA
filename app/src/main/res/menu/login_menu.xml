@@ -25,6 +25,11 @@
 
 
     <item
+        android:id="@+id/menuInbox"
+        android:title="Inbox"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menuLogOut"
         android:title="Log out"
         app:showAsAction="never" />

@@ -3,8 +3,10 @@ package com.example.uberapp_tim22;
 import static android.app.PendingIntent.getActivity;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
@@ -27,19 +29,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.uberapp_tim22.DTO.ChatMessagesDTO;
 import com.example.uberapp_tim22.DTO.NewLocationDTO;
 import com.example.uberapp_tim22.DTO.NewLocationWithAddressDTO;
+import com.example.uberapp_tim22.DTO.ResponseChatDTO;
 import com.example.uberapp_tim22.fragments.ChatFragment;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
+import com.example.uberapp_tim22.fragments.LiveChatFragment;
 import com.example.uberapp_tim22.fragments.PassengerLiveChatFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
+import com.example.uberapp_tim22.model.HopInMessage;
+import com.example.uberapp_tim22.service.UserService;
 import com.example.uberapp_tim22.tools.FragmentTransition;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PassengerMapActivity extends AppCompatActivity {
 
@@ -48,12 +58,14 @@ public class PassengerMapActivity extends AppCompatActivity {
     private List<NewLocationDTO> locations = new ArrayList<>();
     private String departureAddress, destinationAddress, driverVehicleAddress;
     private double doubleDepartureLat, doubleDepartureLong, doubleDestinationLat, doubleDestinationLong, doubleDriverLocationLat, doubleDriverLocationLong;
-    private Long myId, driverId,rideId, myIdPreference;
     private FragmentManager fm = getSupportFragmentManager();
     private FragmentTransaction fragmentTransition = fm.beginTransaction();
-    private PassengerLiveChatFragment chatFragment = new PassengerLiveChatFragment();
+    private LiveChatFragment chatFragment = new LiveChatFragment();
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor spEditor;
+    private Long myId, otherId, rideId, driverId;
+    private BroadcastReceiver broadcastReceiver;
+    private Timer t = new Timer();
 
     @SuppressLint("LongLogTag")
     @Override
@@ -65,30 +77,17 @@ public class PassengerMapActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         spEditor = sharedPreferences.edit();
 
-
         Bundle bundle = getIntent().getExtras();
+        myId = (Long) bundle.getSerializable("myIdd");
+        otherId = (Long) bundle.getSerializable("otherIdd");
+        rideId = (Long) bundle.getSerializable("rideIdd");
+        driverVehicleAddress = bundle.getString("driverVehicleAddress");
+        departureAddress = bundle.getString("departure");
+        destinationAddress = bundle.getString("destination");
+        driverId = bundle.getLong("driverId");
+
+
         if (bundle != null) {
-
-
-            driverVehicleAddress = bundle.getString("driverVehicleAddress");
-            departureAddress = bundle.getString("departure");
-            destinationAddress = bundle.getString("destination");
-            myId = bundle.getLong("myId");
-            driverId = bundle.getLong("driverId");
-            rideId = bundle.getLong("rideId");
-
-            Log.d("Passenger Map Activity Departure", departureAddress);
-            Log.d("Passenger Map Activity Destination", destinationAddress);
-            Log.d("Passenger Map Activity Address", driverVehicleAddress);
-            Log.d("Passenger Map Activity MyId", String.valueOf(myId));
-            Log.d("Passenger Map Activity DriverId", String.valueOf(driverId));
-            Log.d("Passenger Map Activity RideId", String.valueOf(rideId));
-
-            spEditor.putLong("pref_myId", myId);
-            spEditor.putLong("pref_driverId", driverId);
-            spEditor.putLong("pref_rideId", rideId);
-            spEditor.apply();
-
         }
 
         Toolbar toolbar = findViewById(R.id.mapToolbar);
@@ -106,13 +105,21 @@ public class PassengerMapActivity extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-//        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.getCoordinates);
-//        fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                buttonGetCoordinatesMap(v);
-//            }
-//        });
+        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.getCoordinates);
+        fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentUserService = new Intent(getApplicationContext(), UserService.class);
+                intentUserService.putExtra("method", "getLocation");
+                intentUserService.putExtra("driverLocationId", driverId);
+
+                startService(intentUserService);
+
+                buttonGetCoordinatesMap(v);
+                setBroadcastLoadLocation();
+                getLocation();
+            }
+        });
     }
 
     private void buttonGetCoordinatesMap(View view) {
@@ -152,6 +159,13 @@ public class PassengerMapActivity extends AppCompatActivity {
             return true;
         }
 
+        if (itemId == R.id.menuInbox) {
+            Intent intent = new Intent(this, PassengerInboxActivity.class);
+            fragmentTransition.detach(chatFragment);
+            startActivity(intent);
+            return true;
+
+        }
         if (itemId == R.id.menuLogOut) {
             deletePreferences();
             Intent intent = new Intent(this, UserLoginActivity.class);
@@ -259,5 +273,45 @@ public class PassengerMapActivity extends AppCompatActivity {
         }
     }
 
+
+
+    private void setBroadcastLoadLocation() {
+        broadcastReceiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+                doubleDriverLocationLat = (Double) extras.get("latitudeBroadcast");
+                doubleDriverLocationLong = (Double) extras.get("longitudeBroadcast");
+                driverVehicleAddress = (String) extras.get("addressBroadcast");
+
+                Geocoder geocoder = new Geocoder(getBaseContext());
+                try {
+                    GetDeparture(geocoder);
+                    GetDestination(geocoder);
+                    GetDriverLocation(geocoder);
+                    drawRouteFragment.drawLines();
+
+                } catch (NullPointerException e) {
+                    showPopup("Error", "An error occurred while getting coordinates.");
+                    e.printStackTrace();
+                }
+                t.schedule(new TimerTask() {
+
+                    public void run() {
+                        getLocation();
+                    }
+                }, 2000);
+
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, new IntentFilter("mapActivity"));
+    }
+
+    private void getLocation() {
+        Intent intentUserService = new Intent(getApplicationContext(), UserService.class);
+        intentUserService.putExtra("method", "getLocation");
+        intentUserService.putExtra("driverLocationId", driverId);
+        startService(intentUserService);
+    }
 
 }

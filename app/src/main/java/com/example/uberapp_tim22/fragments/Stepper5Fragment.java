@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.example.uberapp_tim22.DTO.DriverVehicleDTO;
 import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
 import com.example.uberapp_tim22.DTO.NewLocationDTO;
+import com.example.uberapp_tim22.DTO.ResponseChatDTO;
 import com.example.uberapp_tim22.DTO.ResponseRideNewDTO;
 import com.example.uberapp_tim22.DTO.RideDTO;
 import com.example.uberapp_tim22.PassengerMapActivity;
@@ -51,7 +52,7 @@ public class Stepper5Fragment extends Fragment {
     private String departure;
     private String destination;
     private LinearLayout passengersLayout;
-    private long id;
+    private Long myId;
 
 
     @Nullable
@@ -85,6 +86,7 @@ public class Stepper5Fragment extends Fragment {
         myEmail = getArguments().getString("myEmail");
         departure = getArguments().getString("departure");
         destination = getArguments().getString("destination");
+        myId = getArguments().getLong("myId");
 
 
         tvVehicleNameValue.setText(vehicleName.toString());
@@ -148,6 +150,7 @@ public class Stepper5Fragment extends Fragment {
                 }
                 Long id = response.body().getDriver().getId();
                 bundle.putLong("rideId", response.body().getId());
+                bundle.putLong("rideIdd", response.body().getId());
                 getVehicleByDriverId(id.toString());
             }
 
@@ -183,26 +186,52 @@ public class Stepper5Fragment extends Fragment {
                 bundle.putDouble("driverVehicleLongitude", response.body().getCurrentLocation().getLongitude());
                 bundle.putString("driverVehicleAddress", response.body().getCurrentLocation().getAddress());
                 bundle.putLong("driverId", response.body().getDriverId());
-
-                Log.i("Pet Transport", String.valueOf(getArguments().getBoolean("petTransport")));
-
-                Intent intent = new Intent(getActivity(), PassengerMapActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                bundle.putLong("otherIdd", response.body().getDriverId());
 
 
-//                Fragment fragment = new Stepper6Fragment();
-//                FragmentManager fragmentManager = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragment.setArguments(bundle);
-//                fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-
+                getMessages(myId, response.body().getDriverId());
             }
 
             @Override
             public void onFailure(Call<DriverVehicleDTO> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getMessages(Long myId, Long otherId) {
+        Call<List<ResponseChatDTO>> call = ServiceUtils.chatService.getChatsOfUser(myId);
+        call.enqueue(new Callback<List<ResponseChatDTO>>() {
+
+            @Override
+            public void onResponse(Call<List<ResponseChatDTO>> call, Response<List<ResponseChatDTO>> response){
+                if (response.body() != null) {
+                    List<ResponseChatDTO> responseChats = response.body();
+                    Log.i("List size", String.valueOf(responseChats.size()));
+
+                    ResponseChatDTO chat = new ResponseChatDTO();
+                    for(ResponseChatDTO responseChat: responseChats){
+                        if(otherId == responseChat.getOtherId()){
+                            chat = responseChat;
+                            Log.i("TRUE", "TRUE");
+                        }
+                    }
+
+                    Log.i("CHAT", chat.getOtherName());
+
+                    bundle.putSerializable("responseChat", chat);
+                    Intent intent = new Intent(getActivity(), PassengerMapActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                }
+                else {
+                    Log.d("MESS", "SENDING ERROR");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseChatDTO>> call, Throwable t) {
+                Log.d("EMAIL_REZ", t.getMessage() != null ? t.getMessage() : "error");
             }
         });
     }

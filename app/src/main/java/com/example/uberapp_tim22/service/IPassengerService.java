@@ -33,6 +33,9 @@ public interface IPassengerService {
     @POST(ServiceUtils.passenger) //Create passenger
     Call<PassengerDTO> createPassenger(@Body RequestPassengerDTO request);
 
+    @GET(ServiceUtils.passenger + "/passengers")
+    Call<List<String>> getPassengers();
+
     @POST(ServiceUtils.passenger + "/exist") //Get Passenger Id and Email
     Call<IdAndEmailDTO> getPassengerIdAndEmail(@Body EmailDTO email);
 

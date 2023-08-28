@@ -35,12 +35,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true" />
+<!--805D84-->
+            <Button
+                android:id="@+id/getCoordinates"
+                layout="@layout/map_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="buttonGetCoordinatesMap"
+                android:background="#808080"
+                android:text="Location"
+                android:textColor="@color/white"
+                android:layout_below="@id/map_layout"
+                android:layout_centerInParent="true" />
 
             <LinearLayout
                 android:id="@+id/fragmentChat"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/map_layout"
+                android:layout_below="@id/getCoordinates"
                 android:orientation="vertical"></LinearLayout>
         </RelativeLayout>
 

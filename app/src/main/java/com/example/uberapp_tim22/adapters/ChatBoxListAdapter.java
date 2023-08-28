@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.uberapp_tim22.DTO.ResponseChatDTO;
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
 import com.example.uberapp_tim22.R;
 
@@ -15,14 +16,14 @@ import java.util.List;
 
 public class ChatBoxListAdapter extends RecyclerView.Adapter<ChatBoxListAdapter.ChatBoxViewHolder>{
 
-    private List<ResponseRideDTO> chatBoxList;
+    private List<ResponseChatDTO> chatBoxList;
     private ChatBoxItemClickListener chatBoxItemClickListener;
 
     public ChatBoxListAdapter(ChatBoxItemClickListener chatBoxItemClickListener) {
         this.chatBoxItemClickListener = chatBoxItemClickListener;
     }
 
-    public void setCheckBoxlist(List<ResponseRideDTO> chatBoxList) {
+    public void setCheckBoxlist(List<ResponseChatDTO> chatBoxList) {
         this.chatBoxList = chatBoxList;
         notifyDataSetChanged();
     }
@@ -36,7 +37,7 @@ public class ChatBoxListAdapter extends RecyclerView.Adapter<ChatBoxListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ChatBoxViewHolder holder, int position) {
-        ResponseRideDTO chatBox = chatBoxList.get(position);
+        ResponseChatDTO chatBox = chatBoxList.get(position);
         holder.bind(chatBox);
     }
 
@@ -60,30 +61,21 @@ public class ChatBoxListAdapter extends RecyclerView.Adapter<ChatBoxListAdapter.
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        ResponseRideDTO chatBox = chatBoxList.get(position);
+                        ResponseChatDTO chatBox = chatBoxList.get(position);
                         chatBoxItemClickListener.onChatBoxItemClick(chatBox);
                     }
                 }
             });
         }
 
-        void bind(ResponseRideDTO chatBox) {
-            chatBoxTitleTextView.setText("Ride ");
-
-            String startTime = chatBox.getStartTime() != null ? String.format("%02d:%02d",
-                    chatBox.getStartTime().getHours(),
-                    chatBox.getStartTime().getMinutes()) : "";
-
-            String endTime = chatBox.getEndTime() != null ? String.format("%02d:%02d",
-                    chatBox.getEndTime().getHours(),
-                    chatBox.getEndTime().getMinutes()) : "";
-
-            chatBoxDetailsTextView.setText(startTime + " - " + endTime);
+        void bind(ResponseChatDTO chatBox) {
+            chatBoxTitleTextView.setText(chatBox.getOtherName());
+            chatBoxDetailsTextView.setText(chatBox.getMessages().get(chatBox.getMessages().size()-1).getMessage());
         }
     }
 
     public interface ChatBoxItemClickListener {
-        void onChatBoxItemClick(ResponseRideDTO chatBox);
+        void onChatBoxItemClick(ResponseChatDTO chatBox);
     }
 
 }

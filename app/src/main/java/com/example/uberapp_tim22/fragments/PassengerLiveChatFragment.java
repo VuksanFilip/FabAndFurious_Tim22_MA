@@ -37,6 +37,8 @@ import okio.ByteString;
 public class PassengerLiveChatFragment extends Fragment {
 
     private WebSocket webSocket;
+    private WebSocket webSocket2;
+
     private MessageAdapter adapter;
     private ListView messsageList;
     private EditText messageBox;
@@ -53,14 +55,14 @@ public class PassengerLiveChatFragment extends Fragment {
         messageBox = view.findViewById(R.id.messageBox);
         send = view.findViewById(R.id.send);
 
-        sharedPreferences = getContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
-        myId = sharedPreferences.getLong("pref_myId", 0);
-        driverId = sharedPreferences.getLong("pref_driverId", 0);
-        rideId = sharedPreferences.getLong("pref_rideId", 0);
-
-        Log.d("Fragment live chat myId", String.valueOf(myId));
-        Log.d("Fragment live chat driverId", String.valueOf(driverId));
-        Log.d("Fragment live chat rideId", String.valueOf(rideId));
+//        sharedPreferences = getContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
+//        myId = sharedPreferences.getLong("pref_myId", 0);
+//        driverId = sharedPreferences.getLong("pref_driverId", 0);
+//        rideId = sharedPreferences.getLong("pref_rideId", 0);
+//
+//        Log.d("Fragment live chat myId", String.valueOf(myId));
+//        Log.d("Fragment live chat driverId", String.valueOf(driverId));
+//        Log.d("Fragment live chat rideId", String.valueOf(rideId));
 
         instantiateWebSocket();
 
@@ -72,7 +74,7 @@ public class PassengerLiveChatFragment extends Fragment {
             public void onClick(View view) {
                 String message = messageBox.getText().toString();
                 if (!message.isEmpty()) {
-                    webSocket.send(message);
+                    webSocket2.send(message);
                     messageBox.setText("");
 
                     JSONObject jsonObject = new JSONObject();
@@ -102,6 +104,39 @@ public class PassengerLiveChatFragment extends Fragment {
         public void onOpen(WebSocket webSocket, Response response) {
             getActivity().runOnUiThread(() -> {
                 Toast.makeText(getContext(), "Connection Established!", Toast.LENGTH_LONG).show();
+
+                // Create a new WebSocket instance for sending messages to another URL
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url("ws://192.168.1.17:8084/chat").build();
+                webSocket2 = client.newWebSocket(request, new WebSocketListener() {
+                    @Override
+                    public void onOpen(WebSocket webSocket, Response response) {
+                        // This method is called when the new WebSocket connection is established
+                        // You can perform any necessary actions here
+                    }
+
+                    @Override
+                    public void onMessage(WebSocket webSocket, String text) {
+                        getActivity().runOnUiThread(() -> {
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("message", text);
+                                jsonObject.put("byServer", true);
+                                adapter.addItem(jsonObject);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+
+                    // Implement other methods as needed
+
+                    // Note: You can use the same pattern as the SocketListener class
+                    // to implement the required methods for webSocket2
+                });
+
+                // Send a message to the new WebSocket instance
+                webSocket2.send("Hello from the new WebSocket instance!");
             });
         }
 
@@ -136,7 +171,9 @@ public class PassengerLiveChatFragment extends Fragment {
 
         @Override
         public void onFailure(WebSocket webSocket, final Throwable t, @Nullable final Response response) {
-            super.onFailure(webSocket, t, response);
+            getActivity().runOnUiThread(() -> {
+                Toast.makeText(getContext(), "No connection Established!", Toast.LENGTH_LONG).show();
+            });
         }
     }
 }
