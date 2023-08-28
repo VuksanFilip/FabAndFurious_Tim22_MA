@@ -9,11 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceUtils {
 
-    //Filip 192.168.1.40
-    //Andrea 192.168.0.30
-    public static final String SERVICE_API_PATH = "http://192.168.1.17:8084/api/";
-//    public static final String SERVICE_API_PATH = "http://192.168.55.189:8084/api/";
-//    public static final String SERVICE_API_PATH = "http://192.168.1.12:8084/api/";
+
+    public static final String SERVICE_API_PATH = "http://192.168.55.189:8084/api/";
     public static final String driver = "driver";
     public static final String passenger = "passenger";
     public static final String vehicle = "vehicle";
@@ -22,6 +19,8 @@ public class ServiceUtils {
     public static final String ride = "ride";
     public static final String panic = "panic";
     public static final String unregisteredUser = "unregisteredUser";
+    public static final String chat = "chat";
+
 
     public static OkHttpClient test(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -50,6 +49,8 @@ public class ServiceUtils {
     public static IPanicService panicService = retrofit.create(IPanicService.class);
     public static IRideService rideService = retrofit.create(IRideService.class);
     public static IUnregisteredUserService unregisteredUserService = retrofit.create(IUnregisteredUserService.class);
+    public static IChatService chatService = retrofit.create(IChatService.class);
+
 
 
 }

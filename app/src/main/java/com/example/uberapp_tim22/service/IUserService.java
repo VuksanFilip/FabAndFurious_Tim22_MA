@@ -1,6 +1,9 @@
 package com.example.uberapp_tim22.service;
 
 import com.example.uberapp_tim22.DTO.ChangePasswordDTO;
+import com.example.uberapp_tim22.DTO.HopInInboxReturnedDTO;
+import com.example.uberapp_tim22.DTO.HopInMessageDTO;
+import com.example.uberapp_tim22.DTO.HopInMessageReturnedDTO;
 import com.example.uberapp_tim22.DTO.MessageDTO;
 import com.example.uberapp_tim22.DTO.ResponsePassengerDTO;
 import com.example.uberapp_tim22.DTO.SendMessageDTO;
@@ -26,9 +29,6 @@ public interface IUserService {
     @PUT(ServiceUtils.user + "/{id}/changePassword")
     Call<ResponsePassengerDTO> changePassword(@Path("id") String id, @Body ChangePasswordDTO changePasswordDTO);
 
-//    @GET(ServiceUtils.user + "/email")
-//    Call<UserDTO> findByEmail(@Query("email") String email);
-
     @GET(ServiceUtils.user + "/{id}/user")
     Call<UserDTO> findById(@Path("id") String id);
 
@@ -43,5 +43,12 @@ public interface IUserService {
 
     @GET(ServiceUtils.user + "/{email}/resetPasswordByEmail")
     Call<UserDTO> findByEmail(@Path("email") String email);
+
+    @POST("/{id}/hopin-message")
+    Call<HopInMessageReturnedDTO> sendMessage(@Path("id") Long id, @Body HopInMessageDTO message);
+
+    @GET("/{id}/inbox")
+    Call<HopInInboxReturnedDTO> getInbox(@Path("id") Long id);
+
 
 }

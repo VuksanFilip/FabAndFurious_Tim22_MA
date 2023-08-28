@@ -95,6 +95,7 @@ public class Stepper4Fragment extends Fragment {
                                 fragmentTransaction.replace(R.id.fragmentStepper2, fragment);
                                 bundle.putSerializable("passengers", (Serializable) passengers);
                                 bundle.putLong("myId", myId);
+                                bundle.putLong("myIdd", myId);
                                 fragment.setArguments(bundle);
                                 fragmentTransaction.addToBackStack(null);
                                 fragmentTransaction.commit();

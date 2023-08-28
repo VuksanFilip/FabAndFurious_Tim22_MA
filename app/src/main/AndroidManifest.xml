@@ -96,7 +96,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".WebSocketActivity"
+            android:name=".ChatActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -180,6 +180,15 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity
+            android:name=".BroadcastActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <activity
             android:name=".PassengerMainActivity"
             android:exported="false">
@@ -200,6 +209,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <service
+            android:name=".service.UserService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

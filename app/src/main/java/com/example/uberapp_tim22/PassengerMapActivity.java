@@ -30,8 +30,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.uberapp_tim22.DTO.NewLocationDTO;
 import com.example.uberapp_tim22.DTO.NewLocationWithAddressDTO;
+import com.example.uberapp_tim22.DTO.ResponseChatDTO;
 import com.example.uberapp_tim22.fragments.ChatFragment;
 import com.example.uberapp_tim22.fragments.DrawRouteFragment;
+import com.example.uberapp_tim22.fragments.LiveChatFragment;
 import com.example.uberapp_tim22.fragments.PassengerLiveChatFragment;
 import com.example.uberapp_tim22.fragments.Stepper1Fragment;
 import com.example.uberapp_tim22.tools.FragmentTransition;
@@ -48,12 +50,14 @@ public class PassengerMapActivity extends AppCompatActivity {
     private List<NewLocationDTO> locations = new ArrayList<>();
     private String departureAddress, destinationAddress, driverVehicleAddress;
     private double doubleDepartureLat, doubleDepartureLong, doubleDestinationLat, doubleDestinationLong, doubleDriverLocationLat, doubleDriverLocationLong;
-    private Long myId, driverId,rideId, myIdPreference;
+//    private Long myId, driverId,rideId, myIdPreference;
     private FragmentManager fm = getSupportFragmentManager();
     private FragmentTransaction fragmentTransition = fm.beginTransaction();
-    private PassengerLiveChatFragment chatFragment = new PassengerLiveChatFragment();
+    private LiveChatFragment chatFragment = new LiveChatFragment();
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor spEditor;
+    private Long myId, otherId, rideId;
+
 
     @SuppressLint("LongLogTag")
     @Override
@@ -65,10 +69,17 @@ public class PassengerMapActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         spEditor = sharedPreferences.edit();
 
-
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
+        myId = (Long) bundle.getSerializable("myIdd");
+        otherId = (Long) bundle.getSerializable("otherIdd");
+        rideId = (Long) bundle.getSerializable("rideIdd");
 
+        Log.i("MY IDD", String.valueOf(myId));
+        Log.i("OTHER IDD", String.valueOf(otherId));
+        Log.i("RIDE IDD", String.valueOf(rideId));
+
+
+        if (bundle != null) {
 
 //            driverVehicleAddress = bundle.getString("driverVehicleAddress");
 //            departureAddress = bundle.getString("departure");
@@ -152,6 +163,16 @@ public class PassengerMapActivity extends AppCompatActivity {
             return true;
         }
 
+        if (itemId == R.id.menuInbox) {
+            deletePreferences();
+            Intent intent = new Intent(this, PassengerInboxActivity.class);
+            intent.putExtra("otherIdd", otherId);
+            intent.putExtra("myIdd", myId);
+            fragmentTransition.detach(chatFragment);
+            startActivity(intent);
+            return true;
+
+        }
         if (itemId == R.id.menuLogOut) {
             deletePreferences();
             Intent intent = new Intent(this, UserLoginActivity.class);

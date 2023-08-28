@@ -20,11 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
+import com.example.uberapp_tim22.DTO.ResponseChatDTO;
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
 import com.example.uberapp_tim22.adapters.ChatBoxListAdapter;
 import com.example.uberapp_tim22.adapters.RideListAdapter;
+import com.example.uberapp_tim22.fragments.ChatFragment;
+import com.example.uberapp_tim22.fragments.InboxChatFragment;
+import com.example.uberapp_tim22.fragments.LiveChatFragment;
 import com.example.uberapp_tim22.fragments.PassengerLiveChatFragment;
 import com.example.uberapp_tim22.service.ServiceUtils;
+import com.example.uberapp_tim22.service.UserService;
 
 import java.util.List;
 
@@ -38,7 +43,6 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
     private ChatBoxListAdapter chatBoxListAdapter;
     private SharedPreferences sharedPreferences;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,33 +54,45 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
 
         chatBoxListRecyclerView = findViewById(R.id.listOfChats);
         chatBoxListAdapter = new ChatBoxListAdapter(this);;
-        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
-        Long myId = sharedPreferences.getLong("pref_id", 0);
 
+        Bundle bundle = getIntent().getExtras();
+        Long otherId = (Long) bundle.getSerializable("otherIdd");
+        Long myId = (Long) bundle.getSerializable("myIdd");
+
+        Intent intentUserService = new Intent(getApplicationContext(), UserService.class);
+        intentUserService.putExtra("method", "getChats");
+        intentUserService.putExtra("myId", myId);
+        intentUserService.putExtra("otherId", otherId);
+
+        startService(intentUserService);
+        Log.i("MOJ ID", String.valueOf(myId));
+        getChats(myId);
         chatBoxListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatBoxListRecyclerView.setAdapter(chatBoxListAdapter);
-
-        getPassengerRides(String.valueOf(myId));
     }
 
-    private void getPassengerRides(String passengerId) {
-        Call<List<ResponseRideDTO>> call = ServiceUtils.passengerService.getPassengerRides("2");
 
-        call.enqueue(new Callback<List<ResponseRideDTO>>() {
+    private void getChats(Long myId) {
+        Call<List<ResponseChatDTO>> call = ServiceUtils.chatService.getChatsOfUser(myId);
+        Log.i("TU CHATTT", "USAO");
+        call.enqueue(new Callback<List<ResponseChatDTO>>() {
             @Override
-            public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
+            public void onResponse(Call<List<ResponseChatDTO>> call, Response<List<ResponseChatDTO>> response){
+                Log.i("TOO", "USAO");
+
+
                 if (response.isSuccessful()) {
-                    List<ResponseRideDTO> rideList = response.body();
-                    if (rideList != null) {
-                        chatBoxListAdapter.setCheckBoxlist(rideList);
-                    }
+                    List<ResponseChatDTO> responseChats = response.body();
+                    Log.i("USAO CHATTT", String.valueOf(responseChats.size()));
+                    chatBoxListAdapter.setCheckBoxlist(responseChats);
+
                 } else {
                     onFailure(call, new Throwable("API call failed with status code: " + response.code()));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ResponseRideDTO>> call, Throwable t) {
+            public void onFailure(Call<List<ResponseChatDTO>> call, Throwable t) {
                 Log.e("PassangerRideHistory", "API call failed: " + t.getMessage());
                 Toast.makeText(PassengerInboxActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -84,11 +100,22 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
     }
 
     @Override
-    public void onChatBoxItemClick(ResponseRideDTO ride) {
-        PassengerLiveChatFragment fragment = new PassengerLiveChatFragment();
+    public void onChatBoxItemClick(ResponseChatDTO chat) {
+        InboxChatFragment fragment = new InboxChatFragment();
 
+//        Intent intent = new Intent(getApplicationContext(), PassengerInboxActivity.class);
+//        intent.putExtra("responseChat", chat);
+//        intent.putExtra("myIdd", chat.getMyId());
+//        intent.putExtra("otherIdd", chat.getOtherId());
+//        intent.putExtra("rideIdd", 5L);
+
+
+        Log.i("CLICK CHAT", chat.getOtherName());
         Bundle args = new Bundle();
-        args.putLong("ride", ride.getId());
+        args.putSerializable("responseChat", chat);
+        args.putLong("myIdd", chat.getMyId());
+        args.putLong("otherIdd", chat.getOtherId());
+        args.putLong("rideIdd", 5L);
         fragment.setArguments(args);
 
         getSupportFragmentManager()
