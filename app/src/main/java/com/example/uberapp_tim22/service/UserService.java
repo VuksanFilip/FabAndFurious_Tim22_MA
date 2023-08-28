@@ -2,14 +2,18 @@ package com.example.uberapp_tim22.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.uberapp_tim22.DTO.ChatMessagesDTO;
+import com.example.uberapp_tim22.DTO.DriverVehicleDTO;
 import com.example.uberapp_tim22.DTO.HopInInboxReturnedDTO;
 import com.example.uberapp_tim22.DTO.HopInMessageDTO;
 import com.example.uberapp_tim22.DTO.HopInMessageReturnedDTO;
@@ -46,6 +50,11 @@ public class UserService extends Service {
                 else if (method.equals("sendMessage")) {
                     ChatMessagesDTO message = (ChatMessagesDTO) extras.get("message");
                     sendMessage(message);
+                }
+
+                else if (method.equals("getLocation")) {
+                    Long driverLocationId = (Long) extras.get("driverLocationId");
+                    getDriverLocation(String.valueOf(driverLocationId));
                 }
             }
         });
@@ -102,6 +111,38 @@ public class UserService extends Service {
                 Log.d("EMAIL_REZ", t.getMessage() != null ? t.getMessage() : "error");
             }
         });
+    }
+
+    private void getDriverLocation(String id) {
+        Call<DriverVehicleDTO> call = ServiceUtils.driverService.getDriverVehicle(id);
+        call.enqueue(new Callback<DriverVehicleDTO>() {
+            @Override
+            public void onResponse(@NonNull Call<DriverVehicleDTO> call, @NonNull Response<DriverVehicleDTO> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+
+                Double latitude = response.body().getCurrentLocation().getLatitude();
+                Double longitude = response.body().getCurrentLocation().getLongitude();
+                String address = response.body().getCurrentLocation().getAddress();
+                getDriverLocationBroadcast(latitude, longitude, address);
+
+            }
+
+            @Override
+            public void onFailure(Call<DriverVehicleDTO> call, Throwable t) {
+            }
+        });
+    }
+
+
+    private void getDriverLocationBroadcast(Double latitude, Double longitude, String address){
+        Intent intent = new Intent("mapActivity");
+        intent.putExtra("latitudeBroadcast", latitude);
+        intent.putExtra("longitudeBroadcast", longitude);
+        intent.putExtra("addressBroadcast", address);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void getMessagesBroadcast(ResponseChatDTO dto){
