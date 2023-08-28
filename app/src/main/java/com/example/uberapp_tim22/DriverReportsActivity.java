@@ -1,5 +1,6 @@
 package com.example.uberapp_tim22;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -175,7 +176,10 @@ public class DriverReportsActivity extends AppCompatActivity {
                         }
                         }
                     Log.i("voznjiceeee", String.valueOf(rides.size()));
-                    initializeCharts();
+
+                    if (rides.size()>0){
+                    initializeCharts();}
+
                 } else {
                     onFailure(call, new Throwable("API call failed with status code: " + response.code()));
                 }
@@ -190,7 +194,6 @@ public class DriverReportsActivity extends AppCompatActivity {
     }
 
     private void initializeCharts() {
-        // This method should be called after the API call is successful
         barChart3 = findViewById(R.id.barChart3);
         getChart3();
         barChart2 = findViewById(R.id.barChart2);
@@ -252,73 +255,8 @@ public class DriverReportsActivity extends AppCompatActivity {
     }
 
     private void showPopup() {
-//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverReportsActivity.this);
-//        LayoutInflater inflater = LayoutInflater.from(DriverReportsActivity.this);
-//        View dialogView = inflater.inflate(R.layout.dialog_statistics, null);
-//        dialogBuilder.setView(dialogView);
-
 
         getDriverRides("5");
-//        barChart3 = findViewById(R.id.barChart3);
-//        getChart3();
-//        barChart2 = findViewById(R.id.barChart2);
-//        getChart2();
-//        barChart = findViewById(R.id.barChart1);
-//        getChart1();
-
-
-//        TableLayout tableLayout = findViewById(R.id.tableLayout);
-//        TableRow row1 = new TableRow(this);
-//        TableRow row2 = new TableRow(this);
-//        TableRow row3 = new TableRow(this);
-//
-//        TextView cell0 = new TextView(this);
-//        cell0.setText("");
-//        row1.addView(cell0);
-//
-//        TextView cell1 = new TextView(this);
-//        cell1.setText("Money");
-//        row1.addView(cell1);
-//
-//        TextView cell2 = new TextView(this);
-//        cell2.setText("KM");
-//        row1.addView(cell2);
-//
-//        TextView cell3 = new TextView(this);
-//        cell3.setText("Rides");
-//        row1.addView(cell3);
-//
-//        TextView cell20 = new TextView(this);
-//        cell20.setText("Cumulative sum");
-//        row2.addView(cell20);
-//        TextView cell21 = new TextView(this);
-//        cell21.setText(String.valueOf(cs1));
-//        row2.addView(cell21);
-//        TextView cell22 = new TextView(this);
-//        cell22.setText(String.valueOf(cs2));
-//        row2.addView(cell22);
-//        TextView cell23 = new TextView(this);
-//        cell23.setText(String.valueOf(cs3));
-//        row2.addView(cell23);
-//
-//        TextView cell30 = new TextView(this);
-//        cell30.setText("Average");
-//        row3.addView(cell30);
-//        TextView cell31 = new TextView(this);
-//        cell31.setText(String.valueOf(avg1));
-//        row3.addView(cell31);
-//        TextView cell32 = new TextView(this);
-//        cell32.setText(String.valueOf(avg2));
-//        row3.addView(cell32);
-//        TextView cell33 = new TextView(this);
-//        cell33.setText(String.valueOf(avg3));
-//        row3.addView(cell33);
-//
-//
-//        tableLayout.addView(row1);
-//        tableLayout.addView(row2);
-//        tableLayout.addView(row3);
-
     }
 
     @Override
@@ -411,16 +349,9 @@ public class DriverReportsActivity extends AppCompatActivity {
             values.add(r.getTotalCost()+300);
             cs1+=r.getTotalCost()+300;
         }
-        avg1=cs1/3;
-
-       // List<BarEntry> entries = new ArrayList<>();
-        for (String l: labelss){
-
-        }
-        //List<Integer> values = Arrays.asList(1, 1, 2, 1);
-        //todo ako je isti dan
-//        barChart=null;
+        avg1=cs1/values.size();
         barChart.setData(labelss, values);
+        //barChart.setBackgroundColor(@ColorInt );
     }
 
     public void getChart2(){
@@ -450,7 +381,7 @@ public class DriverReportsActivity extends AppCompatActivity {
             values.add(r.getTotalCost());
             cs2+=r.getTotalCost();
         }
-        avg2=cs2/3;
+        avg2=cs2/values.size();
         //List<Integer> values = Arrays.asList(1, 1, 2, 1);
         //todo ako je isti dan
 //        barChart2=null;
@@ -482,7 +413,7 @@ public class DriverReportsActivity extends AppCompatActivity {
             values.add(1);
             cs3+=1;
         }
-        avg3=cs3/3;
+        avg3=cs3/values.size();
         //List<Integer> values = Arrays.asList(1, 1, 2, 1);
         //todo ako je isti dan
 //        barChart3=null;

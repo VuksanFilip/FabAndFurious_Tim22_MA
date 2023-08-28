@@ -79,12 +79,22 @@
                 tools:layout_editor_absoluteX="132dp"
                 tools:layout_editor_absoluteY="547dp" />
 
-
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="false"
+                android:layout_marginTop="490dp"
+                android:text="Statistics"
+                android:textColor="#805D84"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="132dp"
+                tools:layout_editor_absoluteY="547dp" />
                 <ToggleButton
                     android:id="@+id/toggleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="63dp"
-                    android:layout_marginTop="500dp"
+                    android:layout_marginTop="550dp"
                     android:background="#805D84"
                     android:checked="true"
                     android:text="ToggleButton"
