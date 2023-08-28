@@ -55,10 +55,10 @@ public class PassengerMainActivity extends AppCompatActivity {
     private double doubleDepartureLong;
     private double doubleDestinationLat;
     private double doubleDestinationLong;
-//    private Bundle bundle = new Bundle();
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction fragmentTransition = fm.beginTransaction();
-    Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
+    private Long myId;
+    private FragmentManager fm = getSupportFragmentManager();
+    private FragmentTransaction fragmentTransition = fm.beginTransaction();
+    private Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +73,8 @@ public class PassengerMainActivity extends AppCompatActivity {
         FragmentTransition.to(drawRouteFragment, this, false);
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         String myEmail = sharedPreferences.getString("pref_email", "");
+        myId = sharedPreferences.getLong("pref_id", 0L);
 
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction fragmentTransition = fm.beginTransaction();
-//        Stepper1Fragment stepper1Fragment = new Stepper1Fragment();
         fragmentTransition.add(R.id.fragmentStepper2, stepper1Fragment);
         fragmentTransition.commit();
 
@@ -126,6 +124,15 @@ public class PassengerMainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (itemId == R.id.menuInbox) {
+            deletePreferences();
+            Intent intent = new Intent(this, PassengerInboxActivity.class);
+            intent.putExtra("myIdd", myId);
+            startActivity(intent);
+            return true;
+
+        }
+
         if (itemId == R.id.menuLogOut) {
             deletePreferences();
             Intent intent = new Intent(this, UserLoginActivity.class);
@@ -133,6 +140,7 @@ public class PassengerMainActivity extends AppCompatActivity {
             return true;
 
         }
+
         return super.onOptionsItemSelected(item);
     }
 

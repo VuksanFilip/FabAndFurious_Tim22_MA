@@ -56,61 +56,17 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
         chatBoxListAdapter = new ChatBoxListAdapter(this);;
 
         Bundle bundle = getIntent().getExtras();
-        Long otherId = (Long) bundle.getSerializable("otherIdd");
         Long myId = (Long) bundle.getSerializable("myIdd");
 
-        Intent intentUserService = new Intent(getApplicationContext(), UserService.class);
-        intentUserService.putExtra("method", "getChats");
-        intentUserService.putExtra("myId", myId);
-        intentUserService.putExtra("otherId", otherId);
-
-        startService(intentUserService);
-        Log.i("MOJ ID", String.valueOf(myId));
         getChats(myId);
         chatBoxListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatBoxListRecyclerView.setAdapter(chatBoxListAdapter);
-    }
-
-
-    private void getChats(Long myId) {
-        Call<List<ResponseChatDTO>> call = ServiceUtils.chatService.getChatsOfUser(myId);
-        Log.i("TU CHATTT", "USAO");
-        call.enqueue(new Callback<List<ResponseChatDTO>>() {
-            @Override
-            public void onResponse(Call<List<ResponseChatDTO>> call, Response<List<ResponseChatDTO>> response){
-                Log.i("TOO", "USAO");
-
-
-                if (response.isSuccessful()) {
-                    List<ResponseChatDTO> responseChats = response.body();
-                    Log.i("USAO CHATTT", String.valueOf(responseChats.size()));
-                    chatBoxListAdapter.setCheckBoxlist(responseChats);
-
-                } else {
-                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ResponseChatDTO>> call, Throwable t) {
-                Log.e("PassangerRideHistory", "API call failed: " + t.getMessage());
-                Toast.makeText(PassengerInboxActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
     public void onChatBoxItemClick(ResponseChatDTO chat) {
         InboxChatFragment fragment = new InboxChatFragment();
 
-//        Intent intent = new Intent(getApplicationContext(), PassengerInboxActivity.class);
-//        intent.putExtra("responseChat", chat);
-//        intent.putExtra("myIdd", chat.getMyId());
-//        intent.putExtra("otherIdd", chat.getOtherId());
-//        intent.putExtra("rideIdd", 5L);
-
-
-        Log.i("CLICK CHAT", chat.getOtherName());
         Bundle args = new Bundle();
         args.putSerializable("responseChat", chat);
         args.putLong("myIdd", chat.getMyId());
@@ -160,6 +116,29 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor spEditor = sharedPreferences.edit();
         spEditor.clear().commit();
+    }
+
+    private void getChats(Long myId) {
+        Call<List<ResponseChatDTO>> call = ServiceUtils.chatService.getChatsOfUser(myId);
+        call.enqueue(new Callback<List<ResponseChatDTO>>() {
+            @Override
+            public void onResponse(Call<List<ResponseChatDTO>> call, Response<List<ResponseChatDTO>> response){
+
+
+                if (response.isSuccessful()) {
+                    List<ResponseChatDTO> responseChats = response.body();
+                    chatBoxListAdapter.setCheckBoxlist(responseChats);
+
+                } else {
+                    onFailure(call, new Throwable("API call failed with status code: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseChatDTO>> call, Throwable t) {
+                Toast.makeText(PassengerInboxActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
