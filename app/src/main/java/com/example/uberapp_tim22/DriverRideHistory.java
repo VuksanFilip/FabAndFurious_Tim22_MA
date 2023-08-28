@@ -9,6 +9,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,10 +36,13 @@ import com.example.uberapp_tim22.DTO.ResponseRideDTO;
 import com.example.uberapp_tim22.adapters.RideListAdapter;
 import com.example.uberapp_tim22.service.ServiceUtils;
 import com.example.uberapp_tim22.tools.ShakeDetector;
+import com.example.uberapp_tim22.tools.ShakePack;
 
-public class DriverRideHistory extends AppCompatActivity implements RideListAdapter.RideItemClickListener{
+public class DriverRideHistory extends AppCompatActivity implements RideListAdapter.RideItemClickListener, SensorEventListener {
 
     private RecyclerView rideListRecyclerView;
+    private SensorManager sensorManager;
+    private ShakePack shakePack = new ShakePack(12);
     private RideListAdapter rideListAdapter;
     private SharedPreferences sharedPreferences;
     private boolean opadajuce = true;
@@ -48,6 +55,7 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
+        initSensorManager();
 
         rideListRecyclerView = findViewById(R.id.rideListRecyclerView);
         rideListAdapter = new RideListAdapter(this);
@@ -60,37 +68,41 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
         getDriverRides("5"); //promeniti
 
 
-        ShakeDetector shakeDetector = new ShakeDetector(this);
-        shakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
-            @Override
-            public void onShake() {
-               if (opadajuce){
-                   Collections.sort(rides, new Comparator<ResponseRideDTO>() {
-                       @Override
-                       public int compare(ResponseRideDTO o1, ResponseRideDTO o2) {
-                           return o1.getEndTime().compareTo(o2.getEndTime());
-                       }
-                   });
-
-                   //redosled od najnovije
-               }else{
-                   //redosled od najstarije
-                   Collections.sort(rides, new Comparator<ResponseRideDTO>() {
-                       @Override
-                       public int compare(ResponseRideDTO o1, ResponseRideDTO o2) {
-                           return o2.getEndTime().compareTo(o1.getEndTime());
-                       }
-                   });
-               }
-
-                rideListAdapter.setRideList(rides);
-
-                }
-        });
+//        ShakeDetector shakeDetector = new ShakeDetector(this);
+//        shakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+//            @Override
+//            public void onShake() {
+//               if (opadajuce){
+//                   Collections.sort(rides, new Comparator<ResponseRideDTO>() {
+//                       @Override
+//                       public int compare(ResponseRideDTO o1, ResponseRideDTO o2) {
+//                           return o1.getEndTime().compareTo(o2.getEndTime());
+//                       }
+//                   });
+//
+//                   //redosled od najnovije
+//               }else{
+//                   //redosled od najstarije
+//                   Collections.sort(rides, new Comparator<ResponseRideDTO>() {
+//                       @Override
+//                       public int compare(ResponseRideDTO o1, ResponseRideDTO o2) {
+//                           return o2.getEndTime().compareTo(o1.getEndTime());
+//                       }
+//                   });
+//               }
+//
+//                rideListAdapter.setRideList(rides);
+//
+//                }
+//        });
 
 
 
     }
+    private void initSensorManager() {
+        sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
+    }
+
     private void getDriverRides(String driverId) {
         Call<List<ResponseRideDTO>> call = ServiceUtils.driverService.getDriverRides(driverId);
 
@@ -202,13 +214,41 @@ public class DriverRideHistory extends AppCompatActivity implements RideListAdap
     @Override
     protected void onResume() {
         super.onResume();
+        sensorManager.registerListener(
+                this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL
+        );
         Toast.makeText(this, "onResume()",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        sensorManager.unregisterListener(this);
         Toast.makeText(this, "onPause()",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            shakePack.update(sensorEvent.values);
+            if (shakePack.isShaking()) {
+                onShake();
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    private void onShake() {
+        Collections.reverse(rides);
+        rideListAdapter.setRideList(rides);
+        //((EasyListAdapter)this.listView.getAdapter()).notifyDataSetChanged();
+        Toast.makeText(this, "Shaking detected, reversing the list", Toast.LENGTH_SHORT).show();
     }
 
     @Override
