@@ -64,7 +64,6 @@ public class InboxChatFragment  extends Fragment {
         responseChatDTO = (ResponseChatDTO) bundle.getSerializable("responseChat");
         myId = (Long) bundle.getSerializable("myIdd");
         otherId = (Long) bundle.getSerializable("otherIdd");
-        rideId = (Long) bundle.getSerializable("rideIdd");
 
         Intent intentUserService = new Intent(requireContext(), UserService.class);
         intentUserService.putExtra("method", "getMessages");

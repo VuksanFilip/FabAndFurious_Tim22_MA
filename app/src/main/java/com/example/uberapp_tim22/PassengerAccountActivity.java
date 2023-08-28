@@ -129,29 +129,34 @@ public class PassengerAccountActivity extends AppCompatActivity {
         dialogFragment.show(getSupportFragmentManager(), "ChangePopupDialogFragment");
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int itemId = item.getItemId();
-//
-//        if (itemId == R.id.menuOrder) {
-//            Intent intent = new Intent(this, PassengerMainActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
-//        if (itemId == R.id.menuHistory) {
-//            Intent intent = new Intent(this, PassangerRideHistory.class);
-//            startActivity(intent);
-//            return true;
-//        }
-//        if (itemId == R.id.menuLogOut) {
-//            deletePreferences();
-//            Intent intent = new Intent(this, UserLoginActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.menuOrder) {
+            Intent intent = new Intent(this, PassengerMainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuHistory) {
+            Intent intent = new Intent(this, PassangerRideHistory.class);
+            startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuInbox) {
+            Intent intent = new Intent(this, PassangerRideHistory.class);
+            startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuLogOut) {
+            deletePreferences();
+            Intent intent = new Intent(this, UserLoginActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     private void deletePreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
@@ -166,35 +171,6 @@ public class PassengerAccountActivity extends AppCompatActivity {
         inflater.inflate(R.menu.login_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        if(id == R.id.item1){
-            Intent intent = new Intent(PassengerAccountActivity.this, PassengerAccountActivity.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item2){
-            Intent intent = new Intent(PassengerAccountActivity.this, PassengerInboxActivity.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item3){
-            Intent intent = new Intent(PassengerAccountActivity.this, PassangerRideHistory.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item4){
-            Intent intent = new Intent(PassengerAccountActivity.this, PassengerMainActivity.class);
-            startActivity(intent);
-        }
-        if(id == R.id.item5){
-            Intent intent = new Intent(PassengerAccountActivity.this, UserLoginActivity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
 
     @Override
     protected void onStart() {

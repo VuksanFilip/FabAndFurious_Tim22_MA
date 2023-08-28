@@ -71,7 +71,6 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
         args.putSerializable("responseChat", chat);
         args.putLong("myIdd", chat.getMyId());
         args.putLong("otherIdd", chat.getOtherId());
-        args.putLong("rideIdd", 5L);
         fragment.setArguments(args);
 
         getSupportFragmentManager()
@@ -102,12 +101,18 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
             startActivity(intent);
             return true;
         }
+        if (itemId == R.id.menuHistory) {
+            Intent intent = new Intent(this, PassengerAccountActivity.class);
+            startActivity(intent);
+            return true;
+        }
         if (itemId == R.id.menuLogOut) {
             deletePreferences();
             Intent intent = new Intent(this, UserLoginActivity.class);
             startActivity(intent);
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

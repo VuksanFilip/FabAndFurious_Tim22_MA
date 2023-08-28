@@ -164,9 +164,7 @@ public class PassengerMapActivity extends AppCompatActivity {
         }
 
         if (itemId == R.id.menuInbox) {
-            deletePreferences();
             Intent intent = new Intent(this, PassengerInboxActivity.class);
-            intent.putExtra("myIdd", myId);
             fragmentTransition.detach(chatFragment);
             startActivity(intent);
             return true;
