@@ -56,7 +56,7 @@ public class PassengerMapActivity extends AppCompatActivity {
     private LiveChatFragment chatFragment = new LiveChatFragment();
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor spEditor;
-    private Long myId, otherId, rideId;
+    private Long myId, otherId, rideId, driverId;
 
 
     @SuppressLint("LongLogTag")
@@ -73,10 +73,10 @@ public class PassengerMapActivity extends AppCompatActivity {
         myId = (Long) bundle.getSerializable("myIdd");
         otherId = (Long) bundle.getSerializable("otherIdd");
         rideId = (Long) bundle.getSerializable("rideIdd");
-
-        Log.i("MY IDD", String.valueOf(myId));
-        Log.i("OTHER IDD", String.valueOf(otherId));
-        Log.i("RIDE IDD", String.valueOf(rideId));
+        driverVehicleAddress = bundle.getString("driverVehicleAddress");
+        departureAddress = bundle.getString("departure");
+        destinationAddress = bundle.getString("destination");
+        driverId = bundle.getLong("driverId");
 
 
         if (bundle != null) {
@@ -117,13 +117,13 @@ public class PassengerMapActivity extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-//        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.getCoordinates);
-//        fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                buttonGetCoordinatesMap(v);
-//            }
-//        });
+        fragmentStepper1GetCoridnatesBtn = findViewById(R.id.getCoordinates);
+        fragmentStepper1GetCoridnatesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonGetCoordinatesMap(v);
+            }
+        });
     }
 
     private void buttonGetCoordinatesMap(View view) {

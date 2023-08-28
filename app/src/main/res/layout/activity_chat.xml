@@ -64,7 +64,7 @@
             android:id="@+id/chatSendBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue_lighter"
+            android:backgroundTint="#808080"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="10dp"
             android:paddingHorizontal="25sp"
@@ -72,7 +72,7 @@
             android:text="send"
             android:textSize="16sp"
             android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:onClick="login"
             android:textStyle="bold"/>
 

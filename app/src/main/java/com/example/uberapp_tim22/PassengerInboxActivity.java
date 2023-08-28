@@ -102,7 +102,7 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
             return true;
         }
         if (itemId == R.id.menuHistory) {
-            Intent intent = new Intent(this, PassengerAccountActivity.class);
+            Intent intent = new Intent(this, PassangerRideHistory.class);
             startActivity(intent);
             return true;
         }

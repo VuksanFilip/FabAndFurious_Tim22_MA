@@ -144,7 +144,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
             return true;
         }
         if (itemId == R.id.menuInbox) {
-            Intent intent = new Intent(this, PassangerRideHistory.class);
+            Intent intent = new Intent(this, PassengerInboxActivity.class);
             startActivity(intent);
             return true;
         }
