@@ -55,8 +55,8 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
         chatBoxListRecyclerView = findViewById(R.id.listOfChats);
         chatBoxListAdapter = new ChatBoxListAdapter(this);;
 
-        Bundle bundle = getIntent().getExtras();
-        Long myId = (Long) bundle.getSerializable("myIdd");
+        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        Long myId = sharedPreferences.getLong("pref_id", 0);
 
         getChats(myId);
         chatBoxListRecyclerView.setLayoutManager(new LinearLayoutManager(this));

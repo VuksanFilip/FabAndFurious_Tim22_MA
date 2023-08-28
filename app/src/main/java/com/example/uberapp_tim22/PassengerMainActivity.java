@@ -125,12 +125,9 @@ public class PassengerMainActivity extends AppCompatActivity {
         }
 
         if (itemId == R.id.menuInbox) {
-            deletePreferences();
             Intent intent = new Intent(this, PassengerInboxActivity.class);
-            intent.putExtra("myIdd", myId);
             startActivity(intent);
             return true;
-
         }
 
         if (itemId == R.id.menuLogOut) {

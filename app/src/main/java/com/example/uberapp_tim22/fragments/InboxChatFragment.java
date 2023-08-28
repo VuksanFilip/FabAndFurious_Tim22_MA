@@ -35,6 +35,7 @@ import com.example.uberapp_tim22.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 
@@ -71,7 +72,6 @@ public class InboxChatFragment  extends Fragment {
         intentUserService.putExtra("otherId", otherId);
         requireContext().startService(intentUserService);
 
-//        Long id = responseChatDTO.getMyId() == globalId ? responseChatDTO.getOtherId() : responseChatDTO.getMyId();
         allMessages = new ArrayList<>();
         for (ChatMessagesDTO chatMessagesDTO : responseChatDTO.getMessages()) {
             if (chatMessagesDTO.getSenderId() != globalId) {
@@ -102,13 +102,16 @@ public class InboxChatFragment  extends Fragment {
                 allMessages.add(0, new HopInMessage(messageET.getText().toString(), 1, LocalDateTime.now().toString()));
             }
 
+
             chatAdapter.notifyDataSetChanged();
-            HopInMessageDTO message = new HopInMessageDTO(myId, messageET.getText().toString(), null);
-            Intent intentUserService1 = new Intent(requireContext(), UserService.class);
-            intentUserService1.putExtra("method", "sendMessage");
-            intentUserService1.putExtra("message", message);
-            requireContext().startService(intentUserService1);
-            messageET.setText("");
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    ChatMessagesDTO message = new ChatMessagesDTO(myId, otherId, messageET.getText().toString(), LocalDateTime.now().toString(), null);
+                    Intent intentUserService1 = new Intent(requireContext(), UserService.class);
+                    intentUserService1.putExtra("method", "sendMessage");
+                    intentUserService1.putExtra("message", message);
+                    requireContext().startService(intentUserService1);
+                    messageET.setText("");
+                }
         });
 
         return view;

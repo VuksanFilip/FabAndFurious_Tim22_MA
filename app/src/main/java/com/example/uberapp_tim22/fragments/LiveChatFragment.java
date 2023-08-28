@@ -105,12 +105,14 @@ public class LiveChatFragment extends Fragment {
             }
 
             chatAdapter.notifyDataSetChanged();
-            HopInMessageDTO message = new HopInMessageDTO(myId, messageET.getText().toString(), rideId);
-            Intent intentUserService1 = new Intent(requireContext(), UserService.class);
-            intentUserService1.putExtra("method", "sendMessage");
-            intentUserService1.putExtra("message", message);
-            requireContext().startService(intentUserService1);
-            messageET.setText("");
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                ChatMessagesDTO message = new ChatMessagesDTO(myId, otherId, messageET.getText().toString(), LocalDateTime.now().toString(), rideId);
+                Intent intentUserService1 = new Intent(requireContext(), UserService.class);
+                intentUserService1.putExtra("method", "sendMessage");
+                intentUserService1.putExtra("message", message);
+                requireContext().startService(intentUserService1);
+                messageET.setText("");
+            }
         });
 
         return view;

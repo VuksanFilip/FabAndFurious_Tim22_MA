@@ -13,6 +13,7 @@ import com.example.uberapp_tim22.DTO.ChatMessagesDTO;
 import com.example.uberapp_tim22.DTO.HopInInboxReturnedDTO;
 import com.example.uberapp_tim22.DTO.HopInMessageDTO;
 import com.example.uberapp_tim22.DTO.HopInMessageReturnedDTO;
+import com.example.uberapp_tim22.DTO.MessDTO;
 import com.example.uberapp_tim22.DTO.ResponseChatDTO;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class UserService extends Service {
                 }
 
                 else if (method.equals("sendMessage")) {
-                    HopInMessageDTO message = (HopInMessageDTO) extras.get("message");
+                    ChatMessagesDTO message = (ChatMessagesDTO) extras.get("message");
                     sendMessage(message);
                 }
             }
@@ -53,13 +54,13 @@ public class UserService extends Service {
     }
 
 
-    private void sendMessage(HopInMessageDTO message) {
+    private void sendMessage(ChatMessagesDTO message) {
 
-        Call<HopInMessageReturnedDTO> call = ServiceUtils.userService.sendMessage(message.getReceiverId(), message);
-        call.enqueue(new Callback<HopInMessageReturnedDTO>() {
+        Call<MessDTO> call = ServiceUtils.chatService.sendMessageToChat(message);
+        call.enqueue(new Callback<MessDTO>() {
 
             @Override
-            public void onResponse(Call<HopInMessageReturnedDTO> call, Response<HopInMessageReturnedDTO> response){
+            public void onResponse(Call<MessDTO> call, Response<MessDTO> response){
                 if (response.body() != null)
                     Log.d("MESS", response.body().toString());
                 else
@@ -67,7 +68,7 @@ public class UserService extends Service {
             }
 
             @Override
-            public void onFailure(Call<HopInMessageReturnedDTO> call, Throwable t) {
+            public void onFailure(Call<MessDTO> call, Throwable t) {
                 Log.d("EMAIL_REZ", t.getMessage() != null ? t.getMessage() : "error");
             }
         });
