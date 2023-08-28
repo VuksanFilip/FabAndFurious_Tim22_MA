@@ -53,7 +53,11 @@ public class UserService extends Service {
                 }
 
                 else if (method.equals("getLocation")) {
+
+                    Log.i("DRIVERRRRR", "DRIVERRRR");
                     Long driverLocationId = (Long) extras.get("driverLocationId");
+                    Log.i("DRIVERRRRR", String.valueOf(driverLocationId));
+
                     getDriverLocation(String.valueOf(driverLocationId));
                 }
             }
@@ -114,6 +118,8 @@ public class UserService extends Service {
     }
 
     private void getDriverLocation(String id) {
+        Log.i("USAO O DRIVER", id);
+
         Call<DriverVehicleDTO> call = ServiceUtils.driverService.getDriverVehicle(id);
         call.enqueue(new Callback<DriverVehicleDTO>() {
             @Override
@@ -121,10 +127,10 @@ public class UserService extends Service {
                 if (!response.isSuccessful()) {
                     return;
                 }
-
                 Double latitude = response.body().getCurrentLocation().getLatitude();
                 Double longitude = response.body().getCurrentLocation().getLongitude();
                 String address = response.body().getCurrentLocation().getAddress();
+                Log.i("LOCATION DRIVER", "LOCATION DRIVER");
                 getDriverLocationBroadcast(latitude, longitude, address);
 
             }

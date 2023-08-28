@@ -116,8 +116,8 @@ public class PassengerMapActivity extends AppCompatActivity {
                 startService(intentUserService);
 
                 buttonGetCoordinatesMap(v);
-//                setBroadcastLoadLocation();
-//                getLocation();
+                setBroadcastLoadLocation();
+                getLocation();
             }
         });
     }
@@ -280,9 +280,9 @@ public class PassengerMapActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Bundle extras = intent.getExtras();
-                Double latitudeBroadcast = (Double) extras.get("latitudeBroadcast");
-                Double longitudeBroadcast = (Double) extras.get("longitudeBroadcast");
-                String addressBroadcast = (String) extras.get("addressBroadcast");
+                doubleDriverLocationLat = (Double) extras.get("latitudeBroadcast");
+                doubleDriverLocationLong = (Double) extras.get("longitudeBroadcast");
+                driverVehicleAddress = (String) extras.get("addressBroadcast");
 
                 Geocoder geocoder = new Geocoder(getBaseContext());
                 try {
@@ -310,7 +310,7 @@ public class PassengerMapActivity extends AppCompatActivity {
     private void getLocation() {
         Intent intentUserService = new Intent(getApplicationContext(), UserService.class);
         intentUserService.putExtra("method", "getLocation");
-        intentUserService.putExtra("driverLocationId", myId);
+        intentUserService.putExtra("driverLocationId", driverId);
         startService(intentUserService);
     }
 
