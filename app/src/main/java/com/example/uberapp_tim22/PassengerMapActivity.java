@@ -116,8 +116,8 @@ public class PassengerMapActivity extends AppCompatActivity {
                 startService(intentUserService);
 
                 buttonGetCoordinatesMap(v);
-                setBroadcastLoadLocation();
-                getLocation();
+//                setBroadcastLoadLocation();
+//                getLocation();
             }
         });
     }
