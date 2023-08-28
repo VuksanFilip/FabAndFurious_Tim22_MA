@@ -4,7 +4,7 @@ public class LightSensor {
 
     public static void main(String[] args) {
         // Simulacija vrednosti senzora osvetljenja
-        double lightValue = 100; // Početna vrednost osvetljenja (možete promeniti)
+        double lightValue = 10; // Početna vrednost osvetljenja (možete promeniti)
         double darkThreshold = 50; // Prag za detekciju mraka (možete promeniti)
 
         System.out.println("Senzor osvetljenja je pokrenut.");

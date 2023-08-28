@@ -1,5 +1,6 @@
 package com.example.uberapp_tim22;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,11 +57,14 @@ public class DriverReportsActivity extends AppCompatActivity {
     private BarChartView barChart;
     private BarChartView barChart2;
     private BarChartView barChart3;
+    private int cs1,cs2,cs3;
+    private int avg1,avg2,avg3;
 
     private Button selectDateButton;
     private TextView selectedDateTextView;
     private Button selectDateButtonTo;
     private TextView selectedDateTextViewTo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,7 @@ public class DriverReportsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
+
 
         rides = new ArrayList<ResponseRideDTO>();
 
@@ -121,12 +128,11 @@ public class DriverReportsActivity extends AppCompatActivity {
                         Calendar selectedCalendar = Calendar.getInstance();
                         selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
 
-                        // Convert the Calendar object to a Date object
-                        from = selectedCalendar.getTime();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                        // Now, you have the selectedDate as a Date object
-                        // You can use it as needed
-                        selectedDateTextView.setText("Selected Date: " + from);
+                        from = selectedCalendar.getTime();
+                        String dateString = dateFormat.format(from);
+                        selectedDateTextView.setText("Selected Date: " + dateString);
                     }
                 }, year, month, day);
 
@@ -145,12 +151,11 @@ public class DriverReportsActivity extends AppCompatActivity {
                         Calendar selectedCalendar = Calendar.getInstance();
                         selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
 
-                        // Convert the Calendar object to a Date object
-                        to = selectedCalendar.getTime();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                        // Now, you have the selectedDate as a Date object
-                        // You can use it as needed
-                        selectedDateTextViewTo.setText("Selected Date: " + to);
+                        to = selectedCalendar.getTime();
+                        String dateString = dateFormat.format(to);
+                        selectedDateTextViewTo.setText("Selected Date: " + dateString);
                     }
                 }, year, month, day);
 
@@ -164,12 +169,16 @@ public class DriverReportsActivity extends AppCompatActivity {
             public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
                 if (response.isSuccessful()) {
                     List<ResponseRideDTO> rideList = response.body();
+                    rides.clear();
                     for (ResponseRideDTO r: rideList) {
                         if (r.getStartTime().after(from) && r.getStartTime().before(to)){
                             rides.add(r);
                         }
                         }
                     Log.i("voznjiceeee", String.valueOf(rides.size()));
+
+                    if (rides.size()>0){
+                    initializeCharts();}
 
                 } else {
                     onFailure(call, new Throwable("API call failed with status code: " + response.code()));
@@ -184,14 +193,7 @@ public class DriverReportsActivity extends AppCompatActivity {
         });
     }
 
-    private void showPopup() {
-//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverReportsActivity.this);
-//        LayoutInflater inflater = LayoutInflater.from(DriverReportsActivity.this);
-//        View dialogView = inflater.inflate(R.layout.dialog_statistics, null);
-//        dialogBuilder.setView(dialogView);
-
-
-        getDriverRides("5");
+    private void initializeCharts() {
         barChart3 = findViewById(R.id.barChart3);
         getChart3();
         barChart2 = findViewById(R.id.barChart2);
@@ -199,13 +201,62 @@ public class DriverReportsActivity extends AppCompatActivity {
         barChart = findViewById(R.id.barChart1);
         getChart1();
 
-//        TextView messageTextView = dialogView.findViewById(R.id.textView7);
-//        String message = "Kilometres per day";
-//        messageTextView.setText(message);
-//        messageTextView.setTextSize(18);
+        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        TableRow row1 = new TableRow(this);
+        TableRow row2 = new TableRow(this);
+        TableRow row3 = new TableRow(this);
 
-//        AlertDialog alertDialog = dialogBuilder.create();
-//        alertDialog.show();
+        TextView cell0 = new TextView(this);
+        cell0.setText("");
+        row1.addView(cell0);
+
+        TextView cell1 = new TextView(this);
+        cell1.setText("KM");
+        row1.addView(cell1);
+
+        TextView cell2 = new TextView(this);
+        cell2.setText("Money");
+        row1.addView(cell2);
+
+        TextView cell3 = new TextView(this);
+        cell3.setText("Rides");
+        row1.addView(cell3);
+
+        TextView cell20 = new TextView(this);
+        cell20.setText("Cumulative sum");
+        row2.addView(cell20);
+        TextView cell21 = new TextView(this);
+        cell21.setText(String.valueOf(cs1));
+        row2.addView(cell21);
+        TextView cell22 = new TextView(this);
+        cell22.setText(String.valueOf(cs2));
+        row2.addView(cell22);
+        TextView cell23 = new TextView(this);
+        cell23.setText(String.valueOf(cs3));
+        row2.addView(cell23);
+
+        TextView cell30 = new TextView(this);
+        cell30.setText("Average");
+        row3.addView(cell30);
+        TextView cell31 = new TextView(this);
+        cell31.setText(String.valueOf(avg1));
+        row3.addView(cell31);
+        TextView cell32 = new TextView(this);
+        cell32.setText(String.valueOf(avg2));
+        row3.addView(cell32);
+        TextView cell33 = new TextView(this);
+        cell33.setText(String.valueOf(avg3));
+        row3.addView(cell33);
+
+
+        tableLayout.addView(row1);
+        tableLayout.addView(row2);
+        tableLayout.addView(row3);
+    }
+
+    private void showPopup() {
+
+        getDriverRides("5");
     }
 
     @Override
@@ -291,17 +342,21 @@ public class DriverReportsActivity extends AppCompatActivity {
         List<String> labelss = labels;
         List<Integer> values = new ArrayList<>();
 
+        cs1=0;
+        avg1=0;
+
         for (ResponseRideDTO r:rides){
             values.add(r.getTotalCost()+300);
+            cs1+=r.getTotalCost()+300;
         }
-        //List<Integer> values = Arrays.asList(1, 1, 2, 1);
-        //todo ako je isti dan
-//        barChart=null;
+        avg1=cs1/values.size();
         barChart.setData(labelss, values);
+        //barChart.setBackgroundColor(@ColorInt );
     }
 
     public void getChart2(){
-        List<Date> dates = new ArrayList<>();Calendar calendar = Calendar.getInstance();
+        List<Date> dates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
 
         for (ResponseRideDTO r:rides){
             dates.add(r.getStartTime());
@@ -319,9 +374,14 @@ public class DriverReportsActivity extends AppCompatActivity {
         List<String> labelss = labels;
         List<Integer> values = new ArrayList<>();
 
+        cs2=0;
+        avg2=0;
+
         for (ResponseRideDTO r:rides){
             values.add(r.getTotalCost());
+            cs2+=r.getTotalCost();
         }
+        avg2=cs2/values.size();
         //List<Integer> values = Arrays.asList(1, 1, 2, 1);
         //todo ako je isti dan
 //        barChart2=null;
@@ -346,9 +406,14 @@ public class DriverReportsActivity extends AppCompatActivity {
         List<String> labelss = labels;
         List<Integer> values = new ArrayList<>();
 
+        cs3=0;
+        avg3=0;
+
         for (ResponseRideDTO r:rides){
             values.add(1);
+            cs3+=1;
         }
+        avg3=cs3/values.size();
         //List<Integer> values = Arrays.asList(1, 1, 2, 1);
         //todo ako je isti dan
 //        barChart3=null;

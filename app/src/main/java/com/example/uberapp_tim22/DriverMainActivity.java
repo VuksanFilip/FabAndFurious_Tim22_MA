@@ -41,6 +41,7 @@ public class DriverMainActivity extends AppCompatActivity {
     Button currentRide;
     ToggleButton online;
     Button report;
+    Button statistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class DriverMainActivity extends AppCompatActivity {
         currentRide = findViewById(R.id.button2);
         online = findViewById(R.id.toggleButton);
         report = findViewById(R.id.button3);
+        statistics = findViewById(R.id.button4);
 
         acceptanceRide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +72,13 @@ public class DriverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DriverMainActivity.this, DriverReportsActivity.class);
+                startActivity(intent);
+            }
+        });
+        statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DriverMainActivity.this, DriverStatisticsActivity.class);
                 startActivity(intent);
             }
         });

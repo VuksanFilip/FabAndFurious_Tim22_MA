@@ -9,8 +9,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceUtils {
 
+    //Filip 192.168.1.40
+   // public static final String SERVICE_API_PATH = "http://192.168.1.17:8084/api/";
 
-    public static final String SERVICE_API_PATH = "http://192.168.1.17:8084/api/";
+    //Andrea 192.168.0.30
+    public static final String SERVICE_API_PATH = "http://192.168.0.30:8084/api/";
+
+    //public static final String SERVICE_API_PATH = "http://192.168.55.189:8084/api/";
+    //public static final String SERVICE_API_PATH = "http://192.168.1.12:8084/api/";
+
+
+    //public static final String SERVICE_API_PATH = "http://192.168.1.17:8084/api/";
     public static final String driver = "driver";
     public static final String passenger = "passenger";
     public static final String vehicle = "vehicle";

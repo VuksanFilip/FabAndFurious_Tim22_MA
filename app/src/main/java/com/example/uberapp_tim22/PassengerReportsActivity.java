@@ -1,26 +1,39 @@
 package com.example.uberapp_tim22;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
+import com.example.uberapp_tim22.adapters.RideListAdapter;
 import com.example.uberapp_tim22.model.BarChartView;
+import com.example.uberapp_tim22.model.Ride;
 import com.example.uberapp_tim22.service.ServiceUtils;
-import com.google.android.material.navigation.NavigationView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -32,62 +45,141 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PassengerReportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
+public class PassengerReportsActivity extends AppCompatActivity {
+
+    private RideListAdapter rideListAdapter;
+    private RecyclerView rideListRecyclerView;
+    private Button prikaz;
+    private List<ResponseRideDTO> rides;
+    private Date from;
+    private Date to;
+    private BarChartView barChart;
+    private BarChartView barChart2;
+    private BarChartView barChart3;
+    private int cs1,cs2,cs3;
+    private int avg1,avg2,avg3;
+
+    private Button selectDateButton;
+    private TextView selectedDateTextView;
+    private Button selectDateButtonTo;
+    private TextView selectedDateTextViewTo;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_reports);
 
-        navigationView.findViewById(R.id.nav_view);
-        drawerLayout.findViewById(R.id.drawer_layout);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        getPassengerRides("1");
-        getChart1();
-        getChart2();
-        getChart3();
+
+        rides = new ArrayList<ResponseRideDTO>();
+
+//        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
+//        Long myId = sharedPreferences.getLong("pref_id", 0);
+//        rideListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        rideListRecyclerView.setAdapter(rideListAdapter);
+
+
+        prikaz = findViewById(R.id.prikaz);
+        prikaz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup();
+            }
+        });
+
+        selectDateButton = findViewById(R.id.select_date_button);
+        selectedDateTextView = findViewById(R.id.selected_date_text_view);
+
+        selectDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog();
+            }
+        });
+
+        selectDateButtonTo = findViewById(R.id.select_date_button2);
+        selectedDateTextViewTo = findViewById(R.id.selected_date_text_view2);
+
+        selectDateButtonTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog2();
+            }
+        });
+
 
     }
-    private void getPassengerRides(String driverId) {
-        Call<List<ResponseRideDTO>> call = ServiceUtils.passengerService.getPassengerRides(driverId);
 
-        BarChartView barChart = findViewById(R.id.barChart);
+    private void showDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                        from = selectedCalendar.getTime();
+                        String dateString = dateFormat.format(from);
+                        selectedDateTextView.setText("Selected Date: " + dateString);
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show();
+    }
+    private void showDatePickerDialog2() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(selectedYear, selectedMonth, selectedDay);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                        to = selectedCalendar.getTime();
+                        String dateString = dateFormat.format(to);
+                        selectedDateTextViewTo.setText("Selected Date: " + dateString);
+                    }
+                }, year, month, day);
+
+        datePickerDialog.show();
+    }
+    private void getDriverRides(String driverId) {
+        Call<List<ResponseRideDTO>> call = ServiceUtils.passengerService.getPassengerRides("2");
 
         call.enqueue(new Callback<List<ResponseRideDTO>>() {
             @Override
             public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
                 if (response.isSuccessful()) {
                     List<ResponseRideDTO> rideList = response.body();
-                    List<Date> dates = new ArrayList<>();
-
-                    for (ResponseRideDTO ride :rideList){
-                        dates.add(new Date());
+                    rides.clear();
+                    for (ResponseRideDTO r: rideList) {
+                        if (r.getStartTime().after(from) && r.getStartTime().before(to)){
+                            rides.add(r);
+                        }
                     }
-                    Collections.sort(dates);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-                    List<String> labels = new ArrayList<>();
+                    Log.i("voznjiceeee", String.valueOf(rides.size()));
 
-                    for (Date date : dates) {
-                        String label = sdf.format(date);
-                        labels.add(label);
-                    }
+                    if (rides.size()>0){
+                        initializeCharts();}
 
-                    Log.i("probaaa",rideList.get(0).toString());
-                    List<String> labelss = labels;
-                    List<Integer> values = Arrays.asList(5, 8, 3, 6, 4, 9, 7);
-
-                    barChart.setData(labels, values);
                 } else {
                     onFailure(call, new Throwable("API call failed with status code: " + response.code()));
                 }
@@ -100,13 +192,71 @@ public class PassengerReportsActivity extends AppCompatActivity implements Navig
             }
         });
     }
-    @Override
-    public void onBackPressed(){
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else{
-            super.onBackPressed();
-        }
+
+    private void initializeCharts() {
+        barChart3 = findViewById(R.id.barChart3);
+        getChart3();
+        barChart2 = findViewById(R.id.barChart2);
+        getChart2();
+        barChart = findViewById(R.id.barChart1);
+        getChart1();
+
+        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        TableRow row1 = new TableRow(this);
+        TableRow row2 = new TableRow(this);
+        TableRow row3 = new TableRow(this);
+
+        TextView cell0 = new TextView(this);
+        cell0.setText("");
+        row1.addView(cell0);
+
+        TextView cell1 = new TextView(this);
+        cell1.setText("KM");
+        row1.addView(cell1);
+
+        TextView cell2 = new TextView(this);
+        cell2.setText("Money");
+        row1.addView(cell2);
+
+        TextView cell3 = new TextView(this);
+        cell3.setText("Rides");
+        row1.addView(cell3);
+
+        TextView cell20 = new TextView(this);
+        cell20.setText("Cumulative sum");
+        row2.addView(cell20);
+        TextView cell21 = new TextView(this);
+        cell21.setText(String.valueOf(cs1));
+        row2.addView(cell21);
+        TextView cell22 = new TextView(this);
+        cell22.setText(String.valueOf(cs2));
+        row2.addView(cell22);
+        TextView cell23 = new TextView(this);
+        cell23.setText(String.valueOf(cs3));
+        row2.addView(cell23);
+
+        TextView cell30 = new TextView(this);
+        cell30.setText("Average");
+        row3.addView(cell30);
+        TextView cell31 = new TextView(this);
+        cell31.setText(String.valueOf(avg1));
+        row3.addView(cell31);
+        TextView cell32 = new TextView(this);
+        cell32.setText(String.valueOf(avg2));
+        row3.addView(cell32);
+        TextView cell33 = new TextView(this);
+        cell33.setText(String.valueOf(avg3));
+        row3.addView(cell33);
+
+
+        tableLayout.addView(row1);
+        tableLayout.addView(row2);
+        tableLayout.addView(row3);
+    }
+
+    private void showPopup() {
+
+        getDriverRides("5");
     }
 
     @Override
@@ -144,27 +294,6 @@ public class PassengerReportsActivity extends AppCompatActivity implements Navig
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem){
-
-        switch (menuItem.getItemId()){
-            case R.id.profle:
-                Intent intent = new Intent(PassengerReportsActivity.this, PassengerAccountActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.reports:
-                Intent intent1 = new Intent(PassengerReportsActivity.this, PassengerReportsActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.favorites:
-                Intent intent2 = new Intent(PassengerReportsActivity.this, PassengerFavoriteRidesActivity.class);
-                startActivity(intent2);
-
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         Toast.makeText(this, "onStart()", Toast.LENGTH_SHORT).show();
@@ -193,29 +322,13 @@ public class PassengerReportsActivity extends AppCompatActivity implements Navig
         super.onDestroy();
         Toast.makeText(this, "onDestroy()",Toast.LENGTH_SHORT).show();
     }
+
     public void getChart1(){
         List<Date> dates = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
 
-        BarChartView barChart = findViewById(R.id.barChart);
-        // Set the desired year, month, and day
-        calendar.set(Calendar.YEAR, 2022);
-        calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 6);
-        // Get a Date object from the Calendar instance
-        Date date3 = calendar.getTime();
-
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 13);
-        Date date4 = calendar.getTime();
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 14);
-        Date date5 = calendar.getTime();
-        dates.add(date3);
-        dates.add(date4);
-        dates.add(date5);
+        for (ResponseRideDTO r:rides){
+            dates.add(r.getStartTime());
+        }
 
         Collections.sort(dates);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -227,33 +340,27 @@ public class PassengerReportsActivity extends AppCompatActivity implements Navig
         }
 
         List<String> labelss = labels;
-        List<Integer> values = Arrays.asList(1, 1, 2, 1);
+        List<Integer> values = new ArrayList<>();
 
+        cs1=0;
+        avg1=0;
+
+        for (ResponseRideDTO r:rides){
+            values.add(r.getTotalCost()+300);
+            cs1+=r.getTotalCost()+300;
+        }
+        avg1=cs1/values.size();
         barChart.setData(labelss, values);
+        //barChart.setBackgroundColor(@ColorInt );
     }
 
     public void getChart2(){
-        List<Date> dates = new ArrayList<>();Calendar calendar = Calendar.getInstance();
+        List<Date> dates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
 
-        BarChartView barChart = findViewById(R.id.barChart3);
-        // Set the desired year, month, and day
-        calendar.set(Calendar.YEAR, 2022);
-        calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 6);
-        // Get a Date object from the Calendar instance
-        Date date3 = calendar.getTime();
-
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 13);
-        Date date4 = calendar.getTime();
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 14);
-        Date date5 = calendar.getTime();
-        dates.add(date3);
-        dates.add(date4);
-        dates.add(date5);
+        for (ResponseRideDTO r:rides){
+            dates.add(r.getStartTime());
+        }
 
         Collections.sort(dates);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -265,32 +372,27 @@ public class PassengerReportsActivity extends AppCompatActivity implements Navig
         }
 
         List<String> labelss = labels;
-        List<Integer> values = Arrays.asList(4, 26, 3);
+        List<Integer> values = new ArrayList<>();
 
-        barChart.setData(labelss, values);
+        cs2=0;
+        avg2=0;
+
+        for (ResponseRideDTO r:rides){
+            values.add(r.getTotalCost());
+            cs2+=r.getTotalCost();
+        }
+        avg2=cs2/values.size();
+        //List<Integer> values = Arrays.asList(1, 1, 2, 1);
+        //todo ako je isti dan
+//        barChart2=null;
+        barChart2.setData(labelss, values);
     }
     public void getChart3(){
-        List<Date> dates = new ArrayList<>();Calendar calendar = Calendar.getInstance();
+        List<Date> dates = new ArrayList<>();
 
-        BarChartView barChart = findViewById(R.id.barChart2);
-        // Set the desired year, month, and day
-        calendar.set(Calendar.YEAR, 2022);
-        calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 6);
-        // Get a Date object from the Calendar instance
-        Date date3 = calendar.getTime();
-
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 13);
-        Date date4 = calendar.getTime();
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
-        calendar.set(Calendar.DAY_OF_MONTH, 14);
-        Date date5 = calendar.getTime();
-        dates.add(date3);
-        dates.add(date4);
-        dates.add(date5);
+        for (ResponseRideDTO r:rides){
+            dates.add(r.getStartTime());
+        }
 
         Collections.sort(dates);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -302,9 +404,19 @@ public class PassengerReportsActivity extends AppCompatActivity implements Navig
         }
 
         List<String> labelss = labels;
-        List<Integer> values = Arrays.asList(300, 1250, 700);
+        List<Integer> values = new ArrayList<>();
 
-        barChart.setData(labelss, values);
+        cs3=0;
+        avg3=0;
+
+        for (ResponseRideDTO r:rides){
+            values.add(1);
+            cs3+=1;
+        }
+        avg3=cs3/values.size();
+        //List<Integer> values = Arrays.asList(1, 1, 2, 1);
+        //todo ako je isti dan
+//        barChart3=null;
+        barChart3.setData(labelss, values);
     }
-
 }
