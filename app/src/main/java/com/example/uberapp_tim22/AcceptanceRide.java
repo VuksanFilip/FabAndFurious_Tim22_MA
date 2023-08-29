@@ -47,8 +47,8 @@ public class AcceptanceRide extends AppCompatActivity implements RideListAdapter
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
-        accept = findViewById(R.id.button4);
-        decline = findViewById(R.id.button7);
+//        accept = findViewById(R.id.button4);
+//        decline = findViewById(R.id.button7);
         rideListRecyclerView = findViewById(R.id.rideListRecyclerView);
         rideListAdapter = new RideListAdapter(this);
 //        sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
@@ -59,24 +59,24 @@ public class AcceptanceRide extends AppCompatActivity implements RideListAdapter
 
         getDriverRides("5"); //promeniti
 
-        accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(AcceptanceRide.this, "Uspesno prihvacena voznja", Toast.LENGTH_SHORT).show();
-
-                acceptRide(String.valueOf("5"));
-
-            }
-        });
-
-        decline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(AcceptanceRide.this, "Odbijena voznja", Toast.LENGTH_SHORT).show();
-                declineRide(String.valueOf("5"));
-
-            }
-        });
+//        accept.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(AcceptanceRide.this, "Uspesno prihvacena voznja", Toast.LENGTH_SHORT).show();
+//
+//                acceptRide(String.valueOf("5"));
+//
+//            }
+//        });
+//
+//        decline.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(AcceptanceRide.this, "Odbijena voznja", Toast.LENGTH_SHORT).show();
+//                declineRide(String.valueOf("5"));
+//
+//            }
+//        });
     }
 
     private void getDriverRides(String driverId) {
@@ -134,21 +134,23 @@ public class AcceptanceRide extends AppCompatActivity implements RideListAdapter
     }
 
     private void showPopup(ResponseRideDTO ride) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DriverRideHistory.this);
-        LayoutInflater inflater = LayoutInflater.from(DriverRideHistory.this);
-        View dialogView = inflater.inflate(R.layout.dialog_ride_details, null);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AcceptanceRide.this);
+        LayoutInflater inflater = LayoutInflater.from(AcceptanceRide.this);
+        View dialogView = inflater.inflate(R.layout.acceptance, null);
         dialogBuilder.setView(dialogView);
 
-        TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
-        String message = "ID: " + ride.getId() + "\n" +
-                "Driver: " + ride.getDriver().getEmail() + "\n" +
-                "Passengers: " + passengersToString(ride.getPassengers()) + "\n" +
-                "Rejection: " + (ride.getRejection() != null ? ride.getRejection().getReason() : "") + "\n" +
-                "Total cost: " + ride.getTotalCost() + "\n" +
-                "Start Time: " + ride.getStartTime() + "\n" +
-                "End Time: " + ride.getEndTime();
-        messageTextView.setText(message);
-        messageTextView.setTextSize(18);
+
+
+//        TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
+//        String message = "ID: " + ride.getId() + "\n" +
+//                "Driver: " + ride.getDriver().getEmail() + "\n" +
+//                "Passengers: " + passengersToString(ride.getPassengers()) + "\n" +
+//                "Rejection: " + (ride.getRejection() != null ? ride.getRejection().getReason() : "") + "\n" +
+//                "Total cost: " + ride.getTotalCost() + "\n" +
+//                "Start Time: " + ride.getStartTime() + "\n" +
+//                "End Time: " + ride.getEndTime();
+//        messageTextView.setText(message);
+//        messageTextView.setTextSize(18);
 
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();

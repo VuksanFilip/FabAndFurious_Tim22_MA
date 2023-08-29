@@ -34,27 +34,7 @@
 
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0BBA12"
-                android:text="@string/accept" />
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#ED0808"
-                android:text="@string/decline" />
-        </LinearLayout>
     </LinearLayout>
 
 
