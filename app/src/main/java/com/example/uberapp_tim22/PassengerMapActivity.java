@@ -159,6 +159,17 @@ public class PassengerMapActivity extends AppCompatActivity {
             return true;
         }
 
+        if (itemId == R.id.menuStatistic) {
+            Intent intent = new Intent(this, PassengerReportsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuFav) {
+            Intent intent = new Intent(this, PassengerFavoriteRides.class);
+            startActivity(intent);
+            return true;
+        }
+
         if (itemId == R.id.menuInbox) {
             Intent intent = new Intent(this, PassengerInboxActivity.class);
             fragmentTransition.detach(chatFragment);

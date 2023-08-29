@@ -70,39 +70,37 @@ public class DriverInboxActivity extends  AppCompatActivity implements ChatBoxLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.login_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        inflater.inflate(R.menu.example_menu, menu);
+        return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
 
-        if (itemId == R.id.menuOrder) {
-            Intent intent = new Intent(this, PassengerMainActivity.class);
+        if(id == R.id.item1){
+            Intent intent = new Intent(DriverInboxActivity.this, DriverAccountActivity.class);
             startActivity(intent);
-            return true;
         }
-        if (itemId == R.id.menuAccount) {
-            Intent intent = new Intent(this, PassengerAccountActivity.class);
+        if(id == R.id.item2){
+            Intent intent = new Intent(DriverInboxActivity.this, DriverInboxActivity.class);
             startActivity(intent);
-            return true;
         }
-        if (itemId == R.id.menuHistory) {
-            Intent intent = new Intent(this, PassangerRideHistory.class);
+        if(id == R.id.item3){
+            Intent intent = new Intent(DriverInboxActivity.this, DriverRideHistory.class);
             startActivity(intent);
-            return true;
         }
-        if (itemId == R.id.menuLogOut) {
-            deletePreferences();
-            Intent intent = new Intent(this, UserLoginActivity.class);
+        if(id == R.id.item4){
+            Intent intent = new Intent(DriverInboxActivity.this, DriverMainActivity.class);
             startActivity(intent);
-            return true;
         }
-
-
+        if(id == R.id.item5){
+            Intent intent = new Intent(DriverInboxActivity.this, UserLoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void deletePreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);

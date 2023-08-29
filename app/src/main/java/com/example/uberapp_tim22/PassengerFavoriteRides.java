@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.uberapp_tim22.DTO.EmailDTO;
 import com.example.uberapp_tim22.DTO.IdAndEmailDTO;
 import com.example.uberapp_tim22.DTO.ResponseRideDTO;
+import com.example.uberapp_tim22.adapters.FavoriteListAdapter;
 import com.example.uberapp_tim22.adapters.RideListAdapter;
 import com.example.uberapp_tim22.fragments.Stepper4Fragment;
 import com.example.uberapp_tim22.service.Paginated;
@@ -38,23 +39,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PassangerRideHistory extends AppCompatActivity implements RideListAdapter.RideItemClickListener{
+public class PassengerFavoriteRides extends AppCompatActivity implements FavoriteListAdapter.RideItemClickListener{
 
     private RecyclerView rideListRecyclerView;
-    private RideListAdapter rideListAdapter;
+    private FavoriteListAdapter rideListAdapter;
     private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_passanger_ride_history);
+        setContentView(R.layout.activity_passenger_favorite_rides);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FAB Car");
 
         rideListRecyclerView = findViewById(R.id.rideListRecyclerView);
-        rideListAdapter = new RideListAdapter(this);
+        rideListAdapter = new FavoriteListAdapter(this);
         sharedPreferences = getSharedPreferences("preferences", MODE_PRIVATE);
         Long myId = sharedPreferences.getLong("pref_id", 0);
 
@@ -70,6 +71,7 @@ public class PassangerRideHistory extends AppCompatActivity implements RideListA
         call.enqueue(new Callback<List<ResponseRideDTO>>() {
             @Override
             public void onResponse(Call<List<ResponseRideDTO>> call, Response<List<ResponseRideDTO>> response) {
+
                 if (response.isSuccessful()) {
                     List<ResponseRideDTO> rideList = response.body();
                     if (rideList != null) {
@@ -83,7 +85,7 @@ public class PassangerRideHistory extends AppCompatActivity implements RideListA
             @Override
             public void onFailure(Call<List<ResponseRideDTO>> call, Throwable t) {
                 Log.e("PassangerRideHistory", "API call failed: " + t.getMessage());
-                Toast.makeText(PassangerRideHistory.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PassengerFavoriteRides.this, "API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -93,29 +95,19 @@ public class PassangerRideHistory extends AppCompatActivity implements RideListA
         showPopup(ride);
     }
 
-    public String passengersToString(List<IdAndEmailDTO> passengers){
-        String passengerString = "";
-        for(IdAndEmailDTO passenger : passengers){
-            passengerString = passengerString + passenger.getEmail() + " ";
-        }
-
-        return passengerString;
-    }
 
     private void showPopup(ResponseRideDTO ride) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PassangerRideHistory.this);
-        LayoutInflater inflater = LayoutInflater.from(PassangerRideHistory.this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PassengerFavoriteRides.this);
+        LayoutInflater inflater = LayoutInflater.from(PassengerFavoriteRides.this);
         View dialogView = inflater.inflate(R.layout.dialog_ride_details, null);
         dialogBuilder.setView(dialogView);
 
         TextView messageTextView = dialogView.findViewById(R.id.messageTextView);
-        String message = "ID: " + ride.getId() + "\n" +
-                "Driver: " + ride.getDriver().getEmail() + "\n" +
-                "Passengers: " + passengersToString(ride.getPassengers()) + "\n" +
-                "Rejection: " + (ride.getRejection() != null ? ride.getRejection().getReason() : "") + "\n" +
+        String message = "Route ID: " + ride.getId() + "\n" +
+                "Departure: " + ride.getLocations().get(0).getDeparture().getAddress() + "\n" +
+                "Destionation: " + ride.getLocations().get(0).getDestination().getAddress() + "\n" +
                 "Total cost: " + ride.getTotalCost() + "\n" +
-                "Start Time: " + ride.getStartTime() + "\n" +
-                "End Time: " + ride.getEndTime();
+                "Estimated time: " + ride.getEstimatedTimeInMinutes() + "\n";
         messageTextView.setText(message);
         messageTextView.setTextSize(18);
 
@@ -146,7 +138,7 @@ public class PassangerRideHistory extends AppCompatActivity implements RideListA
         }
         if (itemId == R.id.menuStatistic) {
             Intent intent = new Intent(this, PassengerReportsActivity.class);
-          startActivity(intent);
+            startActivity(intent);
             return true;
         }
         if (itemId == R.id.menuInbox) {

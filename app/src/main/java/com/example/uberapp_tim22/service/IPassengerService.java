@@ -16,7 +16,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface IPassengerService {
 
@@ -44,6 +43,8 @@ public interface IPassengerService {
 
     @GET(ServiceUtils.passenger + "/{id}/rides")
     Call<List<ResponseRideDTO>> getPassengerRides(@Path("id") String id);
+
+
 //    @PUT(ServiceUtils.passenger + "/{id}") //Update existing passenger
 //    Call<PassengerDTO> updatePassenger(@Path("id") String id, @Body PassengerDTO passengerDTO);
 

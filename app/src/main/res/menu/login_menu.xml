@@ -29,6 +29,13 @@
         android:title="Inbox"
         app:showAsAction="never" />
 
+
+
+    <item
+        android:id="@+id/menuFav"
+        android:title="Favorites"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/menuLogOut"
         android:title="Log out"

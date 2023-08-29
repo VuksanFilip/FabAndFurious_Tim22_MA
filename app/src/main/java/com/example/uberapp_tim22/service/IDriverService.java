@@ -47,6 +47,8 @@ public interface IDriverService {
     @GET(ServiceUtils.driver + "/{id}/rides")
     Call<List<ResponseRideDTO>> getDriverRides(@Path("id") String id);
 
+    @GET(ServiceUtils.driver + "/{id}/pendingrides")
+    Call<List<ResponseRideDTO>> getDriverPendingRides(@Path("id") String id);
 
     @POST(ServiceUtils.driver + "/{id}/activity")
     Call<String> changeActivity(@Path("id") String id, @Body DriverActivityDTO driverActivityDTO);

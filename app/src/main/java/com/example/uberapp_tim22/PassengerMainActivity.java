@@ -130,6 +130,17 @@ public class PassengerMainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (itemId == R.id.menuStatistic) {
+            Intent intent = new Intent(this, PassengerFavoriteRides.class);
+            startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuFav) {
+            Intent intent = new Intent(this, PassengerFavoriteRides.class);
+            startActivity(intent);
+            return true;
+        }
+
         if (itemId == R.id.menuLogOut) {
             deletePreferences();
             Intent intent = new Intent(this, UserLoginActivity.class);

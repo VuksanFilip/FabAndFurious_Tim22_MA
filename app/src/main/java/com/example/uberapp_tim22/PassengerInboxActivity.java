@@ -106,6 +106,17 @@ public class PassengerInboxActivity  extends AppCompatActivity implements ChatBo
             startActivity(intent);
             return true;
         }
+
+        if (itemId == R.id.menuStatistic) {
+            Intent intent = new Intent(this, PassengerReportsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (itemId == R.id.menuFav) {
+            Intent intent = new Intent(this, PassengerFavoriteRides.class);
+            startActivity(intent);
+            return true;
+        }
         if (itemId == R.id.menuHistory) {
             Intent intent = new Intent(this, PassangerRideHistory.class);
             startActivity(intent);

@@ -143,7 +143,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 else if(role.equalsIgnoreCase("DRIVER")) {
                     setPreferences(id, email, role, loginResponse);
                     setTokenPreference(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
-                    startActivity(new Intent(UserLoginActivity.this, DriverInboxActivity.class));
+                    startActivity(new Intent(UserLoginActivity.this, DriverMainActivity.class));
 
 //                    startActivity(new Intent(UserLoginActivity.this, DriverMainActivity.class));
 //                    startActivity(new Intent(UserLoginActivity.this, WebSocketActivity.class));
